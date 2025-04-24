@@ -1,0 +1,9 @@
+<ResourceDictionary x:Class="AmxxTutorial.Resources.Locales.Locales_en_us"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <x:String x:Key="ThemeToggleTooltip">On/Off Dark Theme</x:String>
+    <x:String x:Key="OtherSettingsToolTip">Settings</x:String>
+  
+</ResourceDictionary>

@@ -1,0 +1,196 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AmxxTutorial.ViewModels"
+             xmlns:ctrl="clr-namespace:AmxxTutorial.Controls"
+             xmlns:icon="clr-namespace:AmxxTutorial.MarkupExtensions"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="800"
+             x:Class="AmxxTutorial.Views.MainView"
+             x:DataType="vm:MainViewModel">
+
+  <Design.DataContext>
+    <vm:MainViewModel />
+  </Design.DataContext>
+
+  <Grid RowDefinitions="Auto, *">
+    <!-- Top Border with Menu -->
+    <Border Grid.Row="0"
+            Padding="12, 4"
+            Margin="8"
+            CornerRadius="10"
+            VerticalAlignment="Stretch"
+            Classes="Shadow"
+            Theme="{DynamicResource CardBorder}">
+      <Panel>
+        <StackPanel Orientation="Horizontal" Spacing="8">
+
+          <!-- Back to Home Toggle Switch -->
+          <ToggleSwitch Name="BackToHomeButton"
+                        Theme="{DynamicResource IconBorderlessToggleSwitch}"
+                        Command="{Binding BackToHomeCommand}"
+                        Content="{StaticResource SemiIconSidebar}" />
+
+          <!-- Title -->
+          <SelectableTextBlock VerticalAlignment="Center"
+                               Classes="H6"
+                               Text="Semi Avalonia"
+                               Theme="{DynamicResource TitleSelectableTextBlock}" />
+
+          <SelectableTextBlock VerticalAlignment="Center"
+                               Text="/" />
+
+          <SelectableTextBlock VerticalAlignment="Center"
+                               Classes="Secondary"
+                               Text="23333" />
+        </StackPanel>
+
+        <!-- Right Side Buttons -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+          <!-- Documentation Button -->
+          <Button Theme="{DynamicResource IconBorderlessButton}"
+                  Command="{Binding OpenUrlCommand}"
+                  CommandParameter="{Binding DocumentationUrl}"
+                  Content="{StaticResource SemiIconGlobe}" />
+
+          <!-- GitHub Button -->
+          <Button Theme="{DynamicResource IconBorderlessButton}"
+                  Command="{Binding OpenUrlCommand}"
+                  CommandParameter="{Binding RepoUrl}"
+                  Content="{StaticResource SemiIconGithubLogo}" />
+
+          <!-- Theme Toggle Switch -->
+          <ToggleSwitch Theme="{DynamicResource IconBorderlessToggleSwitch}"
+                        IsChecked="{Binding CheckToggleScheme}"
+                        Command="{Binding ToggleThemeCommand}"
+                        OnContent="{StaticResource SemiIconMoon}"
+                        OffContent="{StaticResource SemiIconSun}"
+                        ToolTip.Placement="Bottom"
+                        ToolTip.Tip="{DynamicResource ThemeToggleTooltip}" />
+
+          <!-- Menu Button -->
+          <Button Theme="{DynamicResource IconBorderlessButton}"
+                  Content="{StaticResource SemiIconMenu}"
+                  ToolTip.Placement="Bottom"
+                  ToolTip.Tip="{DynamicResource OtherSettingsToolTip}">
+            <Button.Flyout>
+              <MenuFlyout Placement="Bottom" ItemsSource="{Binding RightMenuItems}" />
+            </Button.Flyout>
+            <Button.Styles>
+              <Style Selector="MenuItem" x:DataType="vm:RightMenuItem">
+                <Setter Property="Header" Value="{Binding Header}" />
+                <Setter Property="ItemsSource" Value="{Binding Items}" />
+                <Setter Property="Command" Value="{Binding Command}" />
+                <Setter Property="CommandParameter" Value="{Binding CommandParameter}" />
+              </Style>
+            </Button.Styles>
+          </Button>
+        </StackPanel>
+      </Panel>
+    </Border>
+
+    <!-- TabControl Section -->
+    <Border Grid.Row="1" Margin="5">
+      <TabControl TabStripPlacement="Left"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  ItemsSource="{Binding NavigationTabItemInfo}"
+                  SelectedItem="{Binding SelectedNavigationTab, Mode=TwoWay}">
+
+        <TabControl.Styles>
+          <Style Selector="TabControl /template/ #PART_BorderSeparator" x:SetterTargetType="Border">
+            <Setter Property="IsVisible" Value="False" />
+          </Style>
+        </TabControl.Styles>
+
+        <!-- Tab Item Template -->
+        <TabControl.ItemTemplate>
+          <DataTemplate>
+            <Grid Width="80" Height="80"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center">
+              <StackPanel Orientation="Vertical"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center">
+
+                <Viewbox Width="35" Height="35" Stretch="Uniform">
+                  <PathIcon Theme="{DynamicResource InnerPathIcon}"
+                            Data="{Binding Icon.Geometry}" />
+                </Viewbox>
+
+                <ctrl:LocalizedTextBlock HorizontalAlignment="Center"
+                                         ResourceKey="{Binding Header}"
+                                         FontSize="12"
+                                         IsVisible="{Binding !$parent[TabItem].IsSelected}" />
+              </StackPanel>
+            </Grid>
+          </DataTemplate>
+        </TabControl.ItemTemplate>
+
+        <!-- Tab Content Template -->
+        <TabControl.ContentTemplate>
+          <DataTemplate x:DataType="vm:NavigationTabItem">
+            <Border HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Theme="{DynamicResource CardBorder}"
+                    Classes="Shadow"
+                    CornerRadius="6"
+                    Margin="0"
+                    Padding="">
+              <Grid RowDefinitions="Auto, *" >
+
+                <!-- 头部：图标、文字、按钮 三列 -->
+                <Grid Grid.Row="0" 
+                      ColumnDefinitions="Auto, Auto, *">
+
+                  <Canvas Grid.Column="0" Width="100" Height="100"
+                          VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Border Margin="0"
+                            Padding=""
+                            CornerRadius="8"
+                            Classes="Shadow"
+                            Theme="{DynamicResource CardBorder}">
+                      <PathIcon Theme="{DynamicResource InnerPathIcon}"
+                                Data="{Binding Icon.Geometry}"
+                                Width="50" Height="50" />
+                    </Border>
+                  </Canvas>
+
+                  <!-- 文本区：一行大字 + 一行小字 -->
+                  <StackPanel Grid.Column="1"
+                              Margin="10"
+                              
+                              Orientation="Vertical"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Bottom">
+                    <ctrl:LocalizedTextBlock Theme="{StaticResource TitleTextBlock}"
+                                             ResourceKey="{Binding Header}"
+                                             Classes="H1"
+                                             VerticalAlignment="Center"/>
+                    <ctrl:LocalizedTextBlock Classes="Secondary"
+                                             ResourceKey="{Binding Detail}"
+                                             VerticalAlignment="Center"
+                                             Margin="0,5,0,0"/>
+                  </StackPanel>
+
+                  <!-- 每个页面自带的右上按钮 -->
+                  <ContentControl Grid.Column="2" 
+                                  Content="{Binding Page.PageExtraContent}"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"/>
+                </Grid>
+
+                <!-- 页面内容 -->
+                <ContentControl Grid.Row="1" Margin="0"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Stretch"
+                                Content="{Binding Page}"/>
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </TabControl.ContentTemplate>
+      </TabControl>
+    </Border>
+  </Grid>
+</UserControl>

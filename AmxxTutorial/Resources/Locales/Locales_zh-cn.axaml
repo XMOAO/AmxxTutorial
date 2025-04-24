@@ -1,0 +1,15 @@
+<ResourceDictionary x:Class="AmxxTutorial.Resources.Locales.Locales_zh_cn"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <x:String x:Key="Home">主 页</x:String>
+  <x:String x:Key="Home_Desc">主页的描述...</x:String>
+  <x:String x:Key="Article">教 程</x:String>
+  <x:String x:Key="Reader">头文件浏览</x:String>
+  <x:String x:Key="Search">函数查询</x:String>
+  <x:String x:Key="Setting">设 置</x:String>
+  <x:String x:Key="Refresh">重置状态</x:String>
+  <x:String x:Key="ThemeToggleTooltip">开启/关闭 深色主题</x:String>
+  <x:String x:Key="OtherSettingsToolTip">设置</x:String>
+
+</ResourceDictionary>

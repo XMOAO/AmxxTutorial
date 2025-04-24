@@ -1,0 +1,77 @@
+<!-- Pages/HomeMenuPage.axaml -->
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="clr-namespace:AmxxTutorial.ViewModels"
+    xmlns:conv="clr-namespace:AmxxTutorial.Converters"
+    xmlns:ctrls="clr-namespace:AmxxTutorial.Controls"
+    xmlns:icon="clr-namespace:AmxxTutorial.MarkupExtensions"
+    xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+    x:Class="AmxxTutorial.Pages.HomeMenuPage"
+    x:DataType="vm:HomeMenuPageViewModel">
+
+  <Design.DataContext>
+    <vm:HomeMenuPageViewModel />
+  </Design.DataContext>
+
+  <Grid RowDefinitions="Auto,*">
+    <Border Grid.Row="0" Padding="10,5">
+      <ItemsControl ItemsSource="{Binding MainMenuIcons}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <WrapPanel />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Button Theme="{DynamicResource OutlineButton}"
+                    Classes="Tertiary"
+                    Padding="0"
+                    Margin="20"
+                    Width="200"
+                    Height="200"
+                    Click="OnClicked_MainMenuItem">
+              <Grid RowDefinitions="100,Auto">
+                <Grid Grid.Row="0" Height="80" VerticalAlignment="Top">
+                  <PathIcon
+                      Theme="{DynamicResource InnerPathIcon}"
+                      Data="{Binding ResourceKey, Converter={x:Static conv:IconConverter.Instance}}"
+                      Width="48" Height="48"
+                      IsVisible="{Binding ResourceKey, Converter={x:Static conv:StringConverter.StringNotEquals}, ConverterParameter=SemiIconArticle}"/>
+
+                  <PathIcon
+                      Theme="{DynamicResource InnerPathIcon}"
+                      Data="{Binding ResourceKey, Converter={x:Static conv:IconConverter.Instance}}"
+                      Width="48" Height="48"
+                      Margin="48,15,0,0"
+                      IsVisible="{Binding ResourceKey, Converter={x:Static conv:StringConverter.StringEquals}, ConverterParameter=SemiIconArticle}"/>
+
+                  <PathIcon
+                      Theme="{DynamicResource InnerPathIcon}"
+                      Data="{icon:Icon Key=SemiIconBookOpenStroked}"
+                      Width="48" Height="48"
+                      Margin="-48,-15,0,0"
+                      IsVisible="{Binding ResourceKey, Converter={x:Static conv:StringConverter.StringEquals}, ConverterParameter=SemiIconArticle}"/>
+                </Grid>
+
+                <ctrls:LocalizedTextBlock Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    ResourceKey="{Binding ResourceKey}"/>
+              </Grid>
+            </Button>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </Border>
+
+    <!-- 可选添加内容区域 -->
+    <Border Grid.Row="1" Padding="20">
+      <AvaloniaEdit:TextEditor Text="Hello AvaloniaEdit!"
+                           ShowLineNumbers="True"
+                           FontFamily="Cascadia Code,Consolas,Menlo,Monospace"/>
+    </Border>
+  </Grid>
+</UserControl>
