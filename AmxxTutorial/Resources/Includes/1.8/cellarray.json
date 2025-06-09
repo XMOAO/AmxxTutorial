@@ -1,0 +1,461 @@
+{
+    "functions": [
+        {
+            "Comment": "Creates a handle to a dynamically sized array.\nIt is very important that the cellsize you provide matches up with the buffer sizes\nthat you pass with subsequent Array{Get,Set,Push} calls.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "cellsize",
+                    "Description": "How many cells each entry in the array is."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "reserved",
+                    "Description": "How many blank entries are created immediately when the array is created.  These entries are not valid to read from until called with ArraySet."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "Handle to the array."
+                }
+            ],
+            "FunctionName": "Array:ArrayCreate",
+            "Function": "native Array:ArrayCreate(cellsize=1, reserved=32);"
+        },
+        {
+            "Comment": "Clears all entries from the array.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to clear."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "1 on success, 0 on failure."
+                }
+            ],
+            "FunctionName": "ArrayClear",
+            "Function": "native ArrayClear(Array:which);"
+        },
+        {
+            "Comment": "Returns the number of elements in the array.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to check."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "How many elements are in the array."
+                }
+            ],
+            "FunctionName": "ArraySize",
+            "Function": "native ArraySize(Array:which);"
+        },
+        {
+            "Comment": "Returns data within an array.\nMake sure the output buffer matches the size the array was created with!",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to retrieve the item from."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "The item to retrieve (zero-based)."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "output",
+                    "Description": "The output buffer to write."
+                }
+            ],
+            "FunctionName": "ArrayGetArray",
+            "Function": "native ArrayGetArray(Array:which, item, any:output[]);"
+        },
+        {
+            "Comment": "Returns a single cell of data from an array.\nUse this only with arrays that were created with a cellsize of 1!",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to retrieve the item from."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "The item to retrieve (zero-based)."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The value of the cell."
+                }
+            ],
+            "FunctionName": "any:ArrayGetCell",
+            "Function": "native any:ArrayGetCell(Array:which, item);"
+        },
+        {
+            "Comment": "Returns a string value from an array.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to retrieve the item from."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "The item to retrieve (zero-based)."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "output",
+                    "Description": "The variable to store the value in."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "size",
+                    "Description": "Character size of the output buffer."
+                }
+            ],
+            "FunctionName": "ArrayGetString",
+            "Function": "native ArrayGetString(Array:which, item, output[], size);"
+        },
+        {
+            "Comment": "Sets an item's data with that of a local buffer.\nThe buffer size must match what the cellsize that the array was created with!\nThe item must already exist, use ArrayPushArray to create a new item within the array.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to set the item from within."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "The item to set (zero-based)."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "input",
+                    "Description": "The input buffer to store."
+                }
+            ],
+            "FunctionName": "ArraySetArray",
+            "Function": "native ArraySetArray(Array:which, item, const any:input[]);"
+        },
+        {
+            "Comment": "Sets an array's single cell value.  Use this only on array that were created with a cellsize of 1!\nThe item must already exist, use ArrayPushCell to create a new item within the array.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to set the item from within."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "The item to set (zero-based)."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "input",
+                    "Description": "The value to set."
+                }
+            ],
+            "FunctionName": "ArraySetCell",
+            "Function": "native ArraySetCell(Array:which, item, any:input);"
+        },
+        {
+            "Comment": "Sets a string value from an array.\nThe stored string will be truncated if it is longer than the cellsize the array was created with!\nThe item must already exist, use ArrayPushString to create a new item within the array.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to set the item from within."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "The item to set (zero-based)."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "input",
+                    "Description": "The string to set the item as."
+                }
+            ],
+            "FunctionName": "ArraySetString",
+            "Function": "native ArraySetString(Array:which, item, const input[]);"
+        },
+        {
+            "Comment": "Creates a new item at the end of the array and sets its data with that of a local buffer.\nThe buffer size must match what the cellsize that the array was created with!",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to add the item to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "input",
+                    "Description": "The input buffer to store."
+                }
+            ],
+            "FunctionName": "ArrayPushArray",
+            "Function": "native ArrayPushArray(Array:which, const any:input[]);"
+        },
+        {
+            "Comment": "Creates a new item and sets the array's single cell value.\nUse this only on array that were created with a cellsize of 1!",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to add the item to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "input",
+                    "Description": "The value to set."
+                }
+            ],
+            "FunctionName": "ArrayPushCell",
+            "Function": "native ArrayPushCell(Array:which, any:input);"
+        },
+        {
+            "Comment": "Creates a new element in the array and sets its value to the input buffer.\nThe stored string will be truncated if it is longer than the cellsize the array was created with!",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to add the item to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "input",
+                    "Description": "The string to set the item as."
+                }
+            ],
+            "FunctionName": "ArrayPushString",
+            "Function": "native ArrayPushString(Array:which, const input[]);"
+        },
+        {
+            "Comment": "Inserts an item after the selected item.  All items beyond it get shifted up 1 space.\nThe buffer size must match what the cellsize that the array was created with!",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to add the item to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "The item to insert after."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "input",
+                    "Description": "The input buffer to store."
+                }
+            ],
+            "FunctionName": "ArrayInsertArrayAfter",
+            "Function": "native ArrayInsertArrayAfter(Array:which, item, const any:input[]);"
+        },
+        {
+            "Comment": "Inserts an item after the selected item.  All items beyond it get shifted up 1 space.\nUse this only on an array that was created with a cellsize of 1!",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to add the item to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "The item to insert after."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "input",
+                    "Description": "The value to set."
+                }
+            ],
+            "FunctionName": "ArrayInsertCellAfter",
+            "Function": "native ArrayInsertCellAfter(Array:which, item, any:input);"
+        },
+        {
+            "Comment": "Inserts an item after the selected item.  All items beyond it get shifted up 1 space.\nThe stored string will be truncated if it is longer than the cellsize the array was created with!",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to add the item to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "The item to insert after."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "input",
+                    "Description": "The value to set."
+                }
+            ],
+            "FunctionName": "ArrayInsertStringAfter",
+            "Function": "native ArrayInsertStringAfter(Array:which, item, const input[]);"
+        },
+        {
+            "Comment": "Inserts an item before the selected item.  All items beyond it, and the selected item get shifted up 1 space.\nThe buffer size must match what the cellsize that the array was created with!",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to add the item to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "The item to insert before."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "input",
+                    "Description": "The input buffer to store."
+                }
+            ],
+            "FunctionName": "ArrayInsertArrayBefore",
+            "Function": "native ArrayInsertArrayBefore(Array:which, item, const any:input[]);"
+        },
+        {
+            "Comment": "Inserts an item before the selected item.  All items beyond it, and the selected item get shifted up 1 space.\nUse this only on an array that was created with a cellsize of 1!",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to add the item to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "The item to insert after."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "input",
+                    "Description": "The value to set."
+                }
+            ],
+            "FunctionName": "ArrayInsertCellBefore",
+            "Function": "native ArrayInsertCellBefore(Array:which, item, const any:input);"
+        },
+        {
+            "Comment": "Inserts an item before the selected item.  All items beyond it, and the selected item get shifted up 1 space.\nThe stored string will be truncated if it is longer than the cellsize the array was created with!",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to add the item to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "The item to insert before."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "input",
+                    "Description": "The value to set."
+                }
+            ],
+            "FunctionName": "ArrayInsertStringBefore",
+            "Function": "native ArrayInsertStringBefore(Array:which, item, const input[]);"
+        },
+        {
+            "Comment": "Swaps the position of two items.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array that contains the items."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item1",
+                    "Description": "The first item to swap."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item2",
+                    "Description": "The second item to swap."
+                }
+            ],
+            "FunctionName": "ArraySwap",
+            "Function": "native ArraySwap(Array:which, item1, item2);"
+        },
+        {
+            "Comment": "Deletes an item from the array.  All items beyond it get shifted down 1 space.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array that contains the item to delete."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "The item to delete."
+                }
+            ],
+            "FunctionName": "ArrayDeleteItem",
+            "Function": "native ArrayDeleteItem(Array:which, item);"
+        },
+        {
+            "Comment": "Creates a handle that is passable to a format compliant routine for printing as a string (with the %a format option).\nIt is suggested to pass the function directly as a parameter to the format routine.\nThe array contents must be a null-terminated string!\n\nAn example usage:  client_print(id, print_chat, \"%a\", ArrayGetStringHandle(MessageArray, i));",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array the string is stored in."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "Which item to print the string value of."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "Handle to the item directly.  Do not use or save stale handles."
+                }
+            ],
+            "FunctionName": "DoNotUse:ArrayGetStringHandle",
+            "Function": "native DoNotUse:ArrayGetStringHandle(Array:which, item);"
+        },
+        {
+            "Comment": "Destroys the array, and resets the handle to 0 to prevent accidental usage after it is destroyed.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "The array to destroy."
+                }
+            ],
+            "FunctionName": "ArrayDestroy",
+            "Function": "native ArrayDestroy(&Array:which);"
+        },
+        {
+            "Comment": "Similar to sorting.inc's CustomSort.\nThe sorting algorithm then uses your comparison function to sort the data.\nThe function is called in the following manner:\n\npublic MySortFunc(Array:array, item1, item2, const data[], data_size)\n\n array            - Array handle in its current un-sorted state.\n item1, item2    - Current item pair being compared\n data[]            - Extra data array you passed to the sort func.\n data_size        - Size of extra data you passed to the sort func.\n\nYour function should return:\n -1 if item1 should go before item2\n  0 if item1 and item2 are equal\n  1 if item1 should go after item2\nNote that the parameters after item2 are all optional and you do not need to specify them.\n\nNote that unlike the sorting.inc versions, the array passed to the callback is not in mid-sorted state.",
+            "CommentTags": [],
+            "FunctionName": "ArraySort",
+            "Function": "native ArraySort(Array:array, const comparefunc[], data[]=\"\", data_size=0);"
+        }
+    ],
+    "constants": [
+        {
+            "Comment": "These arrays are intended to be used for a form of global storage without\nrequiring a #define that needs to be increased each time a person needs more\nstorage.\nThese are not designed to be used as a replacement for normal arrays, as\nnormal arrays are faster and should be used whenever possible.",
+            "CommentTags": [],
+            "Constant": ""
+        }
+    ]
+}

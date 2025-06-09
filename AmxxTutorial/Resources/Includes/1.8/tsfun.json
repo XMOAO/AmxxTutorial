@@ -1,0 +1,303 @@
+{
+    "functions": [
+        {
+            "Comment": "Function is called just before a kung foo attack is done,\ndamage and time length may be altered with natives.\nReturn PLUGIN_HANDLED to stop attack.\nUNAVAILABLE IN 1.70",
+            "CommentTags": [],
+            "FunctionName": "Melee_Attack",
+            "Function": "forward Melee_Attack(id,Float:time,Float:damage,UNAVAILABLE);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "forward client_stunt(id,stunttype,UNAVAILABLE);",
+            "FunctionName": "client_stunt"
+        },
+        {
+            "Comment": "Function is called when powerups are ran,\nReturns value of powerup. Use TSPWUP_*'s\nto find exactly which one it is.\nUNAVAILABLE IN 1.70",
+            "CommentTags": [],
+            "FunctionName": "client_powerup",
+            "Function": "forward client_powerup(id,powerup,UNAVAILABLE);"
+        },
+        {
+            "Comment": "weapon logname to weapon name convertion",
+            "CommentTags": [],
+            "FunctionName": "ts_wpnlogtoname",
+            "Function": "native ts_wpnlogtoname(const logname[],name[],len);"
+        },
+        {
+            "Comment": "weapon logname to weapon index convertion",
+            "CommentTags": [],
+            "FunctionName": "ts_wpnlogtoid",
+            "Function": "native ts_wpnlogtoid(const logname[]);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_getusercash( index );",
+            "FunctionName": "ts_getusercash"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_setusercash( index, money );",
+            "FunctionName": "ts_setusercash"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_getuserslots( index );",
+            "FunctionName": "ts_getuserslots"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_setuserslots( index, slots );",
+            "FunctionName": "ts_setuserslots"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_getuserstate( index );",
+            "FunctionName": "ts_getuserstate"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_getuserwpn( index,&clip=0,&ammo=0,&mode=0,&extra=0 );",
+            "FunctionName": "ts_getuserwpn"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_getuserspace( index );",
+            "FunctionName": "ts_getuserspace"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_getuserkillflags(killer);",
+            "FunctionName": "ts_getuserkillflags"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_getkillingstreak( index );",
+            "FunctionName": "ts_getkillingstreak"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_getuserlastfrag( index );",
+            "FunctionName": "ts_getuserlastfrag"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_giveweapon( index,weapon,clips,extra );",
+            "FunctionName": "ts_giveweapon"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_getuserpwup( index );",
+            "FunctionName": "ts_getuserpwup"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_has_slowmo(id) return (ts_getuserpwup(id) &TSPWUP_SLOWMO);",
+            "FunctionName": "ts_has_slowmo"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_has_infammo(id) return (ts_getuserpwup(id) &TSPWUP_INFAMMO);",
+            "FunctionName": "ts_has_infammo"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_has_slowpause(id) return (ts_getuserpwup(id) &TSPWUP_SLOWPAUSE);",
+            "FunctionName": "ts_has_slowpause"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_has_dfirerate(id) return (ts_getuserpwup(id) &TSPWUP_DFIRERATE);",
+            "FunctionName": "ts_has_dfirerate"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_has_grenade(id) return (ts_getuserpwup(id) &TSPWUP_GRENADE);",
+            "FunctionName": "ts_has_grenade"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_has_health(id) return (ts_getuserpwup(id) &TSPWUP_HEALTH);",
+            "FunctionName": "ts_has_health"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_has_armor(id) return (ts_getuserpwup(id) &TSPWUP_ARMOR);",
+            "FunctionName": "ts_has_armor"
+        },
+        {
+            "Comment": "Function will create pwup entity and return its index (pwupent)",
+            "CommentTags": [],
+            "FunctionName": "ts_createpwup",
+            "Function": "native ts_createpwup( pwup );"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_givepwup( index,pwupent );",
+            "FunctionName": "ts_givepwup"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_setpddata( knifeoffset );",
+            "FunctionName": "ts_setpddata"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_set_message(id,message);",
+            "FunctionName": "ts_set_message"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_get_message(id);",
+            "FunctionName": "ts_get_message"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_is_normal(id)",
+            "FunctionName": "ts_is_normal"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_is_waiting(id) return (ts_get_message(id) == TSMSG_WAITING);",
+            "FunctionName": "ts_is_waiting"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_is_dead(id) return (ts_get_message(id) == TSMSG_DEAD);",
+            "FunctionName": "ts_is_dead"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_is_killer(id) return (ts_get_message(id) == TSMSG_KILLER);",
+            "FunctionName": "ts_is_killer"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_is_demolition(id) return (ts_get_message(id) == TSMSG_DEMOLITION);",
+            "FunctionName": "ts_is_demolition"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_is_specialist(id) return (ts_get_message(id) == TSMSG_SPECIALIST);",
+            "FunctionName": "ts_is_specialist"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_is_unstoppable(id) return (ts_get_message(id) == TSMSG_UNSTOPPABLE);",
+            "FunctionName": "ts_is_unstoppable"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ts_is_theone(id) return (ts_get_message(id) == TSMSG_THEONE);",
+            "FunctionName": "ts_is_theone"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_has_superjump(id);\t\t\t\t\t//!",
+            "FunctionName": "ts_has_superjump"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_has_fupowerup(id);\t\t\t\t\t//!",
+            "FunctionName": "ts_has_fupowerup"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_is_in_slowmo(id);",
+            "FunctionName": "ts_is_in_slowmo"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_set_bullettrail(id,yesorno);",
+            "FunctionName": "ts_set_bullettrail"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_set_fakeslowmo(id,Float:time);",
+            "FunctionName": "ts_set_fakeslowmo"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_set_fakeslowpause(id,Float:time);",
+            "FunctionName": "ts_set_fakeslowpause"
+        },
+        {
+            "Comment": "Sets speed artificially. 1.0 is default, Go into fractions and decimals for slower\nand put in higher numbers for higher speeds. Aura is how far things around you are effected\nTime is the time until it wears off. 0.0 for speed will freeze people. Do not use negatives.",
+            "CommentTags": [],
+            "FunctionName": "ts_set_speed",
+            "Function": "native ts_set_speed(id,Float:speed,Float:auradist,Float:time);"
+        },
+        {
+            "Comment": "Sets physics speed artificially. Things like sparks and sounds will be effected.\nAny negative number will render all physics paused.",
+            "CommentTags": [],
+            "FunctionName": "ts_set_physics_speed",
+            "Function": "native ts_set_physics_speed(id,Float:speed);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_is_running_powerup(id);",
+            "FunctionName": "ts_is_running_powerup"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ts_force_run_powerup(id,PWUP_TYPE);",
+            "FunctionName": "ts_force_run_powerup"
+        }
+    ],
+    "constants": [
+        {
+            "Comment": "*********** Shared Natives Start *******************************",
+            "CommentTags": [],
+            "Constant": ""
+        },
+        {
+            "Comment": "Forward types",
+            "CommentTags": [],
+            "Constant": "enum {\n  XMF_DAMAGE = 0,\n  XMF_DEATH,\n};\n\n#if AMXX_VERSION_NUM >= 175\n #pragma reqlib tsfun\n #if !defined AMXMODX_NOAUTOLOAD\n  #pragma loadlib tsfun\n #endif\n#else\n #pragma library tsfun\n#endif"
+        },
+        {
+            "Comment": "*********** Shared Natives End *******************************",
+            "CommentTags": [],
+            "Constant": ""
+        }
+    ]
+}

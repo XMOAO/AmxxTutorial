@@ -1,0 +1,377 @@
+{
+    "functions": [
+        {
+            "Comment": "NS2AMX Utility backwards compatibility\n\nby the AMX Mod X Development Team\n\nThis file is provided as is (no warranties).",
+            "CommentTags": [],
+            "FunctionName": "is_entity",
+            "Function": "#if defined _ns2amx_included\n  #endinput\n#endif\n#define _ns2amx_included\n\n#include <engine>     // various engine calls\n#include <fakemeta>   // pev/engfunc/dllfunc/various calls which rely on engfunc/dllfunc\n#include <ns>         // ns specifics\n\nstock is_entity(id)"
+        },
+        {
+            "Comment": "The end of the native is buffered incase the plugin is including an NS_VERSION (no longer supported), ignore it",
+            "CommentTags": [],
+            "FunctionName": "get_build",
+            "Function": "stock get_build(classname[], value, number=0,any:...)"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_private_i(index, offset, linuxdiff=5)",
+            "FunctionName": "get_private_i"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock set_private_i(index, offset, value, linuxdiff=5)",
+            "FunctionName": "set_private_i"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:get_private_f(index, offset, linuxdiff=5)",
+            "FunctionName": "Float:get_private_f"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock set_private_f(index, offset, Float:value, linuxdiff=5)",
+            "FunctionName": "set_private_f"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock make_string(value[])",
+            "FunctionName": "make_string"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock string(value, ret[])",
+            "FunctionName": "string"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock gpgobals_time()",
+            "FunctionName": "gpgobals_time"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:get_range(ida, idb)",
+            "FunctionName": "Float:get_range"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock supercede()",
+            "FunctionName": "supercede"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock register_clientkill()",
+            "FunctionName": "register_clientkill"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock register_changelvl()",
+            "FunctionName": "register_changelvl"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock register_msgblock(msgName[])",
+            "FunctionName": "register_msgblock"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock register_msgedit(msgName[], cmd[])",
+            "FunctionName": "register_msgedit"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock register_playback(event, cmd[])",
+            "FunctionName": "register_playback"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_spawn(type, number=0, Float:ret[3])",
+            "FunctionName": "get_spawn"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock has_weapon(index, weapon, setweapon=-1)",
+            "FunctionName": "has_weapon"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock gpglobals_v(type, Float:ret[3])",
+            "FunctionName": "gpglobals_v"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock pev_i(_index,_field)",
+            "FunctionName": "pev_i"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock set_pev_i(_index, _field, _val)",
+            "FunctionName": "set_pev_i"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:pev_f(_index,_field)",
+            "FunctionName": "Float:pev_f"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock set_pev_f(_index,_field,Float:_val)",
+            "FunctionName": "set_pev_f"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock msg_args()",
+            "FunctionName": "msg_args"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:msg_loc(vec)",
+            "FunctionName": "Float:msg_loc"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock msg_dest()",
+            "FunctionName": "msg_dest"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock msg_type()",
+            "FunctionName": "msg_type"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock msg_name()",
+            "FunctionName": "msg_name"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock msg_set_s(number, value[])",
+            "FunctionName": "msg_set_s"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock msg_set_f(number, Float:value)",
+            "FunctionName": "msg_set_f"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock msg_set_i(number, value)",
+            "FunctionName": "msg_set_i"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock msg_data_type(value)",
+            "FunctionName": "msg_data_type"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock msg_strdata(value)",
+            "FunctionName": "msg_strdata"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock msg_data(value, ...)",
+            "FunctionName": "msg_data"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_filename(szFile[], len=-1)",
+            "FunctionName": "get_filename"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_speedchange(id)",
+            "FunctionName": "get_speedchange"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock set_speedchange(id, speed)",
+            "FunctionName": "set_speedchange"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_maxspeed(id)",
+            "FunctionName": "get_maxspeed"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock set_player_model(id, model[]=\"\")",
+            "FunctionName": "set_player_model"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock set_player_skin(id, skin=-1)",
+            "FunctionName": "set_player_skin"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock set_player_body(id, body=-1)",
+            "FunctionName": "set_player_body"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ns2amx_version()",
+            "FunctionName": "ns2amx_version"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock set_kvhandled()",
+            "FunctionName": "set_kvhandled"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ns2amx_getammo(id,Weapon)",
+            "FunctionName": "ns2amx_getammo"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ns2amx_setammo(id,Weapon,Value)",
+            "FunctionName": "ns2amx_setammo"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ns2amx_giveitem(id,svClassname[])",
+            "FunctionName": "ns2amx_giveitem"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ns2amx_moveto(idMoved,idDest)",
+            "FunctionName": "ns2amx_moveto"
+        },
+        {
+            "Comment": "Returns whether or not the player has the MASK_DIGESTING flag set.",
+            "CommentTags": [],
+            "FunctionName": "ns2amx_isdigesting",
+            "Function": "stock ns2amx_isdigesting(id)"
+        },
+        {
+            "Comment": "Returns total # of active hives.",
+            "CommentTags": [],
+            "FunctionName": "ns2amx_gethives",
+            "Function": "stock ns2amx_gethives()"
+        },
+        {
+            "Comment": "Returns 1 if the two entities are within the given range.",
+            "CommentTags": [],
+            "FunctionName": "ns2amx_inrange",
+            "Function": "stock ns2amx_inrange(ida,idb,range)"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ns2amx_nspopup(id,svMessage[190]) {",
+            "FunctionName": "ns2amx_nspopup"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ns2amx_setres(id,value)",
+            "FunctionName": "ns2amx_setres"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ns2amx_getenergy(id)",
+            "FunctionName": "ns2amx_getenergy"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ns2amx_setenergy(id,energy)",
+            "FunctionName": "ns2amx_setenergy"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ns2amx_getjpfuel(id)",
+            "FunctionName": "ns2amx_getjpfuel"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock ns2amx_setjpfuel(id,fuel)",
+            "FunctionName": "ns2amx_setjpfuel"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_mask(id,mask)",
+            "FunctionName": "get_mask"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock set_mask(id,mask,value)",
+            "FunctionName": "set_mask"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_special(id,mask)",
+            "FunctionName": "get_special"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_res(id)",
+            "FunctionName": "get_res"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_class(id)",
+            "FunctionName": "get_class"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock is_combat()",
+            "FunctionName": "is_combat"
+        }
+    ],
+    "constants": []
+}

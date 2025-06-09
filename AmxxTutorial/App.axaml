@@ -8,26 +8,26 @@
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
-        <local:ViewLocator/>
+        
     </Application.DataTemplates>
 
     <Application.Styles>
+      <FluentTheme />
+      <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
       <semi:SemiTheme Locale="zh-CN" />
       <u-semi:SemiTheme Locale="zh-CN"/>
-      <semi:SemiPopupAnimations />
-      <semi:AvaloniaEditSemiTheme />
-      <StyleInclude Source="avares://Semi.Avalonia.DataGrid/Index.axaml" />
-      <StyleInclude Source="avares://Semi.Avalonia.ColorPicker/Index.axaml" />
+      <semi:SemiPopupAnimations />    
     </Application.Styles>
   
     <Application.Resources>
       <ResourceDictionary>
         <ResourceDictionary.MergedDictionaries>
-          <ResourceInclude Source="Themes/_index.axaml" />
+          <ResourceInclude Source="Themes/ThemesIndex.axaml" />
           <ResourceInclude Source="Resources/Locales/Locales_en-us.axaml"/>
           <ResourceInclude Source="Resources/Locales/Locales_zh-cn.axaml"/>
           <ResourceInclude Source="Resources/Locales/Locales_zh-tw.axaml"/>
         </ResourceDictionary.MergedDictionaries>
       </ResourceDictionary>
+      <SolidColorBrush x:Key="OverlayDialogMaskBrush" Color="#FF16161A" Opacity="0.1" />
     </Application.Resources>
 </Application>

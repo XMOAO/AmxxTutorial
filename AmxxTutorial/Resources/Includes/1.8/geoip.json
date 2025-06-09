@@ -1,0 +1,127 @@
+{
+    "functions": [
+        {
+            "Comment": "Lookup the two character country code for a given IP address.\ne.g: \"US\", \"CA\", etc.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "ip",
+                    "Description": "The IP address to lookup."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "result",
+                    "Description": "The result buffer.  If the lookup does not succeed, the buffer is not modified."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "true on a successful lookup, false on a failed lookup."
+                }
+            ],
+            "FunctionName": "bool:geoip_code2_ex",
+            "Function": "native bool:geoip_code2_ex(const ip[], result[3]);"
+        },
+        {
+            "Comment": "Lookup the three character country code for a given IP address.\ne.g: \"USA\", \"cAN\", etc.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "ip",
+                    "Description": "The IP address to lookup."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "result",
+                    "Description": "The result buffer.  If the lookup does not succeed, the buffer is not modified."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "true on a successful lookup, false on a failed lookup."
+                }
+            ],
+            "FunctionName": "bool:geoip_code3_ex",
+            "Function": "native bool:geoip_code3_ex(const ip[], result[4]);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [
+                {
+                    "Tag": "deprecated",
+                    "Description": "Lookup the two character country code for a given IP address."
+                },
+                {
+                    "Tag": "note",
+                    "Description": "This native will overflow the buffer by one cell on an unknown ip lookup!"
+                },
+                {
+                    "Tag": "note",
+                    "Description": "Use geoip_code2_ex instead!"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "ip",
+                    "Description": "The IP address to lookup."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "result",
+                    "Description": "The result buffer."
+                }
+            ],
+            "FunctionName": "geoip_code2",
+            "Function": "native geoip_code2(const ip[], ccode[3]);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [
+                {
+                    "Tag": "deprecated",
+                    "Description": "Lookup the three character country code for a given IP address."
+                },
+                {
+                    "Tag": "note",
+                    "Description": "This native will overflow the buffer by one cell on an unknown ip lookup!"
+                },
+                {
+                    "Tag": "note",
+                    "Description": "Use geoip_code3_ex instead!"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "ip",
+                    "Description": "The IP address to lookup."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "result",
+                    "Description": "The result buffer."
+                }
+            ],
+            "FunctionName": "geoip_code3",
+            "Function": "native geoip_code3(const ip[], result[4]);"
+        },
+        {
+            "Comment": "Lookup the full country name for the given IP address.  Sets the buffer to \"error\" on\nan unsuccessful lookup.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "ip",
+                    "Description": "The IP address to lookup."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "result",
+                    "Description": "The result of the geoip lookup."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "len",
+                    "Description": "The maximum length of the result buffer."
+                }
+            ],
+            "FunctionName": "geoip_country",
+            "Function": "native geoip_country(const ip[], result[], len=45);"
+        }
+    ],
+    "constants": []
+}

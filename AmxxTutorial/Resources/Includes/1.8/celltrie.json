@@ -1,0 +1,71 @@
+{
+    "functions": [
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Trie:TrieCreate();",
+            "FunctionName": "Trie:TrieCreate"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native TrieClear(Trie:handle);",
+            "FunctionName": "TrieClear"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native TrieSetCell(Trie:handle, const key[], any:value);",
+            "FunctionName": "TrieSetCell"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native TrieSetString(Trie:handle, const key[], const value[]);",
+            "FunctionName": "TrieSetString"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native TrieSetArray(Trie:handle, const key[], const any:buffer[], size);",
+            "FunctionName": "TrieSetArray"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native bool:TrieGetCell(Trie:handle, const key[], &any:value);",
+            "FunctionName": "bool:TrieGetCell"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native bool:TrieGetString(Trie:handle, const key[], output[], outputsize);",
+            "FunctionName": "bool:TrieGetString"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native bool:TrieGetArray(Trie:handle, const key[], any:output[], outputsize);",
+            "FunctionName": "bool:TrieGetArray"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native bool:TrieDeleteKey(Trie:handle, const key[]);",
+            "FunctionName": "bool:TrieDeleteKey"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native bool:TrieKeyExists(Trie:handle, const key[]);",
+            "FunctionName": "bool:TrieKeyExists"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native TrieDestroy(&Trie:handle);",
+            "FunctionName": "TrieDestroy"
+        }
+    ],
+    "constants": []
+}

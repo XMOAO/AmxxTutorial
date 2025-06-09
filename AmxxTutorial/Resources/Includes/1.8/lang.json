@@ -1,0 +1,53 @@
+{
+    "functions": [
+        {
+            "Comment": "Language functions\n\nby the AMX Mod X Development Team\n\nThis file is provided as is (no warranties).",
+            "CommentTags": [],
+            "FunctionName": "get_langsnum",
+            "Function": "#if defined _lang_included\n  #endinput\n#endif\n#define _lang_included\n\n//return the number of languages loaded\nnative get_langsnum();"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_lang(id, name[3]);",
+            "FunctionName": "get_lang"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native register_dictionary(const filename[]);",
+            "FunctionName": "register_dictionary"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native lang_exists(const name[]);",
+            "FunctionName": "lang_exists"
+        },
+        {
+            "Comment": "Adds or finds a translation key.",
+            "CommentTags": [],
+            "FunctionName": "TransKey:CreateLangKey",
+            "Function": "native TransKey:CreateLangKey(const key[]);"
+        },
+        {
+            "Comment": "Finds a translation key id without adding on failure.\nReturns -1 on not found.",
+            "CommentTags": [],
+            "FunctionName": "TransKey:GetLangTransKey",
+            "Function": "native TransKey:GetLangTransKey(const key[]);"
+        },
+        {
+            "Comment": "Adds a translation.",
+            "CommentTags": [],
+            "FunctionName": "AddTranslation",
+            "Function": "native AddTranslation(const lang[3], TransKey:key, const phrase[]);"
+        },
+        {
+            "Comment": "Looks up the translation of the key for the given type\nThis does NOT format the output text.\neg: If the key includes %s, the outputted text will also contain %s.\nNOTE: LANG_PLAYER is invalid in this, use a player index\n      or LANG_SERVER",
+            "CommentTags": [],
+            "FunctionName": "LookupLangKey",
+            "Function": "native LookupLangKey(Output[], OutputSize, const Key[], const &id);"
+        }
+    ],
+    "constants": []
+}

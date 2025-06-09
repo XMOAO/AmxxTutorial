@@ -9,6 +9,39 @@
   <x:String x:Key="Search">函数查询</x:String>
   <x:String x:Key="Setting">设 置</x:String>
   <x:String x:Key="Refresh">重置状态</x:String>
+  <x:String x:Key="SearchIncFiles">搜索头文件</x:String>
+  <x:String x:Key="SearchIncFilesTooltip">输入关键字以搜索相关头文件或切换Inc版本</x:String>
+  <x:String x:Key="SearchIncFilesNullRes">没有找到相关结果</x:String>
+  <x:String x:Key="TextEditorSetting_Title">编辑器设置</x:String>
+  <x:String x:Key="TextEditorSetting_Label1">字体大小</x:String>
+  <x:String x:Key="TextEditorSetting_Label2">行号显示</x:String>
+  <x:String x:Key="TextEditorSetting_Label2_1">行号显示开</x:String>
+  <x:String x:Key="TextEditorSetting_Label2_2">行号显示关</x:String>
+  <x:String x:Key="TextEditorSetting_Label3">字体宽度</x:String>
+  <x:String x:Key="TextEditorSetting_Light">细体</x:String>
+  <x:String x:Key="TextEditorSetting_Normal">标准</x:String>
+  <x:String x:Key="TextEditorSetting_Bold">粗体</x:String>
+  <x:String x:Key="TextEditorSetting_Heavy">特粗</x:String>
+  <x:String x:Key="TextEditorFlyout_SelectAll">全选</x:String>
+  <x:String x:Key="TextEditorFlyout_Cut">剪切</x:String>
+  <x:String x:Key="TextEditorFlyout_Copy">复制</x:String>
+  <x:String x:Key="TextEditorFlyout_Paste">粘贴</x:String>
+
+  <x:String x:Key="SearchIncFuncsTooltip">输入关键字搜索函数</x:String>
+  <x:String x:Key="IncNavMenu_Overview">Overview</x:String>
+  <x:String x:Key="FuncHelper_Syntax">Syntax</x:String>
+  <x:String x:Key="FuncHelper_Desc/Comment">Description</x:String>
+  <x:String x:Key="FuncHelper_Usage">Usage</x:String>
+  <x:String x:Key="FuncHelper_Usage_Table_Param">Parameter</x:String>
+  <x:String x:Key="FuncHelper_Usage_Table_Function">Function</x:String>
+  <x:String x:Key="FuncHelper_Usage_Table_Desc">Description</x:String>
+  <x:String x:Key="FuncHelper_Usage_Table_NullDesc">No Desc.</x:String>
+  <x:String x:Key="FuncHelper_Usage_Null">This function has no usage description.</x:String>
+  <x:String x:Key="FuncHelper_Note">Note</x:String>
+  <x:String x:Key="FuncHelper_Return">Return</x:String>
+  <x:String x:Key="FuncHelper_Return_Null">This function has no return value.</x:String>
+  <x:String x:Key="FuncHelper_Overview">List of functions in </x:String>
+
   <x:String x:Key="ThemeToggleTooltip">开启/关闭 深色主题</x:String>
   <x:String x:Key="OtherSettingsToolTip">设置</x:String>
 

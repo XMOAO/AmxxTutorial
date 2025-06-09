@@ -1,0 +1,10 @@
+{
+    "functions": [],
+    "constants": [
+        {
+            "Comment": "valid tsweaponid in TS_GiveWeapon\n\n1: \"Glock 18\"\n3: \"Mini Uzi\"\n4: \"Benelli M3\"\n5: \"M4A1\"\n6: \"MP5SD\"\n7: \"MP5K\"\n8: \"Akimbo Berettas\"\n9: \"Socom Mk23\"\n11: \"Usas12\"\n12: \"Desert Eagle\"\n13: \"Ak47\"\n14: \"FiveSeven\"\n15: \"Steyr Aug\"\n17: \"Steyr Tmp\"\n18: \"Barrett M82\"\n19: \"HK Pdw\"\n20: \"Spas12\"\n21: \"Akimbo colts\"\n22: \"Glock 20\"\n23: \"Mac10\"\n25: \"Combat Knife\"\n26: \"Mossberg 500\"\n27: \"M16A4\"\n28: \"Ruger Mk1\"\n24: \"M61 Grenade\"\n29: \"C4\"\n31: \"Raging Bull\"\n32: \"M60\"\n33: \"Sawed off\"\n34: \"Katana\"\n35: \"Seal Knife\"\n\nvalid pwuptype in TS_GivePwUp\n\n0: \"Random\"\n1: \"Slow Motion\"\n2: \"Infinite Clip\"\n4: \"Kung Fu\"\n8: \"Slow Pause\"\n16: \"Double Firerate\"\n32: \"Grenade\"\n64: \"Health\"\n128: \"Armor\"\n256: \"Superjump\"",
+            "CommentTags": [],
+            "Constant": ""
+        }
+    ]
+}

@@ -1,0 +1,695 @@
+{
+    "functions": [
+        {
+            "Comment": "FakeMeta stocks\n\nby the AMX Mod X Development Team\n\nThis file is provided as is (no warranties).",
+            "CommentTags": [],
+            "FunctionName": "EF_PrecacheModel",
+            "Function": "#if !defined _fakemeta_included\n\t#include <fakemeta>\n#endif\n\n#if defined _fakemeta_stocks_included\n  #endinput\n#endif\n#define _fakemeta_stocks_included\n\n// EngFuncs\nstock EF_PrecacheModel(const string[])"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_PrecacheSound(const string[])",
+            "FunctionName": "EF_PrecacheSound"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_SetModel(const ID, const STRING[])",
+            "FunctionName": "EF_SetModel"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_ModelIndex(const STRING[])",
+            "FunctionName": "EF_ModelIndex"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_ModelFrames(modelIndex)",
+            "FunctionName": "EF_ModelFrames"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_SetSize(const ENTITY, const Float:MIN[3], const Float:MAX[3])",
+            "FunctionName": "EF_SetSize"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_ChangeLevel(const S1[], const S2[])",
+            "FunctionName": "EF_ChangeLevel"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_VecToYaw(const Float:VECTOR[3], &Float:returnValue)",
+            "FunctionName": "EF_VecToYaw"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_VecToAngles(const Float:VECTORIN[3], const Float:VECTOROUT[3])",
+            "FunctionName": "EF_VecToAngles"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_MoveToOrigin(const ENTITY, const Float:GOAL[3], const Float:DISTANCE, const MOVETYPE)",
+            "FunctionName": "EF_MoveToOrigin"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_ChangeYaw(const ENTITY)",
+            "FunctionName": "EF_ChangeYaw"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_ChangePitch(const ENTITY)",
+            "FunctionName": "EF_ChangePitch"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_FindEntityByString(const STARTSEARCHAFTER, const FIELD[], const VALUE[])",
+            "FunctionName": "EF_FindEntityByString"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_GetEntityIllum(const ENTITY)",
+            "FunctionName": "EF_GetEntityIllum"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_FindEntityInSphere(const STARTSEARCHAFTER, const Float:ORIGIN[3], Float:radius)",
+            "FunctionName": "EF_FindEntityInSphere"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_FindClientInPVS(const CLIENT)",
+            "FunctionName": "EF_FindClientInPVS"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_EntitiesInPVS(const CLIENT)",
+            "FunctionName": "EF_EntitiesInPVS"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_MakeVectors(const Float:VECTOR[3])",
+            "FunctionName": "EF_MakeVectors"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_AngleVectors(const Float:VECTOR[3], Float:forward_[3], Float:right[3], Float:up[3])",
+            "FunctionName": "EF_AngleVectors"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_CreateEntity()",
+            "FunctionName": "EF_CreateEntity"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_RemoveEntity(const ENTITY)",
+            "FunctionName": "EF_RemoveEntity"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_CreateNamedEntity(const CLASSNAME)",
+            "FunctionName": "EF_CreateNamedEntity"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_MakeStatic(const ENTITY)",
+            "FunctionName": "EF_MakeStatic"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_EntIsOnFloor(const ENTITY)",
+            "FunctionName": "EF_EntIsOnFloor"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_DropToFloor(const ENTITY)",
+            "FunctionName": "EF_DropToFloor"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_WalkMove(const ENTITY, Float:yaw, Float:distance, iMode)",
+            "FunctionName": "EF_WalkMove"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_SetOrigin(const ENTITY, const Float:ORIGIN[3])",
+            "FunctionName": "EF_SetOrigin"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_EmitSound(const ENTITY, channel, const SAMPLE[], Float:volume, Float:attenuation, fFlags, pitch)",
+            "FunctionName": "EF_EmitSound"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_EmitAmbientSound(const ENTITY, Float:pos[3], const SAMPLE[], Float:volume, Float:attenuation, fFlags, pitch)",
+            "FunctionName": "EF_EmitAmbientSound"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_TraceLine(const Float:V1[3], const Float:V2[3], fNoMonsters, const ENT_TO_SKIP)",
+            "FunctionName": "EF_TraceLine"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_TraceToss(const ENTITY, const ENTITY_TO_IGNORE)",
+            "FunctionName": "EF_TraceToss"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_TraceMonsterHull(const ENTITY, const Float:V1[3], const Float:V2[3], fNoMonsters, const ENTITY_TO_SKIP)",
+            "FunctionName": "EF_TraceMonsterHull"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_TraceHull(const Float:V1[3], const Float:V2[3], fNoMonsters, hullNumber, const ENTITY_TO_SKIP)",
+            "FunctionName": "EF_TraceHull"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_TraceModel(const Float:V1[3], const Float:V2[3], hullNumber, const ENTITY)",
+            "FunctionName": "EF_TraceModel"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_TraceTexture(const TEXTURE_ENTITY, const Float:V1[3], const Float:V2[3])",
+            "FunctionName": "EF_TraceTexture"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_TraceSphere(const Float:V1[3], const Float:V2[3], fNoMonsters, Float:radius, const ENTITY_TO_SKIP)",
+            "FunctionName": "EF_TraceSphere"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_GetAimVector(const ENTITY, Float:speed, Float:returnVector[3])",
+            "FunctionName": "EF_GetAimVector"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_ParticleEffect(const Float:ORIGIN[3], const Float:DIRECTION[3], Float:color, Float:count)",
+            "FunctionName": "EF_ParticleEffect"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_LightStyle(style, val[])",
+            "FunctionName": "EF_LightStyle"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_DecalIndex(const NAME[])",
+            "FunctionName": "EF_DecalIndex"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_PointContents(const Float:VECTOR[3])",
+            "FunctionName": "EF_PointContents"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_FreeEntPrivateData(const ENTITY)",
+            "FunctionName": "EF_FreeEntPrivateData"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_SzFromIndex(iString)",
+            "FunctionName": "EF_SzFromIndex"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_AllocString(const STRING[])",
+            "FunctionName": "EF_AllocString"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_RegUserMsg(const NAME[], iSize)",
+            "FunctionName": "EF_RegUserMsg"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_AnimationAutomove(const ENTITY, Float:flTime)",
+            "FunctionName": "EF_AnimationAutomove"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_GetBonePosition(const ENTITY, iBone, Float:origin[3], Float:angles[3])",
+            "FunctionName": "EF_GetBonePosition"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_GetAttachment(const ENTITY, iAttachment, Float:origin[3], Float:angles[3])",
+            "FunctionName": "EF_GetAttachment"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_SetView(const CLIENT, const VIEW_ENTITY)",
+            "FunctionName": "EF_SetView"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_Time(&Float:returnValue)",
+            "FunctionName": "EF_Time"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_CrosshairAngle(const CLIENT, Float:pitch, Float:yaw)",
+            "FunctionName": "EF_CrosshairAngle"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_FadeClientVolume(const ENTITY, fadePercent, fadeOutSeconds, holdTime, fadeInSeconds)",
+            "FunctionName": "EF_FadeClientVolume"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_SetClientMaxspeed(const ENTITY, Float:newMaxspeed)",
+            "FunctionName": "EF_SetClientMaxspeed"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_CreateFakeClient(const NETNAME[])",
+            "FunctionName": "EF_CreateFakeClient"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_RunPlayerMove(const FAKECLIENT, const Float:VIEWANGLES[3], Float:forwardmove, Float:sidemove, Float:upmove, buttons, impulse, msec)",
+            "FunctionName": "EF_RunPlayerMove"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_NumberOfEntities()",
+            "FunctionName": "EF_NumberOfEntities"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_StaticDecal(const Float:ORIGIN[3], decalIndex, entityIndex, modelIndex)",
+            "FunctionName": "EF_StaticDecal"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_PrecacheGeneric(const STRING[])",
+            "FunctionName": "EF_PrecacheGeneric"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_BuildSoundMSG(const ENTITY, channel, const SAMPLE[], Float:volume, Float:attenuation, fFlags, pitch, msg_dest, msg_type, const Float:ORIGIN[3], const ED)",
+            "FunctionName": "EF_BuildSoundMSG"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_GetPhysicsKeyValue(const CLIENT, const KEY[])",
+            "FunctionName": "EF_GetPhysicsKeyValue"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_SetPhysicsKeyValue(const CLIENT, const KEY[], const VALUE[])",
+            "FunctionName": "EF_SetPhysicsKeyValue"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_GetPhysicsInfoString(const CLIENT, returnString[], maxLength)",
+            "FunctionName": "EF_GetPhysicsInfoString"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_PrecacheEvent(type, const STRING[])",
+            "FunctionName": "EF_PrecacheEvent"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_PlaybackEvent(flags, const INVOKER, eventindex, Float:delay, Float:origin[3], Float:angles[3], Float:fparam1, Float:fparam2, iparam1, iparam2, bparam1, bparam2)",
+            "FunctionName": "EF_PlaybackEvent"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_CheckVisibility(const ENTITY, set)",
+            "FunctionName": "EF_CheckVisibility"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_GetCurrentPlayer()",
+            "FunctionName": "EF_GetCurrentPlayer"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_CanSkipPlayer(const PLAYER)",
+            "FunctionName": "EF_CanSkipPlayer"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_SetGroupMask(mask, op)",
+            "FunctionName": "EF_SetGroupMask"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_GetClientListening(receiver, sender)",
+            "FunctionName": "EF_GetClientListening"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_SetClientListening(receiver, sender, bool:listen)",
+            "FunctionName": "EF_SetClientListening"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_MessageBegin(msg_dest, msg_type, const Float:ORIGIN[3], const ED)",
+            "FunctionName": "EF_MessageBegin"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_WriteCoord(Float:value)",
+            "FunctionName": "EF_WriteCoord"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_WriteAngle(Float:value)",
+            "FunctionName": "EF_WriteAngle"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_InfoKeyValue(const INFOBUFFER, const KEY[], returnValue[], maxLength)",
+            "FunctionName": "EF_InfoKeyValue"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_SetKeyValue(const INFOBUFFER, const KEY[], const VALUE[])",
+            "FunctionName": "EF_SetKeyValue"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_SetClientKeyValue(const ID, const INFOBUFFER, const KEY[], const VALUE[])",
+            "FunctionName": "EF_SetClientKeyValue"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_CreateInstBaseline(CLASSNAME, baseline)",
+            "FunctionName": "EF_CreateInstBaseline"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_GetInfoKeyBuffer(const ENTITY)",
+            "FunctionName": "EF_GetInfoKeyBuffer"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_ClientPrintf(const ENTITY, const printType, const MESSAGE[])",
+            "FunctionName": "EF_ClientPrintf"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock EF_ServerPrint(const MESSAGE[])",
+            "FunctionName": "EF_ServerPrint"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_GameInit()",
+            "FunctionName": "DF_GameInit"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_Spawn(const ENTITY)",
+            "FunctionName": "DF_Spawn"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_Think(const ENTITY)",
+            "FunctionName": "DF_Think"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_Use(const ENT_Used, const ENT_User)",
+            "FunctionName": "DF_Use"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_Touch(const ENT_Touched, const ENT_Toucher)",
+            "FunctionName": "DF_Touch"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_Blocked(const ENT_Blocked, const ENT_Other)",
+            "FunctionName": "DF_Blocked"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_SetAbsBox(const ENTITY)",
+            "FunctionName": "DF_SetAbsBox"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_ClientConnect(const ENTITY, const NAME[], const ADDRESS[], RejectReason[128])",
+            "FunctionName": "DF_ClientConnect"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_ClientDisconnect(const ENTITY)",
+            "FunctionName": "DF_ClientDisconnect"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_ClientKill(const ENTITY)",
+            "FunctionName": "DF_ClientKill"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_ClientPutInServer(const ENTITY)",
+            "FunctionName": "DF_ClientPutInServer"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_ClientCommand(const ENTITY)",
+            "FunctionName": "DF_ClientCommand"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_ServerDeactivate()",
+            "FunctionName": "DF_ServerDeactivate"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_PlayerPreThink(const ENTITY)",
+            "FunctionName": "DF_PlayerPreThink"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_PlayerPostThink(const ENTITY)",
+            "FunctionName": "DF_PlayerPostThink"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_StartFrame()",
+            "FunctionName": "DF_StartFrame"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_ParmsNewLevel()",
+            "FunctionName": "DF_ParmsNewLevel"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_ParmsChangeLevel()",
+            "FunctionName": "DF_ParmsChangeLevel"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_GetGameDescription()",
+            "FunctionName": "DF_GetGameDescription"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_SpectatorConnect(const ENTITY)",
+            "FunctionName": "DF_SpectatorConnect"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_SpectatorDisconnect(const ENTITY)",
+            "FunctionName": "DF_SpectatorDisconnect"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_SpectatorThink(const ENTITY)",
+            "FunctionName": "DF_SpectatorThink"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_Sys_Error(const ERROR_STRING[])",
+            "FunctionName": "DF_Sys_Error"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_PM_FindTextureType(name[])",
+            "FunctionName": "DF_PM_FindTextureType"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_RegisterEncoders()",
+            "FunctionName": "DF_RegisterEncoders"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_GetHullBounds(hullnumber, Float:mins[3], Float:maxs[3])",
+            "FunctionName": "DF_GetHullBounds"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_CreateInstBaselines()",
+            "FunctionName": "DF_CreateInstBaselines"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_pfnAllowLagCompensation()",
+            "FunctionName": "DF_pfnAllowLagCompensation"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_MetaFunc_CallGameEntity(const STRING[], const ENTITY)",
+            "FunctionName": "DF_MetaFunc_CallGameEntity"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_ClientUserInfoChanged(const IDPLAYER)",
+            "FunctionName": "DF_ClientUserInfoChanged"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_UpdateClientData(const ENTITY, sendweapons, const cd/* = 0*/)",
+            "FunctionName": "DF_UpdateClientData"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_AddToFullPack(const STATE/* = 0*/, e, ENT, HOST, hostflags, player, set)",
+            "FunctionName": "DF_AddToFullPack"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_CmdStart(const PLAYER, const CMD/* = 0*/, randomSeed)",
+            "FunctionName": "DF_CmdStart"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_CmdEnd(const PLAYER)",
+            "FunctionName": "DF_CmdEnd"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock DF_CreateBaseline(PLAYER, eIndex, baseline, playerModelIndex, Float:playerMins[3], Float:playerMaxs[3])",
+            "FunctionName": "DF_CreateBaseline"
+        }
+    ],
+    "constants": []
+}

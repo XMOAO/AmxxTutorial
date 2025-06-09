@@ -1,0 +1,89 @@
+{
+    "functions": [
+        {
+            "Comment": "This will return a number equal to or below 0 on failure.\nIf it does fail, the error will be mirrored in dbi_error()\nThe return value will otherwise be a resource handle, not an\nOK code or cell pointer.",
+            "CommentTags": [],
+            "FunctionName": "Sql:dbi_connect",
+            "Function": "native Sql:dbi_connect(_host[], _user[], _pass[], _dbname[], _error[]=\"\", _maxlength=0);"
+        },
+        {
+            "Comment": "This will do a simple query execution on the SQL server.\nIf it fails, it will return a number BELOW ZERO (0)\nIf zero, it succeeded with NO RETURN RESULT.\nIf greater than zero, make sure to call dbi_free_result() on it!\n The return is a handle to the result set",
+            "CommentTags": [],
+            "FunctionName": "Result:dbi_query",
+            "Function": "native Result:dbi_query(Sql:_sql, _query[], any:...);"
+        },
+        {
+            "Comment": "Has the same usage as dbi_query, but this native returns by\nreference the number of rows affected in the query. If the\nquery fails rows will be equal to -1.",
+            "CommentTags": [],
+            "FunctionName": "Result:dbi_query2",
+            "Function": "native Result:dbi_query2(Sql:_sql, &rows, _query[], any:...);"
+        },
+        {
+            "Comment": "Returns 0 on failure or End of Results.\nAdvances result pointer by one row.",
+            "CommentTags": [],
+            "FunctionName": "dbi_nextrow",
+            "Function": "native dbi_nextrow(Result:_result);"
+        },
+        {
+            "Comment": "Gets a field by number.  Returns 0 on failure.\nAlthough internally fields always start from 0,\nThis function takes fieldnum starting from 1.\nNo extra params: returns int\nOne extra param: returns Float: byref\nTwo extra param: Stores string with length",
+            "CommentTags": [],
+            "FunctionName": "dbi_field",
+            "Function": "native dbi_field(Result:_result, _fieldnum, {Float,_}:... );"
+        },
+        {
+            "Comment": "Gets a field by name.  Returns 0 on failure.\nOne extra param: returns Float: byref\nTwo extra param: Stores string with length",
+            "CommentTags": [],
+            "FunctionName": "dbi_result",
+            "Function": "native dbi_result(Result:_result, _field[], {Float,_}:... );"
+        },
+        {
+            "Comment": "Returns the number of rows returned from a query",
+            "CommentTags": [],
+            "FunctionName": "dbi_num_rows",
+            "Function": "native dbi_num_rows(Result:_result);"
+        },
+        {
+            "Comment": "Frees memory used by a result handle.  Do this or get memory leaks.",
+            "CommentTags": [],
+            "FunctionName": "dbi_free_result",
+            "Function": "native dbi_free_result(&Result:result);"
+        },
+        {
+            "Comment": "Closes a database handle.  Internally, it will also\nmark the handle as free, so this particular handle may\nbe re-used in the future to save time.",
+            "CommentTags": [],
+            "FunctionName": "dbi_close",
+            "Function": "native dbi_close(&Sql:_sql);"
+        },
+        {
+            "Comment": "Returns an error message set.  For PGSQL and MySQL,\nthis is a direct error return from the database handle/API.\nFor MSSQL, it returns the last error message found from a\nthrown exception.",
+            "CommentTags": [],
+            "FunctionName": "dbi_error",
+            "Function": "native dbi_error(Sql:_sql, _error[], _len);"
+        },
+        {
+            "Comment": "Returns the type of database being used.  So far:\n\"mysql\", \"pgsql\", \"mssql\", \"sqlite\"",
+            "CommentTags": [],
+            "FunctionName": "dbi_type",
+            "Function": "native dbi_type(_type[], _len);"
+        },
+        {
+            "Comment": "Returns the number of fields/colums in a result set.\nUnlike dbi_nextrow, you must pass a valid result handle.",
+            "CommentTags": [],
+            "FunctionName": "dbi_num_fields",
+            "Function": "native dbi_num_fields(Result:result);"
+        },
+        {
+            "Comment": "Retrieves the name of a field/column in a result set.\nRequires a valid result handle, and columns are numbered 1 to n.",
+            "CommentTags": [],
+            "FunctionName": "dbi_field_name",
+            "Function": "native dbi_field_name(Result:result, field, name[], maxLength);"
+        },
+        {
+            "Comment": "This function can be used to find out if a table in a Sqlite database exists.",
+            "CommentTags": [],
+            "FunctionName": "bool:sqlite_table_exists",
+            "Function": "stock bool:sqlite_table_exists(Sql:sql, table[])"
+        }
+    ],
+    "constants": []
+}

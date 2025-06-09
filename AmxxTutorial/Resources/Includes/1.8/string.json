@@ -1,0 +1,252 @@
+{
+    "functions": [
+        {
+            "Comment": "Checks if source contains string. On success function\nreturns position in source, on failure returns -1.",
+            "CommentTags": [],
+            "FunctionName": "contain",
+            "Function": "native contain(const source[],const string[]);"
+        },
+        {
+            "Comment": "Checks if source contains string with case ignoring. On success function\nreturns position in source, on failure returns -1.",
+            "CommentTags": [],
+            "FunctionName": "containi",
+            "Function": "native containi(const source[],const string[]);"
+        },
+        {
+            "Comment": "Replaces given string to another in given text.",
+            "CommentTags": [],
+            "FunctionName": "replace",
+            "Function": "native replace(text[], len, const what[], const with[]);"
+        },
+        {
+            "Comment": "Adds one string to another. Last parameter different from 0, specifies\nhow many chars we want to add. Function returns number of all merged chars.",
+            "CommentTags": [],
+            "FunctionName": "add",
+            "Function": "native add(dest[],len,const src[],max=0);"
+        },
+        {
+            "Comment": "Fills string with given format and parameters.\nFunction returns number of copied chars.\nExample: format(dest,\"Hello %s. You are %d years old\",\"Tom\",17).\nIf any of your input buffers overlap with the destination buffer,\n format() falls back to a \"copy-back\" version as of 1.65.  This is\n slower, so you should using a source string that is the same as\n the destination.",
+            "CommentTags": [],
+            "FunctionName": "format",
+            "Function": "native format(output[] ,len ,const format[] , any:...);"
+        },
+        {
+            "Comment": "Same as format(), except does not perform a \"copy back\" check.\nThis means formatex() is faster, but DOES NOT ALLOW this type\nof call:\n formatex(buffer, len, \"%s\", buffer)\n formatex(buffer, len, buffer, buffer)\n formatex(buffer, len, \"%s\", buffer[5])\nThis is because the output is directly stored into \"buffer\",\n rather than copied back at the end.",
+            "CommentTags": [],
+            "FunctionName": "formatex",
+            "Function": "native formatex(output[] ,len ,const format[] , any:...);"
+        },
+        {
+            "Comment": "Replacement for format_args.  Much faster and %L compatible.\nThis works exactly like vsnprintf() from C.\nYou must pass in the output buffer and its size,\n the string to format, and the number of the FIRST variable\n argument parameter.  For example, for:\n function (a, b, c, ...)\n You would pass 4 (a is 1, b is 2, c is 3, et cetera).\nThere is no vformatex().",
+            "CommentTags": [],
+            "FunctionName": "vformat",
+            "Function": "native vformat(buffer[], len, const fmt[], vararg);"
+        },
+        {
+            "Comment": "Same as vformat(), except works in normal style dynamic natives.\nInstead of passing the format arg string, you can only pass the\n actual format argument number itself.\nIf you pass 0, it will read the format string from an optional\n fifth parameter.",
+            "CommentTags": [],
+            "FunctionName": "vdformat",
+            "Function": "native vdformat(buffer[], len, fmt_arg, vararg, ...);"
+        },
+        {
+            "Comment": "Gets parameters from function as formated string.",
+            "CommentTags": [],
+            "FunctionName": "format_args",
+            "Function": "native format_args(output[] ,len ,pos = 0);"
+        },
+        {
+            "Comment": "Converts number to string.",
+            "CommentTags": [],
+            "FunctionName": "num_to_str",
+            "Function": "native num_to_str(num,string[],len);"
+        },
+        {
+            "Comment": "Returns converted string to number.",
+            "CommentTags": [],
+            "FunctionName": "str_to_num",
+            "Function": "native str_to_num(const string[]);"
+        },
+        {
+            "Comment": "Converts float to string.",
+            "CommentTags": [],
+            "FunctionName": "float_to_str",
+            "Function": "native float_to_str(Float:fl, string[], len);"
+        },
+        {
+            "Comment": "Parses a float.",
+            "CommentTags": [],
+            "FunctionName": "Float:str_to_float",
+            "Function": "native Float:str_to_float(const string[]);"
+        },
+        {
+            "Comment": "Checks if two strings equal. If len var is set\nthen there are only c chars comapred.",
+            "CommentTags": [],
+            "FunctionName": "equal",
+            "Function": "native equal(const a[],const b[],c=0);"
+        },
+        {
+            "Comment": "Checks if two strings equal with case ignoring.\nIf len var is set then there are only c chars comapred.",
+            "CommentTags": [],
+            "FunctionName": "equali",
+            "Function": "native equali(const a[],const b[],c=0);"
+        },
+        {
+            "Comment": "Copies one string to another. By len var\n you may specify max. number of chars to copy.",
+            "CommentTags": [],
+            "FunctionName": "copy",
+            "Function": "native copy(dest[],len,const src[]);"
+        },
+        {
+            "Comment": "Copies one string to another until char ch is found.\n By len var you may specify max. number of chars to copy.",
+            "CommentTags": [],
+            "FunctionName": "copyc",
+            "Function": "native copyc(dest[],len,const src[],ch);"
+        },
+        {
+            "Comment": "Sets string with given character.",
+            "CommentTags": [],
+            "FunctionName": "setc",
+            "Function": "native setc(src[],len,ch);"
+        },
+        {
+            "Comment": "Gets parameters from text.\nExample: to split text: \"^\"This is^\" the best year\",\ncall function like this: parse(text,arg1,len1,arg2,len2,arg3,len3,arg4,len4)\nand you will get: \"This is\", \"the\", \"best\", \"year\"\nFunction returns number of parsed parameters.",
+            "CommentTags": [],
+            "FunctionName": "parse",
+            "Function": "native parse(const text[], ... );"
+        },
+        {
+            "Comment": "Breaks a string into two halves, by token.\nSee strbreak() for doing this with parameters.\nExample:\nstr1[] = This *is*some text\nstrtok(str1, left, 24, right, 24, '*')\nleft will be \"This \"\nRight will be \"is*some text\"\nIf you use trimSpaces, all spaces are trimmed from Left.",
+            "CommentTags": [],
+            "FunctionName": "strtok",
+            "Function": "native strtok(const text[], Left[], leftLen, Right[], rightLen, token=' ', trimSpaces=0);"
+        },
+        {
+            "Comment": "Gets parameters from text one at a time\nIt breaks a string into the first parameter and the rest of the parameters\n(A left side and right side of the string)\nExample: to split text: \"^\"This is^\" the best year\",\nstrbreak(text, arg1, len1, arg2, len2)\narg1=\"This is\", arg2=the best year\nThis is more useful than parse() because you can keep breaking\nany number of arguments",
+            "CommentTags": [],
+            "FunctionName": "strbreak",
+            "Function": "native strbreak(const text[], Left[], leftLen, Right[], rightLen);"
+        },
+        {
+            "Comment": "Strips spaces from the beginning and end of a string.",
+            "CommentTags": [],
+            "FunctionName": "trim",
+            "Function": "native trim(text[]);"
+        },
+        {
+            "Comment": "Converts all chars in string to lower case.",
+            "CommentTags": [],
+            "FunctionName": "strtolower",
+            "Function": "native strtolower(string[]);"
+        },
+        {
+            "Comment": "Converts all chars in string to upper case.",
+            "CommentTags": [],
+            "FunctionName": "strtoupper",
+            "Function": "native strtoupper(string[]);"
+        },
+        {
+            "Comment": "Make a string's first character uppercase",
+            "CommentTags": [],
+            "FunctionName": "ucfirst",
+            "Function": "native ucfirst(string[]);"
+        },
+        {
+            "Comment": "Returns true when value is digit.",
+            "CommentTags": [],
+            "FunctionName": "isdigit",
+            "Function": "native isdigit(ch);"
+        },
+        {
+            "Comment": "Returns true when value is letter.",
+            "CommentTags": [],
+            "FunctionName": "isalpha",
+            "Function": "native isalpha(ch);"
+        },
+        {
+            "Comment": "Returns true when value is space.",
+            "CommentTags": [],
+            "FunctionName": "isspace",
+            "Function": "native isspace(ch);"
+        },
+        {
+            "Comment": "Returns true when value is letter or digit.",
+            "CommentTags": [],
+            "FunctionName": "isalnum",
+            "Function": "native isalnum(ch);"
+        },
+        {
+            "Comment": "Concatenates a string.  Maxlength is the total buffer of the destination.",
+            "CommentTags": [],
+            "FunctionName": "strcat",
+            "Function": "native strcat(dest[], const source[], maxlength);"
+        },
+        {
+            "Comment": "Finds a string in another string.  Returns -1 if not found.",
+            "CommentTags": [],
+            "FunctionName": "strfind",
+            "Function": "native strfind(const string[], const sub[], ignorecase=0, pos=0);"
+        },
+        {
+            "Comment": "Compares two strings with the C function strcmp().  Returns 0 on equal.",
+            "CommentTags": [],
+            "FunctionName": "strcmp",
+            "Function": "native strcmp(const string1[], const string2[], ignorecase=0);"
+        },
+        {
+            "Comment": "Tests if given string contains only digits. Also, returns false for zero-length strings.",
+            "CommentTags": [],
+            "FunctionName": "bool:is_str_num",
+            "Function": "stock bool:is_str_num(const sString[])"
+        },
+        {
+            "Comment": "It is basically strbreak but you have a delimiter that is more than one character in length.\nYou pass the Input string, the Left output, the max length of the left output,\nthe right output , the max right length, and then the delimiter string.\nBy Suicid3",
+            "CommentTags": [],
+            "FunctionName": "split",
+            "Function": "stock split(const szInput[], szLeft[], pL_Max, szRight[], pR_Max, const szDelim[])"
+        },
+        {
+            "Comment": "Removes a path from szFilePath leaving the name of the file in szFile for a pMax length.",
+            "CommentTags": [],
+            "FunctionName": "remove_filepath",
+            "Function": "stock remove_filepath(const szFilePath[], szFile[], pMax)"
+        },
+        {
+            "Comment": "Replaces a contained string iteratively.\nThis ensures that no infinite replacements will take place by\n intelligently moving to the next string position each iteration.",
+            "CommentTags": [],
+            "FunctionName": "replace_all",
+            "Function": "stock replace_all(string[], len, const what[], const with[])"
+        }
+    ],
+    "constants": [
+        {
+            "Comment": "jump to position after replacement",
+            "CommentTags": [],
+            "Constant": "pos += with_len;"
+        },
+        {
+            "Comment": "update cached length of string",
+            "CommentTags": [],
+            "Constant": "total_len -= diff;"
+        },
+        {
+            "Comment": "will the next call be operating on the last character?",
+            "CommentTags": [],
+            "Constant": "if (pos >= total_len)\n        {\n            break;\n        }"
+        },
+        {
+            "Comment": "find the next position from our offset",
+            "CommentTags": [],
+            "Constant": "temp_pos = contain(string[pos], what);"
+        },
+        {
+            "Comment": "if it's invalid, we're done",
+            "CommentTags": [],
+            "Constant": "if (temp_pos == -1)\n        {\n            break;\n        }"
+        },
+        {
+            "Comment": "otherwise, reposition and update counters",
+            "CommentTags": [],
+            "Constant": "pos += temp_pos;\n    }\n    \n    return total;\n}"
+        }
+    ]
+}

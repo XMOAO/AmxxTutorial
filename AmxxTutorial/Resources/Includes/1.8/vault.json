@@ -1,0 +1,29 @@
+{
+    "functions": [
+        {
+            "Comment": "Reads a data from given key.\nIf len is set to zero then get_vaultdata\nreturns value as an number.",
+            "CommentTags": [],
+            "FunctionName": "get_vaultdata",
+            "Function": "native get_vaultdata(const key[], data[] = \"\", len = 0);"
+        },
+        {
+            "Comment": "Sets a data under given key.",
+            "CommentTags": [],
+            "FunctionName": "set_vaultdata",
+            "Function": "native set_vaultdata(const key[], const data[] = \"\");"
+        },
+        {
+            "Comment": "Removes a key from vault.",
+            "CommentTags": [],
+            "FunctionName": "remove_vaultdata",
+            "Function": "native remove_vaultdata(const key[]);"
+        },
+        {
+            "Comment": "Checks if a key exists in the vault.",
+            "CommentTags": [],
+            "FunctionName": "vaultdata_exists",
+            "Function": "native vaultdata_exists(const key[]);"
+        }
+    ],
+    "constants": []
+}

@@ -1,0 +1,65 @@
+{
+    "functions": [
+        {
+            "Comment": "Opens a vault by name (such as \"myvault\")\nReturns a vault id, INVALID_HANDLE otherwise (-1)",
+            "CommentTags": [],
+            "FunctionName": "nvault_open",
+            "Function": "native nvault_open(const name[]);"
+        },
+        {
+            "Comment": "Gets a vault value by returning an int\nsetting a byref float or setting a string + maxlength",
+            "CommentTags": [],
+            "FunctionName": "nvault_get",
+            "Function": "native nvault_get(vault, const key[], {Float,_}:...);"
+        },
+        {
+            "Comment": "Looks up a vault value for full information\nReturns 0 if the entry is not found",
+            "CommentTags": [],
+            "FunctionName": "nvault_lookup",
+            "Function": "native nvault_lookup(vault, const key[], value[], maxlen, &timestamp);"
+        },
+        {
+            "Comment": "Sets a vault value (with current timestamp)",
+            "CommentTags": [],
+            "FunctionName": "nvault_set",
+            "Function": "native nvault_set(vault, const key[], const value[]);"
+        },
+        {
+            "Comment": "Sets a permanent vault value (no timestamp)",
+            "CommentTags": [],
+            "FunctionName": "nvault_pset",
+            "Function": "native nvault_pset(vault, const key[], const value[]);"
+        },
+        {
+            "Comment": "Prunes the vault for entries that are within the given timestamps.\nThis will not erase values set with pset",
+            "CommentTags": [],
+            "FunctionName": "nvault_prune",
+            "Function": "native nvault_prune(vault, start, end);"
+        },
+        {
+            "Comment": "Closes a vault",
+            "CommentTags": [],
+            "FunctionName": "nvault_close",
+            "Function": "native nvault_close(vault);"
+        },
+        {
+            "Comment": "Removes a key from the vault",
+            "CommentTags": [],
+            "FunctionName": "nvault_remove",
+            "Function": "native nvault_remove(vault, const key[]);"
+        },
+        {
+            "Comment": "\"Touches\" a key to update its timestamp value.\nIf stamp is -1 (default), it will use the current time.\nLike the unix command \"touch,\" it will create an empty key\n if the value does not exist.",
+            "CommentTags": [],
+            "FunctionName": "nvault_touch",
+            "Function": "native nvault_touch(vault, const key[], timestamp=-1);"
+        }
+    ],
+    "constants": [
+        {
+            "Comment": "All timestamps are in UNIX epoch form.",
+            "CommentTags": [],
+            "Constant": ""
+        }
+    ]
+}

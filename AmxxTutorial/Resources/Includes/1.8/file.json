@@ -1,0 +1,244 @@
+{
+    "functions": [
+        {
+            "Comment": "Reads content from directory.\nReturns index of next element or 0 when end of dir. is reached.",
+            "CommentTags": [],
+            "FunctionName": "read_dir",
+            "Function": "native read_dir(const dirname[],pos,output[],len,&outlen);"
+        },
+        {
+            "Comment": "Reads line from file. Returns index of next line or 0 when end of file is reached.",
+            "CommentTags": [],
+            "FunctionName": "read_file",
+            "Function": "native read_file(const file[],line,text[],len,&txtlen);"
+        },
+        {
+            "Comment": "Writes text to file. Function returns 0 on failure.\nWhen line is set to -1, the text is added at the end of file.",
+            "CommentTags": [],
+            "FunctionName": "write_file",
+            "Function": "native write_file(const file[],const text[],line = -1);"
+        },
+        {
+            "Comment": "Deletes file. Function returns 1 on success, 0 on failure.",
+            "CommentTags": [],
+            "FunctionName": "delete_file",
+            "Function": "native delete_file(const file[]);"
+        },
+        {
+            "Comment": "Checks for file. If file exists function returns 1, in other case 0.",
+            "CommentTags": [],
+            "FunctionName": "file_exists",
+            "Function": "native file_exists(const file[]);"
+        },
+        {
+            "Comment": "renames a file.  returns 0 on failure, 1 on success.\nif relative true, rename_file will act like other natives which\nuse the moddir as a base directory.  otherwise, the current directory is\nundefined (but assumed to be hlds).",
+            "CommentTags": [],
+            "FunctionName": "rename_file",
+            "Function": "native rename_file(const oldname[], const newname[], relative=0);"
+        },
+        {
+            "Comment": "Checks if a directory exists",
+            "CommentTags": [],
+            "FunctionName": "dir_exists",
+            "Function": "native dir_exists(const dir[]);"
+        },
+        {
+            "Comment": "Returns a file size in bytes if flag is set to 0.\nWhen flag is set to 1 returns number of lines in the file,\nand when flags is 2, function returns 1 if the file ends\nwith line feed. If file doesn't exist returns -1.",
+            "CommentTags": [],
+            "FunctionName": "file_size",
+            "Function": "native file_size(const file[], flag=0);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fopen(const filename[],const mode[]);",
+            "FunctionName": "fopen"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fclose(file);",
+            "FunctionName": "fclose"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fread(file, &data, mode);",
+            "FunctionName": "fread"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fread_blocks(file, data[], blocks, mode);",
+            "FunctionName": "fread_blocks"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fread_raw(file, stream[], blocksize, blocks);",
+            "FunctionName": "fread_raw"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fwrite(file, data, mode);",
+            "FunctionName": "fwrite"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fwrite_blocks(file, const data[], blocks, mode);",
+            "FunctionName": "fwrite_blocks"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fwrite_raw(file, const stream[], blocksize, mode);",
+            "FunctionName": "fwrite_raw"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native feof(file);",
+            "FunctionName": "feof"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fgets(file, buffer[], maxlength);",
+            "FunctionName": "fgets"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fputs(file, const text[]);",
+            "FunctionName": "fputs"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fprintf(file, const fmt[], any:...);",
+            "FunctionName": "fprintf"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fseek(file, position, start);",
+            "FunctionName": "fseek"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ftell(file);",
+            "FunctionName": "ftell"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fgetc(file);",
+            "FunctionName": "fgetc"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fputc(file, data);",
+            "FunctionName": "fputc"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native fungetc(file, data);",
+            "FunctionName": "fungetc"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native filesize(const filename[], any:...);",
+            "FunctionName": "filesize"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native rmdir(const path[]);",
+            "FunctionName": "rmdir"
+        },
+        {
+            "Comment": "Returns 0 on success, like the POSIX specification",
+            "CommentTags": [],
+            "FunctionName": "mkdir",
+            "Function": "native mkdir(const dirname[]);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native unlink(const filename[]);",
+            "FunctionName": "unlink"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native open_dir(dir[], firstfile[], length);",
+            "FunctionName": "open_dir"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native next_file(dirh, buffer[], length);",
+            "FunctionName": "next_file"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native close_dir(dirh);",
+            "FunctionName": "close_dir"
+        },
+        {
+            "Comment": "Loads a file using the LoadFileForMe engine function.\n\nThe data is truncated if there is not enough space.  No null-terminator\nis applied; the data is the raw contents of the file.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "file",
+                    "Description": "File to load (may be a file from the GCF)."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "buffer",
+                    "Description": "Buffer to store file contents."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "maxlength",
+                    "Description": "Maximum size of the file buffer."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "length",
+                    "Description": "Variable to store the file length.  This may return\n           a number larger than the buffer size."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "-1 if the file could not be loaded.  Otherwise,\n                the number of cells actually written to the buffer\n                are returned."
+                }
+            ],
+            "FunctionName": "LoadFileForMe",
+            "Function": "native LoadFileForMe(const file[], buffer[], maxlength, &length=0);"
+        },
+        {
+            "Comment": "Flushes a buffered output stream.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "file",
+                    "Description": "File handle, or 0 for all open streams."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "0 on success, -1 on failure."
+                }
+            ],
+            "FunctionName": "fflush",
+            "Function": "native fflush(file);"
+        }
+    ],
+    "constants": []
+}

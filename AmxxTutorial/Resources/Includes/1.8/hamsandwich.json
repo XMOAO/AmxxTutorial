@@ -1,0 +1,544 @@
+{
+    "functions": [
+        {
+            "Comment": "Hooks the virtual table for the specified entity class.\nAn example would be: RegisterHam(Ham_TakeDamage, \"player\", \"player_hurt\");\nLook at the Ham enum for parameter lists.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "function",
+                    "Description": "The function to hook."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "EntityClass",
+                    "Description": "The entity classname to hook."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "callback",
+                    "Description": "The forward to call."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "post",
+                    "Description": "Whether or not to forward this in post."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "Returns a handle to the forward.  Use EnableHamForward/DisableHamForward to toggle the forward on or off."
+                }
+            ],
+            "FunctionName": "HamHook:RegisterHam",
+            "Function": "native HamHook:RegisterHam(Ham:function, const EntityClass[], const Callback[], Post=0);"
+        },
+        {
+            "Comment": "Hooks the virtual table for the specified entity's class.\nAn example would be: RegisterHam(Ham_TakeDamage, id, \"player_hurt\");\nLook at the Ham enum for parameter lists.\nNote: This will cause hooks for the entire internal class that the entity is\n      not exclusively for the provided entity.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "function",
+                    "Description": "The function to hook."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "EntityId",
+                    "Description": "The entity classname to hook."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "callback",
+                    "Description": "The forward to call."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "post",
+                    "Description": "Whether or not to forward this in post."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "Returns a handle to the forward.  Use EnableHamForward/DisableHamForward to toggle the forward on or off."
+                }
+            ],
+            "FunctionName": "HamHook:RegisterHamFromEntity",
+            "Function": "native HamHook:RegisterHamFromEntity(Ham:function, EntityId, const Callback[], Post=0);"
+        },
+        {
+            "Comment": "Stops a ham forward from triggering.\nUse the return value from RegisterHam as the parameter here!",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "fwd",
+                    "Description": "The forward to stop."
+                }
+            ],
+            "FunctionName": "DisableHamForward",
+            "Function": "native DisableHamForward(HamHook:fwd);"
+        },
+        {
+            "Comment": "Starts a ham forward back up.\nUse the return value from RegisterHam as the parameter here!",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "fwd",
+                    "Description": "The forward to re-enable."
+                }
+            ],
+            "FunctionName": "EnableHamForward",
+            "Function": "native EnableHamForward(HamHook:fwd);"
+        },
+        {
+            "Comment": "Executes the virtual function on the entity.\nLook at the Ham enum for parameter lists.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "function",
+                    "Description": "The function to call."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The id of the entity to execute it on."
+                }
+            ],
+            "FunctionName": "ExecuteHam",
+            "Function": "native ExecuteHam(Ham:function, this, any:...);"
+        },
+        {
+            "Comment": "Executes the virtual function on the entity, this will trigger all hooks on that function.\nBe very careful about recursion!\nLook at the Ham enum for parameter lists.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "function",
+                    "Description": "The function to call."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The id of the entity to execute it on."
+                }
+            ],
+            "FunctionName": "ExecuteHamB",
+            "Function": "native ExecuteHamB(Ham:function, this, any:...);"
+        },
+        {
+            "Comment": "Gets the return status of the current hook.\nThis is useful to determine what return natives to use.",
+            "CommentTags": [
+                {
+                    "Tag": "return",
+                    "Description": "The current status of the hook (such as HAM_SUPERCEDE)."
+                }
+            ],
+            "FunctionName": "GetHamReturnStatus",
+            "Function": "native GetHamReturnStatus();"
+        },
+        {
+            "Comment": "Gets the return value of a hook for hooks that return integers or booleans.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "output",
+                    "Description": "The variable to store the value in."
+                }
+            ],
+            "FunctionName": "GetHamReturnInteger",
+            "Function": "native GetHamReturnInteger(&output);"
+        },
+        {
+            "Comment": "Gets the return value of a hook for hooks that return float.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "output",
+                    "Description": "The variable to store the value in."
+                }
+            ],
+            "FunctionName": "GetHamReturnFloat",
+            "Function": "native GetHamReturnFloat(&Float:output);"
+        },
+        {
+            "Comment": "Gets the return value of a hook for hooks that return Vectors.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "output",
+                    "Description": "The variable to store the value in."
+                }
+            ],
+            "FunctionName": "GetHamReturnVector",
+            "Function": "native GetHamReturnVector(Float:output[3]);"
+        },
+        {
+            "Comment": "Gets the return value of a hook for hooks that return entities.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "output",
+                    "Description": "The variable to store the value in. Will be -1 on null."
+                }
+            ],
+            "FunctionName": "GetHamReturnEntity",
+            "Function": "native GetHamReturnEntity(&output);"
+        },
+        {
+            "Comment": "Gets the return value of a hook for hooks that return strings.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "output",
+                    "Description": "The buffer to store the string in."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "size",
+                    "Description": "The string size of the buffer."
+                }
+            ],
+            "FunctionName": "GetHamReturnString",
+            "Function": "native GetHamReturnString(output[], size);"
+        },
+        {
+            "Comment": "Gets the original return value of a hook for hooks that return integers or booleans.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "output",
+                    "Description": "The variable to store the value in."
+                }
+            ],
+            "FunctionName": "GetOrigHamReturnInteger",
+            "Function": "native GetOrigHamReturnInteger(&output);"
+        },
+        {
+            "Comment": "Gets the original return value of a hook for hooks that return floats.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "output",
+                    "Description": "The variable to store the value in."
+                }
+            ],
+            "FunctionName": "GetOrigHamReturnFloat",
+            "Function": "native GetOrigHamReturnFloat(&Float:output);"
+        },
+        {
+            "Comment": "Gets the original return value of a hook for hooks that return Vectors.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "output",
+                    "Description": "The variable to store the value in."
+                }
+            ],
+            "FunctionName": "GetOrigHamReturnVector",
+            "Function": "native GetOrigHamReturnVector(Float:output[3]);"
+        },
+        {
+            "Comment": "Gets the original return value of a hook for hooks that return entities.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "output",
+                    "Description": "The variable to store the value in. -1 on null."
+                }
+            ],
+            "FunctionName": "GetOrigHamReturnEntity",
+            "Function": "native GetOrigHamReturnEntity(&output);"
+        },
+        {
+            "Comment": "Gets the original return value of a hook for hooks that return strings.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "output",
+                    "Description": "The buffer to store the string in."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "size",
+                    "Description": "The size of the buffer."
+                }
+            ],
+            "FunctionName": "GetOrigHamReturnString",
+            "Function": "native GetOrigHamReturnString(output[], size);"
+        },
+        {
+            "Comment": "Sets the return value of a hook that returns an integer or boolean.\nThis needs to be used in conjunction with HAM_OVERRIDE or HAM_SUPERCEDE.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The value to set the return to."
+                }
+            ],
+            "FunctionName": "SetHamReturnInteger",
+            "Function": "native SetHamReturnInteger(value);"
+        },
+        {
+            "Comment": "Sets the return value of a hook that returns a float.\nThis needs to be used in conjunction with HAM_OVERRIDE or HAM_SUPERCEDE.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The value to set the return to."
+                }
+            ],
+            "FunctionName": "SetHamReturnFloat",
+            "Function": "native SetHamReturnFloat(Float:value);"
+        },
+        {
+            "Comment": "Sets the return value of a hook that returns a Vector.\nThis needs to be used in conjunction with HAM_OVERRIDE or HAM_SUPERCEDE.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The value to set the return to."
+                }
+            ],
+            "FunctionName": "SetHamReturnVector",
+            "Function": "native SetHamReturnVector(const Float:value[3]);"
+        },
+        {
+            "Comment": "Sets the return value of a hook that returns an entity.  Set to -1 for null.\nThis needs to be used in conjunction with HAM_OVERRIDE or HAM_SUPERCEDE.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The value to set the return to."
+                }
+            ],
+            "FunctionName": "SetHamReturnEntity",
+            "Function": "native SetHamReturnEntity(value);"
+        },
+        {
+            "Comment": "Sets the return value of a hook that returns a string.\nThis needs to be used in conjunction with HAM_OVERRIDE or HAM_SUPERCEDE.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The value to set the return to."
+                }
+            ],
+            "FunctionName": "SetHamReturnString",
+            "Function": "native SetHamReturnString(const value[]);"
+        },
+        {
+            "Comment": "Sets a parameter on the fly of the current hook.  This has no effect in post hooks.\nUse this on parameters that are integers.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "Which parameter to change.  Starts at 1, and works up from the left to right.  1 is always \"this\"."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The value to change it to."
+                }
+            ],
+            "FunctionName": "SetHamParamInteger",
+            "Function": "native SetHamParamInteger(which, value);"
+        },
+        {
+            "Comment": "Sets a parameter on the fly of the current hook.  This has no effect in post hooks.\nUse this on parameters that are floats.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "Which parameter to change.  Starts at 1, and works up from the left to right.  1 is always \"this\"."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The value to change it to."
+                }
+            ],
+            "FunctionName": "SetHamParamFloat",
+            "Function": "native SetHamParamFloat(which, Float:value);"
+        },
+        {
+            "Comment": "Sets a parameter on the fly of the current hook.  This has no effect in post hooks.\nUse this on parameters that are Vectors.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "Which parameter to change.  Starts at 1, and works up from the left to right.  1 is always \"this\"."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The value to change it to."
+                }
+            ],
+            "FunctionName": "SetHamParamVector",
+            "Function": "native SetHamParamVector(which, const Float:value[3]);"
+        },
+        {
+            "Comment": "Sets a parameter on the fly of the current hook.  This has no effect in post hooks.\nUse this on parameters that are entities.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "Which parameter to change.  Starts at 1, and works up from the left to right.  1 is always \"this\"."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The value to change it to."
+                }
+            ],
+            "FunctionName": "SetHamParamEntity",
+            "Function": "native SetHamParamEntity(which, value);"
+        },
+        {
+            "Comment": "Sets a parameter on the fly of the current hook.  This has no effect in post hooks.\nUse this on parameters that are strings.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "Which parameter to change.  Starts at 1, and works up from the left to right.  1 is always \"this\"."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The value to change it to."
+                }
+            ],
+            "FunctionName": "SetHamParamString",
+            "Function": "native SetHamParamString(which, const output[]);"
+        },
+        {
+            "Comment": "Sets a parameter on the fly of the current hook.  This has no effect in post hooks.\nUse this on parameters that are trace result handles.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "which",
+                    "Description": "Which parameter to change.  Starts at 1, and works up from the left to right.  1 is always \"this\"."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The value to change it to."
+                }
+            ],
+            "FunctionName": "SetHamParamTraceResult",
+            "Function": "native SetHamParamTraceResult(which, tr_handle);"
+        },
+        {
+            "Comment": "Returns whether or not the function for the specified Ham is valid.\nThings that would make it invalid would be bounds (an older module version\n may not have all of the functions), and the function not being found in\n the mod's hamdata.ini file.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "function",
+                    "Description": "The function to look up."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "true if the function is valid, false otherwise."
+                }
+            ],
+            "FunctionName": "bool:IsHamValid",
+            "Function": "native bool:IsHamValid(Ham:function);"
+        },
+        {
+            "Comment": "This is used to compliment fakemeta's {get,set}_pdata_{int,float,string}.\nThis requires the mod to have the pev and base fields set in hamdata.ini.\nNote this dereferences memory! Improper use of this will crash the server.\nThis will return an index of the corresponding cbase field in private data.\nReturns -1 on a null entry.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The entity to examine the private data."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "offset",
+                    "Description": "The windows offset of the data."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "linuxdiff",
+                    "Description": "The linux difference of the data."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "macdiff",
+                    "Description": "The mac os x difference of the data."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The index of the corresponding pdata field. -1 for none set."
+                }
+            ],
+            "FunctionName": "get_pdata_cbase",
+            "Function": "native get_pdata_cbase(id, offset, linuxdiff=5, macdiff=5);"
+        },
+        {
+            "Comment": "This is used to compliment fakemeta's {get,set}_pdata_{int,float,string}.\nThis requires the mod to have the pev and base fields set in hamdata.ini.\nThis will set the corresponding cbase field in private data with the index.\nPass -1 to null the entry.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The entity to examine the private data."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "offset",
+                    "Description": "The windows offset of the data."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The index to store, -1 for invalid"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "linuxdiff",
+                    "Description": "The linux difference of the data."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "macdiff",
+                    "Description": "The mac os x difference of the data."
+                }
+            ],
+            "FunctionName": "set_pdata_cbase",
+            "Function": "native set_pdata_cbase(id, offset, value, linuxdiff=5, macdiff=5);"
+        },
+        {
+            "Comment": "This is similar to the get_pdata_cbase, however it does not dereference memory.\nThis is many times slower than get_pdata_cbase, and this should only be used\nfor testing and finding of offsets, not actual release quality plugins.\nThis will return an index of the corresponding cbase field in private data.\nReturns -1 on a null entry. -2 on an invalid entry.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "Entry to examine the private data."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "offset",
+                    "Description": "The windows offset of the data."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "linuxdiff",
+                    "Description": "The linux difference of the data."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "macdiff",
+                    "Description": "The mac os x difference of the data."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The index of the corresponding pdata field, -1 for null, -2 for invalid."
+                }
+            ],
+            "FunctionName": "get_pdata_cbase_safe",
+            "Function": "native get_pdata_cbase_safe(id, offset, linuxdiff=5, macdiff=5);"
+        }
+    ],
+    "constants": [
+        {
+            "Comment": "Ham Sandwich is a module that is used to hook and call virtual functions of\n entities.\nVirtual functions are mod-specific functions.  This means that in order\n for this to work on a mod, it needs to be configured with the hamdata.ini\n file.\nBe very careful with parameter passing to these functions.",
+            "CommentTags": [],
+            "Constant": "#if defined _hamsandwich_included\n    #endinput\n#endif\n#define _hamsandwich_included\n\n#include <ham_const>\n\n#if AMXX_VERSION_NUM >= 175\n    #pragma reqlib hamsandwich\n    #if !defined AMXMODX_NOAUTOLOAD\n        #pragma loadlib hamsandwich\n    #endif\n#else\n    #pragma library hamsandwich\n#endif"
+        }
+    ]
+}

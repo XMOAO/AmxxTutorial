@@ -1,0 +1,178 @@
+{
+    "functions": [
+        {
+            "Comment": "Precompile a regular expression.  Use this if you intend on using the\nsame expression multiple times.  Pass the regex handle returned here to\nregex_match_c to check for matches.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "pattern",
+                    "Description": "The regular expression pattern."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "errcode",
+                    "Description": "Error code encountered, if applicable."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "error",
+                    "Description": "Error message encountered, if applicable."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "maxLen",
+                    "Description": "Maximum string length of the error buffer."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "flags",
+                    "Description": "General flags for the regular expression.\n            i = Ignore case\n            m = Multilines (affects ^ and $ so that they match\n                the start/end of a line rather than matching the\n                start/end of the string).\n            s = Single line (affects . so that it matches any character,\n                even new line characters).\n            x = Pattern extension (ignore whitespace and # comments)."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "-1 on error in the pattern, > valid regex handle (> 0) on success."
+                },
+                {
+                    "Tag": "note",
+                    "Description": "This handle is automatically freed on map change.  However,\n                  if you are completely done with it before then, you should\n                  call regex_free on this handle."
+                }
+            ],
+            "FunctionName": "Regex:regex_compile",
+            "Function": "native Regex:regex_compile(const pattern[], &ret, error[], maxLen, const flags[]=\"\");"
+        },
+        {
+            "Comment": "Matches a string against a pre-compiled regular expression pattern.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "pattern",
+                    "Description": "The regular expression pattern."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "string",
+                    "Description": "The string to check."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "ret",
+                    "Description": "Error code, if applicable, or number of results on success."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "-2 = Matching error (error code is stored in ret)\n                 0 = No match.\n                >1 = Number of results."
+                },
+                {
+                    "Tag": "note",
+                    "Description": "You should free the returned handle (with regex_free())\n                  when you are done with this pattern."
+                },
+                {
+                    "Tag": "note",
+                    "Description": "Use the regex handle passed to this function to extract\n                  matches with regex_substr()."
+                }
+            ],
+            "FunctionName": "regex_match_c",
+            "Function": "native regex_match_c(const string[], Regex:pattern, &ret);"
+        },
+        {
+            "Comment": "Matches a string against a regular expression pattern.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "If you intend on using the same regular expression pattern\n                  multiple times, consider using regex_compile and regex_match_c\n                  instead of making this function reparse the expression each time."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "string",
+                    "Description": "The string to check."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "pattern",
+                    "Description": "The regular expression pattern."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "ret",
+                    "Description": "Error code, or result state of the match."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "error",
+                    "Description": "Error message, if applicable."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "maxLen",
+                    "Description": "Maximum length of the error buffer."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "flags",
+                    "Description": "General flags for the regular expression.\n            i = Ignore case\n            m = Multilines (affects ^ and $ so that they match\n                the start/end of a line rather than matching the\n                start/end of the string).\n            s = Single line (affects . so that it matches any character,\n                even new line characters).\n            x = Pattern extension (ignore whitespace and # comments)."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "-2 = Matching error (error code is stored in ret)\n                -1 = Error in pattern (error message and offset # in error and ret)\n                 0 = No match.\n                >1 = Handle for getting more information (via regex_substr)"
+                },
+                {
+                    "Tag": "note",
+                    "Description": "Flags only exist in amxmodx 1.8 and later."
+                },
+                {
+                    "Tag": "note",
+                    "Description": "You should free the returned handle (with regex_free())\n                  when you are done extracting all of the substrings."
+                }
+            ],
+            "FunctionName": "Regex:regex_match",
+            "Function": "native Regex:regex_match(const string[], const pattern[], &ret, error[], maxLen, const flags[] = \"\");"
+        },
+        {
+            "Comment": "Returns a matched substring from a regex handle.\nSubstring ids start at 0 and end at ret-1, where ret is from the corresponding\nregex_match or regex_match_c function call.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The regex handle to extract data from."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "str_id",
+                    "Description": "The index of the expression to get - starts at 0, and ends at ret - 1."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "buffer",
+                    "Description": "The buffer to set to the matching substring."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "maxLen",
+                    "Description": "The maximum string length of the buffer."
+                }
+            ],
+            "FunctionName": "regex_substr",
+            "Function": "native regex_substr(Regex:id, str_id, buffer[], maxLen);"
+        },
+        {
+            "Comment": "Frees the memory associated with a regex result, and sets the handle to 0.\nThis must be called on all results from regex_match() when you are done extracting\nthe results with regex_substr().\nThe results of regex_compile() (and subsequently, regex_match_c()) only need to be freed\nwhen you are done using the pattern.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The regex handle to free."
+                },
+                {
+                    "Tag": "noreturn"
+                },
+                {
+                    "Tag": "note",
+                    "Description": "Do not use the handle again after freeing it!"
+                }
+            ],
+            "FunctionName": "regex_free",
+            "Function": "native regex_free(&Regex:id);"
+        }
+    ],
+    "constants": []
+}

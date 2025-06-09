@@ -1,0 +1,23 @@
+{
+    "functions": [
+        {
+            "Comment": "Creates a death message.",
+            "CommentTags": [],
+            "FunctionName": "dod_make_deathmsg",
+            "Function": "stock dod_make_deathmsg(killer, victim, weaponNUM)"
+        },
+        {
+            "Comment": "Kills a user without a message.",
+            "CommentTags": [],
+            "FunctionName": "user_silentkill",
+            "Function": "stock user_silentkill(index)"
+        },
+        {
+            "Comment": "Creates a death message.",
+            "CommentTags": [],
+            "FunctionName": "make_deathmsg",
+            "Function": "stock make_deathmsg(killer, victim, headshot, const weapon[])"
+        }
+    ],
+    "constants": []
+}

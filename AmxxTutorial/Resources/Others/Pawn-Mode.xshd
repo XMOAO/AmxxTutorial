@@ -1,0 +1,334 @@
+<?xml version="1.0"?>
+<SyntaxDefinition name="Pawn" extensions=".inc" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+	<!-- The named colors 'Comment' and 'String' are used in SharpDevelop to detect if a line is inside a multiline string/comment -->
+	<Color name="Comment" foreground="Green" exampleText="// comment" />
+	<Color name="String" foreground="Blue" exampleText="string text = &quot;Hello, World!&quot;"/>
+	<Color name="StringInterpolation" foreground="Black" exampleText="string text = $&quot;Hello, {name}!&quot;"/>
+	<Color name="Char" foreground="Magenta" exampleText="char linefeed = '\n';"/>
+	<Color name="Preprocessor" foreground="Green" exampleText="#region Title" />
+	<Color name="Punctuation" exampleText="a(b.c);" />
+	<Color name="ValueTypeKeywords" fontWeight="bold" foreground="Red" exampleText="bool b = true;" />
+	<Color name="ReferenceTypeKeywords" foreground="Red" exampleText="object o;" />
+	<Color name="MethodCall" foreground="MidnightBlue" fontWeight="bold" exampleText="o.ToString();"/>
+	<Color name="NumberLiteral" foreground="DarkBlue" exampleText="3.1415f"/>
+	<Color name="ThisOrBaseReference" fontWeight="bold" exampleText="this.Do(); base.Do();"/>
+	<Color name="NullOrValueKeywords" fontWeight="bold" exampleText="if (value == null)"/>
+	<Color name="Keywords" fontWeight="bold" foreground="Blue" exampleText="if (a) {} else {}"/>
+	<Color name="GotoKeywords" foreground="Navy" exampleText="continue; return null;"/>
+	<Color name="ContextKeywords" foreground="Navy" exampleText="var a = from x in y select z;"/>
+	<Color name="ExceptionKeywords" fontWeight="bold" foreground="Teal" exampleText="try {} catch {} finally {}"/>
+	<Color name="CheckedKeyword" fontWeight="bold" foreground="DarkGray" exampleText="checked {}"/>
+	<Color name="UnsafeKeywords" foreground="Olive" exampleText="unsafe { fixed (..) {} }"/>
+	<Color name="OperatorKeywords" fontWeight="bold" foreground="Pink" exampleText="public static implicit operator..."/>
+	<Color name="ParameterModifiers" fontWeight="bold" foreground="DeepPink" exampleText="(ref int a, params int[] b)"/>
+	<Color name="Modifiers" foreground="Brown" exampleText="static readonly int a;"/>
+	<Color name="Visibility" fontWeight="bold" foreground="Blue" exampleText="public override void ToString();"/>
+	<Color name="NamespaceKeywords" fontWeight="bold" foreground="Green" exampleText="namespace A.B { using System; }"/>
+	<Color name="GetSetAddRemove" foreground="SaddleBrown" exampleText="int Prop { get; set; }"/>
+	<Color name="TrueFalse" fontWeight="bold" foreground="DarkCyan" exampleText="b = false; a = true;" />
+	<Color name="TypeKeywords" fontWeight="bold" foreground="DarkCyan" exampleText="class C : Base<T> { }"/>
+	<Color name="SemanticKeywords" fontWeight="bold" foreground="DarkGreen" exampleText="args ?? throw new ArgumentNullException(nameof(args));" />
+
+	<Property name="DocCommentMarker" value="///" />
+	
+	<RuleSet name="CommentMarkerSet">
+		<Keywords fontWeight="bold" foreground="Red">
+			<Word>TODO</Word>
+			<Word>FIXME</Word>
+		</Keywords>
+		<Keywords fontWeight="bold" foreground="#E0E000">
+			<Word>HACK</Word>
+			<Word>UNDONE</Word>
+		</Keywords>
+	</RuleSet>
+	
+	<!-- This is the main ruleset. -->
+	<RuleSet>
+		<Span color="Preprocessor">
+			<Begin>\#</Begin>
+			<RuleSet name="PreprocessorSet">
+				<Span> <!-- preprocessor directives that allows comments -->
+					<Begin fontWeight="bold">
+						(define|undef|if|elif|else|endif|line)\b
+					</Begin>
+					<RuleSet>
+						<Span color="Comment" ruleSet="CommentMarkerSet">
+							<Begin>//</Begin>
+						</Span>
+					</RuleSet>
+				</Span>
+				<Span> <!-- preprocessor directives that don't allow comments -->
+					<Begin fontWeight="bold">
+						(region|endregion|error|warning|pragma)\b
+					</Begin>
+				</Span>
+			</RuleSet>
+		</Span>
+		
+		<Span color="String">
+			<Begin>"</Begin>
+			<End>"</End>
+			<RuleSet>
+				<!-- span for escape sequences -->
+				<Span begin='\\' end="."/>
+			</RuleSet>
+		</Span>
+		
+		<Span color="String">
+			<Begin>'</Begin>
+			<End>'</End>
+			<RuleSet>
+				<!-- span for escape sequences -->
+				<Span begin='\\' end="."/>
+			</RuleSet>
+		</Span>
+		
+		<Span color="StringInterpolation">
+			<Begin>\$"</Begin>
+			<End>"</End>
+			<RuleSet>
+				<!-- span for escape sequences -->
+				<Span begin="\\" end="."/>
+				<Span begin="\{\{" end=""/>
+			</RuleSet>
+		</Span>
+		
+		<!-- don't highlight "@int" as keyword -->
+		<Rule>
+			@[\w\d_]+
+		</Rule>
+		
+		<Keywords color="ThisOrBaseReference">
+			<Word>this</Word>
+			<Word>base</Word>
+		</Keywords>
+		
+		<Keywords color="TypeKeywords">
+			<Word>abstract</Word>
+			<Word>as</Word>
+			<Word>async</Word>
+			<Word>await</Word>
+			<Word>bool</Word>
+			<Word>char</Word>
+			<Word>class</Word>
+			<Word>decimal</Word>
+			<Word>delegate</Word>
+			<Word>double</Word>
+			<Word>dynamic</Word>
+			<Word>enum</Word>
+			<Word>event</Word>
+			<Word>explicit</Word>
+			<Word>extern</Word>
+			<Word>fixed</Word>
+			<Word>float</Word>
+			<Word>implicit</Word>
+			<Word>in</Word>
+			<Word>interface</Word>
+			<Word>internal</Word>
+			<Word>is</Word>
+			<Word>lock</Word>
+			<Word>long</Word>
+			<Word>nameof</Word>
+			<Word>object</Word>
+			<Word>override</Word>
+			<Word>params</Word>
+			<Word>private</Word>
+			<Word>protected</Word>
+			<Word>public</Word>
+			<Word>readonly</Word>
+			<Word>ref</Word>
+			<Word>sbyte</Word>
+			<Word>sealed</Word>
+			<Word>short</Word>
+			<Word>static</Word>
+			<Word>string</Word>
+			<Word>struct</Word>
+			<Word>uint</Word>
+			<Word>ulong</Word>
+			<Word>unsafe</Word>
+			<Word>ushort</Word>
+			<Word>using</Word>
+			<Word>var</Word>
+			<Word>void</Word>
+		</Keywords>
+		
+		<Keywords color="PrimitiveTypeKeywords">
+			<Word>bool</Word>
+			<Word>byte</Word>
+			<Word>sbyte</Word>
+			<Word>char</Word>
+			<Word>short</Word>
+			<Word>ushort</Word>
+			<Word>int</Word>
+			<Word>uint</Word>
+			<Word>long</Word>
+			<Word>ulong</Word>
+			<Word>float</Word>
+			<Word>double</Word>
+			<Word>decimal</Word>
+			<Word>string</Word>
+			<Word>object</Word>
+			<Word>dynamic</Word>
+		</Keywords>
+		
+		<Keywords color="ValueTypeKeywords">
+			<Word>bool</Word>
+			<Word>byte</Word>
+			<Word>char</Word>
+			<Word>decimal</Word>
+			<Word>double</Word>
+			<Word>float</Word>
+			<Word>int</Word>
+			<Word>long</Word>
+			<Word>sbyte</Word>
+			<Word>short</Word>
+			<Word>uint</Word>
+			<Word>ulong</Word>
+			<Word>ushort</Word>
+		</Keywords>
+
+		<Keywords color="ReferenceTypeKeywords">
+			<Word>object</Word>
+			<Word>string</Word>
+			<Word>dynamic</Word>
+		</Keywords>
+		
+		<Keywords color="NullOrValueKeywords">
+			<Word>null</Word>
+			<Word>true</Word>
+			<Word>false</Word>
+		</Keywords>
+		
+		<Keywords color="GotoKeywords">
+			<Word>break</Word>
+			<Word>continue</Word>
+			<Word>goto</Word>
+			<Word>return</Word>
+		</Keywords>
+		
+		<Keywords color="ContextKeywords">
+			<Word>checked</Word>
+			<Word>unchecked</Word>
+			<Word>sizeof</Word>
+			<Word>typeof</Word>
+			<Word>nameof</Word>
+			<Word>default</Word>
+			<Word>delegate</Word>
+			<Word>stackalloc</Word>
+			<Word>async</Word>
+			<Word>await</Word>
+		</Keywords>
+		
+		<Keywords color="ExceptionKeywords">
+			<Word>try</Word>
+			<Word>catch</Word>
+			<Word>finally</Word>
+			<Word>throw</Word>
+		</Keywords>
+		
+		<Keywords color="CheckedKeyword">
+			<Word>checked</Word>
+		</Keywords>
+		
+		<Keywords color="UnsafeKeywords">
+			<Word>unsafe</Word>
+			<Word>fixed</Word>
+		</Keywords>
+		
+		<Keywords color="OperatorKeywords">
+			<Word>implicit</Word>
+			<Word>explicit</Word>
+		</Keywords>
+		
+		<Keywords color="ParameterModifiers">
+			<Word>ref</Word>
+			<Word>out</Word>
+			<Word>params</Word>
+		</Keywords>
+		
+		<Keywords color="Modifiers">
+			<Word>new</Word>
+			<Word>partial</Word>
+			<Word>sealed</Word>
+			<Word>static</Word>
+			<Word>virtual</Word>
+		</Keywords>
+		
+		<Keywords color="Visibility">
+			<Word>public</Word>
+			<Word>private</Word>
+			<Word>protected</Word>
+			<Word>internal</Word>
+		</Keywords>
+		
+		<Keywords color="NamespaceKeywords">
+			<Word>namespace</Word>
+			<Word>using</Word>
+		</Keywords>
+		
+		<Keywords color="GetSetAddRemove">
+			<Word>get</Word>
+			<Word>set</Word>
+			<Word>add</Word>
+			<Word>remove</Word>
+		</Keywords>
+		
+		<Keywords color="TrueFalse">
+			<Word>true</Word>
+			<Word>false</Word>
+		</Keywords>
+		
+		<Keywords color="SemanticKeywords">
+			<Word>var</Word>
+			<Word>dynamic</Word>
+			<Word>async</Word>
+			<Word>await</Word>
+		</Keywords>
+		
+		<!-- Numeric literals -->
+		<Rule color="NumberLiteral">
+			\b0[xX][0-9a-fA-F]+  # hex number
+		|	
+			(	\b\d+(\.[0-9]+)?   #number with optional floating point
+			|	\.[0-9]+           #or just starting with floating point
+			)
+			([eE][+-]?[0-9]+)? # optional exponent
+		</Rule>
+		
+		<Rule color="Punctuation">
+			[?,.;()\[\]{}+\-/%*&lt;&gt;^+~!|&amp;]+
+		</Rule>
+		
+		<!-- Added Pawn language keywords -->
+		<Keywords color="Keywords">
+			<Word>new</Word>
+			<Word>static</Word>
+			<Word>const</Word>
+			<Word>forward</Word>
+			<Word>public</Word>
+			<Word>native</Word>
+			<Word>stock</Word>
+			<Word>return</Word>
+			<Word>if</Word>
+			<Word>else</Word>
+			<Word>while</Word>
+			<Word>do</Word>
+			<Word>for</Word>
+			<Word>break</Word>
+			<Word>continue</Word>
+			<Word>switch</Word>
+			<Word>case</Word>
+			<Word>default</Word>
+			<Word>sizeof</Word>
+			<Word>typedef</Word>
+			<Word>enum</Word>
+			<Word>tag</Word>
+			<Word>bool</Word>
+			<Word>char</Word>
+			<Word>float</Word>
+			<Word>int</Word>
+			<Word>true</Word>
+			<Word>false</Word>
+		</Keywords>
+	</RuleSet>
+</SyntaxDefinition>

@@ -1,0 +1,137 @@
+{
+    "functions": [
+        {
+            "Comment": "Engine stocks\n\nby the AMX Mod X Development Team\n thanks to AssKicR, Freecode and T(+)rget\n\nThis file is provided as is (no warranties).",
+            "CommentTags": [],
+            "FunctionName": "fakedamage",
+            "Function": "#if defined _engine_stocks_included\n  #endinput\n#endif\n#define _engine_stocks_included\n\n#if !defined _amxmodx_included\n  #include <amxmodx>\n#endif\n\n#if !defined _engine_included\n  #include <engine>\n#endif\n\nstock fakedamage(idvictim,const szClassname[],Float:takedmgdamage,damagetype)"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock find_ent(iStart, const szClassname[])",
+            "FunctionName": "find_ent"
+        },
+        {
+            "Comment": "Get the Button(s) user is pressing",
+            "CommentTags": [],
+            "FunctionName": "get_user_button",
+            "Function": "stock get_user_button(id)"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_user_oldbutton(id)",
+            "FunctionName": "get_user_oldbutton"
+        },
+        {
+            "Comment": "Get flags an entity is flagged with",
+            "CommentTags": [],
+            "FunctionName": "get_entity_flags",
+            "Function": "stock get_entity_flags(ent)"
+        },
+        {
+            "Comment": "Get the distance between two entities",
+            "CommentTags": [],
+            "FunctionName": "get_entity_distance",
+            "Function": "stock get_entity_distance(ent1, ent2)"
+        },
+        {
+            "Comment": "Get grenade thrown by this user",
+            "CommentTags": [],
+            "FunctionName": "get_grenade",
+            "Function": "stock get_grenade(id)"
+        },
+        {
+            "Comment": "Get origin of a brush entity",
+            "CommentTags": [],
+            "FunctionName": "get_brush_entity_origin",
+            "Function": "stock get_brush_entity_origin(ent, Float:orig[3])"
+        },
+        {
+            "Comment": "Remove entity by name",
+            "CommentTags": [],
+            "FunctionName": "remove_entity_name",
+            "Function": "stock remove_entity_name(const eName[])"
+        },
+        {
+            "Comment": "Get the contents of the point a user is aiming at",
+            "CommentTags": [],
+            "FunctionName": "ViewContents",
+            "Function": "stock ViewContents(id)"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_speed(ent)",
+            "FunctionName": "get_speed"
+        },
+        {
+            "Comment": "Set rendering of an entity",
+            "CommentTags": [],
+            "FunctionName": "set_rendering",
+            "Function": "stock set_rendering(index, fx=kRenderFxNone, r=255, g=255, b=255, render=kRenderNormal, amount=16)"
+        },
+        {
+            "Comment": "Set flags on an entity",
+            "CommentTags": [],
+            "FunctionName": "set_entity_flags",
+            "Function": "stock set_entity_flags(ent,flag,onoff)"
+        },
+        {
+            "Comment": "If visible = 1, entity will be set to be visible, else invisible.",
+            "CommentTags": [],
+            "FunctionName": "set_entity_visibility",
+            "Function": "stock set_entity_visibility(entity, visible = 1)"
+        },
+        {
+            "Comment": "Returns 1 if entity is visible.",
+            "CommentTags": [],
+            "FunctionName": "get_entity_visibility",
+            "Function": "stock get_entity_visibility(entity)"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock set_user_velocity(entity, const Float:vec[3])",
+            "FunctionName": "set_user_velocity"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_user_velocity(entity, Float:vec[3])",
+            "FunctionName": "get_user_velocity"
+        },
+        {
+            "Comment": "Hurts/Kills players in a sphere, like an explosion, Multiplier determines damage.",
+            "CommentTags": [],
+            "FunctionName": "RadiusDamage",
+            "Function": "stock RadiusDamage(const Float:fExplodeAt[3], iDamageMultiplier, iRadiusMultiplier)"
+        },
+        {
+            "Comment": "Gives you a velocity in the direction a player is looking, iVelocity is the multiplier.",
+            "CommentTags": [],
+            "FunctionName": "VelocityByAim",
+            "Function": "stock VelocityByAim(iIndex,iVelocity, Float:vRetValue[3])"
+        },
+        {
+            "Comment": "Will return the contents of a point (inside map? in sky? outside map? etc.).",
+            "CommentTags": [],
+            "FunctionName": "PointContents",
+            "Function": "stock PointContents(const Float:fCheckAt[3])"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock set_size(index, const Float:mins[3], const Float:maxs[3])",
+            "FunctionName": "set_size"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock IsInWorld( ent )",
+            "FunctionName": "IsInWorld"
+        }
+    ],
+    "constants": []
+}

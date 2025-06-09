@@ -1,0 +1,41 @@
+{
+    "functions": [
+        {
+            "Comment": "Opens a new connection to hostname:port via protocol (either SOCKET_TCP or SOCKET_UDP),\nreturns a socket (positive) or negative or zero on error.\nStates of error:\n0 - no error\n1 - error while creating socket\n2 - couldn't resolve hostname\n3 - couldn't connect to given hostname:port",
+            "CommentTags": [],
+            "FunctionName": "socket_open",
+            "Function": "native socket_open(const _hostname[], _port, _protocol = SOCKET_TCP, &_error);"
+        },
+        {
+            "Comment": "Closes a Socket",
+            "CommentTags": [],
+            "FunctionName": "socket_close",
+            "Function": "native socket_close(_socket);"
+        },
+        {
+            "Comment": "Recieves Data to string with the given length",
+            "CommentTags": [],
+            "FunctionName": "socket_recv",
+            "Function": "native socket_recv(_socket, _data[], _length);"
+        },
+        {
+            "Comment": "Sends data to the Socket",
+            "CommentTags": [],
+            "FunctionName": "socket_send",
+            "Function": "native socket_send(_socket, const _data[], _length);"
+        },
+        {
+            "Comment": "Same as socket_send but Data can contain null bytes",
+            "CommentTags": [],
+            "FunctionName": "socket_send2",
+            "Function": "native socket_send2(_socket, const _data[], _length);"
+        },
+        {
+            "Comment": "",
+            "CommentTags": [],
+            "FunctionName": "socket_change",
+            "Function": "native socket_change(_socket, _timeout=100000);"
+        }
+    ],
+    "constants": []
+}

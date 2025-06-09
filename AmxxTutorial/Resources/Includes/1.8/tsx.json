@@ -1,0 +1,104 @@
+{
+    "functions": [
+        {
+            "Comment": "Use this function to register forwards\nDEPRECATED",
+            "CommentTags": [],
+            "FunctionName": "register_statsfwd",
+            "Function": "native register_statsfwd( ftype );"
+        },
+        {
+            "Comment": "Function is called after player to player attacks ,\nif players were damaged by teammate TA is set to 1",
+            "CommentTags": [],
+            "FunctionName": "client_damage",
+            "Function": "forward client_damage(attacker,victim,damage,wpnindex,hitplace,TA);"
+        },
+        {
+            "Comment": "Function is called after player death ,\nif player was killed by teammate TK is set to 1",
+            "CommentTags": [],
+            "FunctionName": "client_death",
+            "Function": "forward client_death(killer,victim,wpnindex,hitplace,TK);"
+        },
+        {
+            "Comment": "function will return index of new weapon",
+            "CommentTags": [],
+            "FunctionName": "custom_weapon_add",
+            "Function": "native custom_weapon_add( const wpnname[],melee = 0,const logname[]=\"\" );"
+        },
+        {
+            "Comment": "Function will pass damage done by this custom weapon to stats module and other plugins",
+            "CommentTags": [],
+            "FunctionName": "custom_weapon_dmg",
+            "Function": "native custom_weapon_dmg( weapon, att, vic, damage, hitplace=0 );"
+        },
+        {
+            "Comment": "Function will pass info about custom weapon shot to stats module",
+            "CommentTags": [],
+            "FunctionName": "custom_weapon_shot",
+            "Function": "native custom_weapon_shot( weapon,index ); // weapon id , player id"
+        },
+        {
+            "Comment": "function will return 1 if true",
+            "CommentTags": [],
+            "FunctionName": "xmod_is_melee_wpn",
+            "Function": "native xmod_is_melee_wpn(wpnindex);"
+        },
+        {
+            "Comment": "Returns weapon name.",
+            "CommentTags": [],
+            "FunctionName": "xmod_get_wpnname",
+            "Function": "native xmod_get_wpnname(wpnindex,name[],len);"
+        },
+        {
+            "Comment": "Returns weapon logname.",
+            "CommentTags": [],
+            "FunctionName": "xmod_get_wpnlogname",
+            "Function": "native xmod_get_wpnlogname(wpnindex,name[],len);"
+        },
+        {
+            "Comment": "Returns weapons array size",
+            "CommentTags": [],
+            "FunctionName": "xmod_get_maxweapons",
+            "Function": "native xmod_get_maxweapons();"
+        },
+        {
+            "Comment": "Returns stats array size ex. 8 in TS , 9 in DoD",
+            "CommentTags": [],
+            "FunctionName": "xmod_get_stats_size",
+            "Function": "native xmod_get_stats_size();"
+        },
+        {
+            "Comment": "Returns 1 if true",
+            "CommentTags": [],
+            "FunctionName": "xmod_is_custom_wpn",
+            "Function": "native xmod_is_custom_wpn(wpnindex);"
+        },
+        {
+            "Comment": "Spawns a Weapon",
+            "CommentTags": [],
+            "FunctionName": "ts_weaponspawn",
+            "Function": "stock ts_weaponspawn(const weaponid[], const duration[], const extraclip[], const spawnflags[], const Float:Origin[3])"
+        }
+    ],
+    "constants": [
+        {
+            "Comment": "*********** Shared Natives Start *******************************",
+            "CommentTags": [],
+            "Constant": ""
+        },
+        {
+            "Comment": "Forward types",
+            "CommentTags": [],
+            "Constant": "enum {\n  XMF_DAMAGE = 0,\n  XMF_DEATH,\n};"
+        },
+        {
+            "Comment": "Custom Weapon Support",
+            "CommentTags": [],
+            "Constant": ""
+        },
+        {
+            "Comment": "*********** Shared Natives End *******************************",
+            "CommentTags": [],
+            "Constant": ""
+        }
+    ]
+}

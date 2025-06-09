@@ -1,0 +1,80 @@
+{
+    "functions": [],
+    "constants": [
+        {
+            "Comment": "Flags for register_cvar()",
+            "CommentTags": [],
+            "Constant": "#define    FCVAR_ARCHIVE        1    /* set to cause it to be saved to vars.rc */\n#define    FCVAR_USERINFO        2    /* changes the client's info string */\n#define    FCVAR_SERVER        4    /* notifies players when changed */\n#define FCVAR_EXTDLL        8    /* defined by external DLL */\n#define FCVAR_CLIENTDLL        16    /* defined by the client dll */\n#define FCVAR_PROTECTED        32    /* It's a server cvar, but we don't send the data since it's a password, etc.  Sends 1 if it's not bland/zero, 0 otherwise as value */\n#define FCVAR_SPONLY        64    /* This cvar cannot be changed by clients connected to a multiplayer server. */\n#define FCVAR_PRINTABLEONLY    128    /* This cvar's string cannot contain unprintable characters ( e.g., used for player name etc ). */\n#define FCVAR_UNLOGGED        256    /* If this is a FCVAR_SERVER, don't log changes to the log file / console if we are creating a log */"
+        },
+        {
+            "Comment": "Id of weapons in CS",
+            "CommentTags": [],
+            "Constant": "#define CSW_P228        1\n#define CSW_SCOUT        3\n#define CSW_HEGRENADE        4\n#define CSW_XM1014        5\n#define CSW_C4            6\n#define CSW_MAC10        7\n#define CSW_AUG            8\n#define CSW_SMOKEGRENADE    9\n#define CSW_ELITE        10\n#define CSW_FIVESEVEN        11\n#define CSW_UMP45        12\n#define CSW_SG550        13\n#define CSW_GALI        14\n#define CSW_GALIL        14\n#define CSW_FAMAS        15\n#define CSW_USP            16\n#define CSW_GLOCK18        17\n#define CSW_AWP            18\n#define CSW_MP5NAVY        19\n#define CSW_M249        20\n#define CSW_M3            21\n#define CSW_M4A1        22\n#define CSW_TMP            23\n#define CSW_G3SG1        24\n#define CSW_FLASHBANG        25\n#define CSW_DEAGLE        26\n#define CSW_SG552        27\n#define CSW_AK47        28\n#define CSW_KNIFE        29\n#define CSW_P90            30\n#define CSW_VEST        31\n#define CSW_VESTHELM    32\n\n#define HIW_BERETTA        1\n#define HIW_SPAS12        2\n#define HIW_M4A1        3\n#define HIW_MP5A4        4\n#define HIW_MP5SD5        5\n#define HIW_AK47        6\n#define HIW_AKS74U        7\n#define HIW_GLOCK        8\n#define HIW_M11            9\n#define HIW_M11SD        10\n#define HIW_PSG1        11\n#define HIW_ZASTAVA        12\n#define HIW_M16A2        13\n#define HIW_REMINGTON        14\n#define HIW_NATOGREN        15\n#define HIW_TANGOGREN        16\n#define HIW_FLASHBANG        17"
+        },
+        {
+            "Comment": "Parts of body for hits",
+            "CommentTags": [],
+            "Constant": "#define HIT_GENERIC        0    /* none */\n#define HIT_HEAD        1\n#define HIT_CHEST        2\n#define HIT_STOMACH        3\n#define HIT_LEFTARM        4\n#define HIT_RIGHTARM        5\n#define HIT_LEFTLEG        6\n#define HIT_RIGHTLEG        7"
+        },
+        {
+            "Comment": "Constants for emit_sound()",
+            "CommentTags": [],
+            "Constant": ""
+        },
+        {
+            "Comment": "Channels",
+            "CommentTags": [],
+            "Constant": "#define CHAN_AUTO        0\n#define CHAN_WEAPON        1\n#define    CHAN_VOICE        2\n#define CHAN_ITEM        3\n#define    CHAN_BODY        4\n#define CHAN_STREAM        5    /* allocate stream channel from the static or dynamic area */\n#define CHAN_STATIC        6    /* allocate channel from the static area  */\n#define CHAN_NETWORKVOICE_BASE    7    /* voice data coming across the network */\n#define CHAN_NETWORKVOICE_END    500    /* network voice data reserves slots (CHAN_NETWORKVOICE_BASE through CHAN_NETWORKVOICE_END). */"
+        },
+        {
+            "Comment": "Attenuation values",
+            "CommentTags": [],
+            "Constant": "#define ATTN_NONE        0.00\n#define    ATTN_NORM        0.80\n#define ATTN_IDLE        2.00\n#define ATTN_STATIC        1.25"
+        },
+        {
+            "Comment": "Pitch values",
+            "CommentTags": [],
+            "Constant": "#define    PITCH_NORM        100    /* non-pitch shifted */\n#define PITCH_LOW        95    /* other values are possible - 0-255, where 255 is very high */\n#define PITCH_HIGH        120"
+        },
+        {
+            "Comment": "Volume values",
+            "CommentTags": [],
+            "Constant": "#define VOL_NORM        1.0"
+        },
+        {
+            "Comment": "Menu keys",
+            "CommentTags": [],
+            "Constant": "#define MENU_KEY_1        (1<<0)\n#define MENU_KEY_2        (1<<1)\n#define MENU_KEY_3        (1<<2)\n#define MENU_KEY_4        (1<<3)\n#define MENU_KEY_5        (1<<4)\n#define MENU_KEY_6        (1<<5)\n#define MENU_KEY_7        (1<<6)\n#define MENU_KEY_8        (1<<7)\n#define MENU_KEY_9        (1<<8)\n#define MENU_KEY_0        (1<<9)\n\n#define LANG_SERVER        0\n#define LANG_PLAYER        -1"
+        },
+        {
+            "Comment": "Destination types for client_print()",
+            "CommentTags": [],
+            "Constant": "enum {\n    print_notify = 1,\n    print_console,\n    print_chat,\n    print_center,\n};"
+        },
+        {
+            "Comment": "Destination types for engclient_print()",
+            "CommentTags": [],
+            "Constant": "enum {\n    engprint_console = 0,\n    engprint_center,\n    engprint_chat,\n};"
+        },
+        {
+            "Comment": "Render for set_user_rendering()",
+            "CommentTags": [],
+            "Constant": "enum {\n    kRenderNormal = 0,        /* src */\n    kRenderTransColor,        /* c*a+dest*(1-a) */\n    kRenderTransTexture,        /* src*a+dest*(1-a) */\n    kRenderGlow,            /* src*a+dest -- No Z buffer checks */\n    kRenderTransAlpha,        /* src*srca+dest*(1-srca) */\n    kRenderTransAdd,        /* src*a+dest */\n};"
+        },
+        {
+            "Comment": "Fx for set_user_rendering()",
+            "CommentTags": [],
+            "Constant": "enum {\n    kRenderFxNone = 0,\n    kRenderFxPulseSlow,\n    kRenderFxPulseFast,\n    kRenderFxPulseSlowWide,\n    kRenderFxPulseFastWide,\n    kRenderFxFadeSlow,\n    kRenderFxFadeFast,\n    kRenderFxSolidSlow,\n    kRenderFxSolidFast,\n    kRenderFxStrobeSlow,\n    kRenderFxStrobeFast,\n    kRenderFxStrobeFaster,\n    kRenderFxFlickerSlow,\n    kRenderFxFlickerFast,\n    kRenderFxNoDissipation,\n    kRenderFxDistort,        /* Distort/scale/translate flicker */\n    kRenderFxHologram,        /* kRenderFxDistort + distance fade */\n    kRenderFxDeadPlayer,        /* kRenderAmt is the player index */\n    kRenderFxExplode,        /* Scale up really big! */\n    kRenderFxGlowShell,        /* Glowing Shell */\n    kRenderFxClampMinScale,        /* Keep this sprite from getting very small (SPRITES only!) */\n};"
+        },
+        {
+            "Comment": "Type for force_unmodified()",
+            "CommentTags": [],
+            "Constant": "enum {\n    force_exactfile = 0,        /* File on client must exactly match server's file */\n    force_model_samebounds,        /* For model files only, the geometry must fit in the same bbox */\n    force_model_specifybounds,    /* For model files only, the geometry must fit in the specified bbox */\n};"
+        },
+        {
+            "Comment": "Status for get_module()",
+            "CommentTags": [],
+            "Constant": "enum {\n    module_none = 0,\n    module_query,\n    module_badload,\n    module_loaded,\n    module_noinfo,\n    module_noquery,\n    module_noattach,\n    module_old,\n};\n\n#define AMX_FLAG_DEBUG    0x02  /* symbolic info. available */\n#define AMX_FLAG_COMPACT  0x04  /* compact encoding */\n#define AMX_FLAG_BYTEOPC  0x08  /* opcode is a byte (not a cell) */\n#define AMX_FLAG_NOCHECKS 0x10  /* no array bounds checking; no STMT opcode */\n#define AMX_FLAG_OLDFILE  0x20    /* Old AMX Mod plugin */\n#define AMX_FLAG_NTVREG 0x1000  /* all native functions are registered */\n#define AMX_FLAG_JITC   0x2000  /* abstract machine is JIT compiled */\n#define AMX_FLAG_BROWSE 0x4000  /* busy browsing */\n#define AMX_FLAG_RELOC  0x8000  /* jump/call addresses relocated */\n\n#define INVALID_PLUGIN_ID    -1\n\n#define MENU_EXIT    -3\n#define    MENU_BACK    -2\n#define MENU_MORE    -1\n#define    ITEM_IGNORE        0\n#define    ITEM_ENABLED    1\n#define ITEM_DISABLED    2\n\n#define    AMX_ERR_NATIVE        10\n#define    AMX_ERR_MEMACCESS    5\n#define    AMX_ERR_NONE        0\n#define AMX_ERR_BOUNDS        4\n#define AMX_ERR_STACKERR    3\n#define AMX_ERR_STACKLOW    7\n#define AMX_ERR_HEAPLOW        8\n#define AMX_ERR_DIVIDE        11\n#define AMX_ERR_NOTFOUND    19\n#define AMX_ERR_PARAMS        25\n#define AMX_ERR_GENERAL        27\n\n#define    INVALID_HANDLE        -1\n\n#define ET_IGNORE        0    //ignore return val\n#define ET_STOP            1    //stop on PLUGIN_HANDLED\n#define ET_STOP2        2    //same, except return biggest\n#define ET_CONTINUE        3    //no stop, return biggest\n\n#define FP_CELL            0\n#define FP_FLOAT        1\n#define FP_STRING        2\n#define FP_ARRAY        4\n\n#define FORWARD_ONLY_OLD    1\n#define FORWARD_ONLY_NEW    2\n#define FORWARD_ALL        3\n\n#define SND_SPAWNING        (1<<8)        // we're spawing, used in some cases for ambients \n#define SND_STOP        (1<<5)        // stop sound\n#define SND_CHANGE_VOL        (1<<6)        // change sound vol\n#define SND_CHANGE_PITCH    (1<<7)        // change sound pitch\n\nenum LibType\n{\n    LibType_Library,\n    LibType_Class\n};\n\nenum AdminProp\n{\n    AdminProp_Auth = 0,\n    AdminProp_Password,\n    AdminProp_Access,\n    AdminProp_Flags\n};"
+        }
+    ]
+}

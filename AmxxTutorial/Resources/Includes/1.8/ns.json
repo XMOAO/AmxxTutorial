@@ -1,0 +1,1405 @@
+{
+    "functions": [
+        {
+            "Comment": "Called whenever the client's class is changed.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The index of the player who changed."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "newclass",
+                    "Description": "The class the client changed to.  Check the class enum in ns_const.inc."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "oldclass",
+                    "Description": "The class the client changed from.  Check the class enum in ns_const.inc."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "client_changeclass",
+            "Function": "forward client_changeclass(id, newclass, oldclass);"
+        },
+        {
+            "Comment": "Called whenever the client builds a structure.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "idPlayer",
+                    "Description": "The player index who triggered the building."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "idStructure",
+                    "Description": "The structure index that was created."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "type",
+                    "Description": "The type of structure that was built (1 for marine, 2 for alien)."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "impulse",
+                    "Description": "The impulse command that was issued to build this structure."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "client_built",
+            "Function": "forward client_built(idPlayer, idStructure, type, impulse);"
+        },
+        {
+            "Comment": "Tell whether or not the map is combat.",
+            "CommentTags": [
+                {
+                    "Tag": "return",
+                    "Description": "1 if combat, 0 otherwise."
+                }
+            ],
+            "FunctionName": "ns_is_combat",
+            "Function": "native ns_is_combat();"
+        },
+        {
+            "Comment": "Returns the gameplay type for the currently active map.\nRefer to ns_const.inc's NSGameplay enum for details.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "The earliest this is guaranteed to be accurate is during plugin_init().  It needs\n          the info_gameplay entity to be properly set within the map, or it will return \"Unknown\",\n          or \"Cantfind\"."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "Return the gameplay mode, as accurate as the module can tell."
+                }
+            ],
+            "FunctionName": "NSGameplay:ns_get_gameplay",
+            "Function": "native NSGameplay:ns_get_gameplay();"
+        },
+        {
+            "Comment": "Exact syntax as get_user_team, but should be more accurate.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "Player id."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "buff",
+                    "Description": "Buffer to store team name in."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "len",
+                    "Description": "Buffer length."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The pev_team setting for the player."
+                }
+            ],
+            "FunctionName": "ns_get_user_team",
+            "Function": "native ns_get_user_team(id, buff[], len);"
+        },
+        {
+            "Comment": "Send an NS-style popup message.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "target",
+                    "Description": "The client to receive the message.  Set to 0 to send to everybody."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "szMsg",
+                    "Description": "The message to send, 180 characters max."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "ah",
+                    "Description": "Whether to only display the message on clients who have the cvar \"cl_autohelp\" set to 1."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_popup",
+            "Function": "native ns_popup(target, const szMsg[180], ah=0);"
+        },
+        {
+            "Comment": "Sets a player model.  Omit the second parameter to return to default",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "The model does not revert on death, teamswitch, gestation, etc."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player id to change."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "szModel",
+                    "Description": "The model to change to."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_player_model",
+            "Function": "native ns_set_player_model(id, const szModel[]=\"\");"
+        },
+        {
+            "Comment": "Sets a player skin.  Omit the second parameter to return to default",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "The skin does not revert on death, teamswitch, gestation, etc."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player id to change."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "skin",
+                    "Description": "The skin number to change to."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_player_skin",
+            "Function": "native ns_set_player_skin(id, skin=-1);"
+        },
+        {
+            "Comment": "Sets a player body.  Omit the second parameter to return to default",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "The body does not revert on death, teamswitch, gestation, etc."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player id to change."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "body",
+                    "Description": "The body number to change to."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_player_body",
+            "Function": "native ns_set_player_body(id, body=-1);"
+        },
+        {
+            "Comment": "Set this to modify the player's speed by a certain amount.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "The speed does not revert on death, teamswitch, gestation, etc."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player id to change."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "speedchange",
+                    "Description": "The speed to modify the player speed by.  Set to 0 to revert to default speed."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_speedchange",
+            "Function": "native ns_set_speedchange(id, speedchange=0);"
+        },
+        {
+            "Comment": "Returns a client's current speed modifier.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The client id to check."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The module's current speed modifier for the client."
+                }
+            ],
+            "FunctionName": "ns_get_speedchange",
+            "Function": "native ns_get_speedchange(id);"
+        },
+        {
+            "Comment": "Returns a client's maxspeed before the speed change modifier is factored in.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The client id to check."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The maxspeed for the client."
+                }
+            ],
+            "FunctionName": "ns_get_maxspeed",
+            "Function": "native ns_get_maxspeed(id);"
+        },
+        {
+            "Comment": "Returns whether or not this mask is set from the entity's iuser4 field.  Use the \"mask\" enum for reference.",
+            "CommentTags": [],
+            "FunctionName": "ns_get_mask",
+            "Function": "native ns_get_mask(id,mask);"
+        },
+        {
+            "Comment": "Sets or removes the mask from the entity's iuser4 field. Set \"value\" to 1 to turn the mask on, 0 to turn it off.",
+            "CommentTags": [],
+            "FunctionName": "ns_set_mask",
+            "Function": "native ns_set_mask(id,mask,value);"
+        },
+        {
+            "Comment": "Returns built/unbuilt structures.\nIf:\nbuiltOnly is 1 (default):\nOnly fully built structures are counted.\nbuiltOnly is 0:\nAny structure meeting the classname is counted.\n\nNumber is 0 (default):\nThe total number of matching structures is returned.\nNumber is any other value:\nThe index of the #th matching structure is returned.",
+            "CommentTags": [],
+            "FunctionName": "ns_get_build",
+            "Function": "native ns_get_build(const classname[],builtOnly=1,Number=0);"
+        },
+        {
+            "Comment": "Returns if the player has the weapon or not in their pev->weapons field.\nset \"setweapon\" to 0 to turn the bit off, set to 1 to turn it on. Or omit it to just return the value.",
+            "CommentTags": [],
+            "FunctionName": "ns_has_weapon",
+            "Function": "native ns_has_weapon(id,weapon,setweapon=-1);"
+        },
+        {
+            "Comment": "Gets spawn point for specified team (type).\nIf:\nTeam is equal to 0:\nReady room spawns are returned.\nTeam is greater than 0:\nSpawns for the team are returned.\n\nNumber is equal to 0:\nTotal number of spawns is returned.\nNumber is greater than 0:\nThe location of the specified spawn is returned.",
+            "CommentTags": [],
+            "FunctionName": "ns_get_spawn",
+            "Function": "native ns_get_spawn(team,number=0,Float:ret[3]);"
+        },
+        {
+            "Comment": "Returns the class of the player.  Look in the classes enum in ns_const.inc for the value's meaning.",
+            "CommentTags": [],
+            "FunctionName": "ns_get_class",
+            "Function": "native ns_get_class(id);"
+        },
+        {
+            "Comment": "Gets the player's jetpack fuel reserve.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player to get fuel from."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The amount of fuel in the player's reserve. (0.0 through 100.0)"
+                }
+            ],
+            "FunctionName": "Float:ns_get_jpfuel",
+            "Function": "native Float:ns_get_jpfuel(id);"
+        },
+        {
+            "Comment": "Sets the player's jetpack fuel reserve.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player to set fuel."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "fuel",
+                    "Description": "The amount of fuel to set, as a percentage (0.0 through 100.0)"
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_jpfuel",
+            "Function": "native ns_set_jpfuel(id, Float:fuel);"
+        },
+        {
+            "Comment": "Adds to the player's jetpack fuel reserve.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player to add fuel to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "amount",
+                    "Description": "The amount of fuel to add, as a percentage (0.0 through 100.0)"
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The new amount of fuel in the player's reserve. (0.0 through 100.0)"
+                }
+            ],
+            "FunctionName": "Float:ns_add_jpfuel",
+            "Function": "native Float:ns_add_jpfuel(id, Float:amount);"
+        },
+        {
+            "Comment": "Gets the player's energy percentage.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player to get the energy from."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The amount of energy the player has (0.0 through 100.0)"
+                }
+            ],
+            "FunctionName": "Float:ns_get_energy",
+            "Function": "native Float:ns_get_energy(id);"
+        },
+        {
+            "Comment": "Sets the player's energy percentage.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player to set the energy on."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "energy",
+                    "Description": "The amount of energy to set (0.0 through 100.0)"
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_energy",
+            "Function": "native ns_set_energy(id, Float:energy);"
+        },
+        {
+            "Comment": "Adds to the player's energy percentage.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player to add the energy to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "amount",
+                    "Description": "The amount of energy to add to the player."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The new amount of energy the player has (0.0 through 100.0)"
+                }
+            ],
+            "FunctionName": "Float:ns_add_energy",
+            "Function": "native Float:ns_add_energy(id, Float:amount);"
+        },
+        {
+            "Comment": "Returns a player's resources.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "This is only for alien players."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The id of the player to check."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "Amount of resources this player has."
+                }
+            ],
+            "FunctionName": "Float:ns_get_res",
+            "Function": "native Float:ns_get_res(id);"
+        },
+        {
+            "Comment": "Sets a player's resources.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "This is only for alien players."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The id of the player to set."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "res",
+                    "Description": "Amount of resources to set on this player."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_res",
+            "Function": "native ns_set_res(id, Float:res);"
+        },
+        {
+            "Comment": "Adds an amount of resources to the player.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "This is only for alien players."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The id of the player to add resources to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "amount",
+                    "Description": "The amount to add to the player."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The new amount of resources the player has."
+                }
+            ],
+            "FunctionName": "Float:ns_add_res",
+            "Function": "native Float:ns_add_res(id, Float:amount);"
+        },
+        {
+            "Comment": "Returns the team's resources.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "Team",
+                    "Description": "1 for teama, 2 for teamb. (eg: in MvA maps, 1 is marines,\ns.  In mvm, 1 is marine1, 2 is marine2)"
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The amount of resources in this team's resource pool."
+                }
+            ],
+            "FunctionName": "Float:ns_get_teamres",
+            "Function": "native Float:ns_get_teamres(Team);"
+        },
+        {
+            "Comment": "Sets the team's resources in the resource pool.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "If this is used on an alien team, the resources will be\n              distributed between all of the players who need resources."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "Team",
+                    "Description": "1 for teama, 2 for teamb. (eg: in MvA maps, 1 is marines,\n         2 is aliens.  In mvm, 1 is marine1, 2 is marine2)"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The amount to set the resources to set to."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_teamres",
+            "Function": "native ns_set_teamres(Team, Float:value);"
+        },
+        {
+            "Comment": "Adds to the team's resources in the resource pool.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "If this is used on an alien team, the resources will be\n              distributed between all of the players who need resources."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "Team",
+                    "Description": "1 for teama, 2 for teamb. (eg: in MvA maps, 1 is marines,\n         2 is aliens.  In mvm, 1 is marine1, 2 is marine2)"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The amount to set the resources to add to the pool"
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The new amount of resources in the resource pool."
+                }
+            ],
+            "FunctionName": "Float:ns_add_teamres",
+            "Function": "native Float:ns_add_teamres(Team,Float:value);"
+        },
+        {
+            "Comment": "Returns the player's experience.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "Combat only."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player to get experience value from."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The amount of experience this player has."
+                }
+            ],
+            "FunctionName": "Float:ns_get_exp",
+            "Function": "native Float:ns_get_exp(id);"
+        },
+        {
+            "Comment": "Sets the player's experience.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "Combat only."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player to set experience value on."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "exp",
+                    "Description": "The amount of experience this player will have."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_exp",
+            "Function": "native ns_set_exp(id,Float:exp);"
+        },
+        {
+            "Comment": "Adds to the player's experience.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "Combat only."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player to add experience value to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The amount of experience this player will receive."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The new amount of experience this player has."
+                }
+            ],
+            "FunctionName": "Float:ns_add_exp",
+            "Function": "native Float:ns_add_exp(id, Float:value);"
+        },
+        {
+            "Comment": "Gets the player's points spent count in combat.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player to check."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The amount of points this player has spent."
+                }
+            ],
+            "FunctionName": "ns_get_points",
+            "Function": "native ns_get_points(id);"
+        },
+        {
+            "Comment": "Sets the player's points spent count in combat.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player to set this on."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "points",
+                    "Description": "The amount to set this to."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_points",
+            "Function": "native ns_set_points(id, points);"
+        },
+        {
+            "Comment": "Adds to the player's points spent count in combat.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player to add this to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The value to add to the points spent."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The new value of the points spent variable."
+                }
+            ],
+            "FunctionName": "ns_add_points",
+            "Function": "native ns_add_points(id,points);"
+        },
+        {
+            "Comment": "Gets the damage for this weapon.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "Use weapon index, not player index!"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "idWeapon",
+                    "Description": "The entity index of the weapon to check."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The damage this weapon does."
+                }
+            ],
+            "FunctionName": "Float:ns_get_weap_dmg",
+            "Function": "native Float:ns_get_weap_dmg(idWeapon);"
+        },
+        {
+            "Comment": "Sets the damage for this weapon.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "Use weapon index, not player index!"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "idWeapon",
+                    "Description": "The entity index of the weapon to set."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "damage",
+                    "Description": "The damage to make this weapon cause."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_weap_dmg",
+            "Function": "native ns_set_weap_dmg(idWeapon, Float:damage);"
+        },
+        {
+            "Comment": "Gets the maximum range for this weapon.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "Use weapon index, not player index!"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "idWeapon",
+                    "Description": "The entity index of the weapon to check."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The maximum range this weapon has."
+                }
+            ],
+            "FunctionName": "Float:ns_get_weap_range",
+            "Function": "native Float:ns_get_weap_range(idWeapon);"
+        },
+        {
+            "Comment": "Sets the maximum range for this weapon.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "Use weapon index, not player index!"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "idWeapon",
+                    "Description": "The entity index of the weapon to set."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "range",
+                    "Description": "The maximum range this weapon will have."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_weap_range",
+            "Function": "native ns_set_weap_range(idWeapon, Float:range);"
+        },
+        {
+            "Comment": "Gets the weapon's clip ammo.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "Use weapon index, not player index!"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "idWeapon",
+                    "Description": "The weapon to get the clip ammo from."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The amount of ammunition in the weapon's clip."
+                }
+            ],
+            "FunctionName": "ns_get_weap_clip",
+            "Function": "native ns_get_weap_clip(idWeapon);"
+        },
+        {
+            "Comment": "Sets the weapon's ammo in the clip.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "Use weapon index, not player index!"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "idWeapon",
+                    "Description": "The weapon to set the clip ammo on."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "clipsize",
+                    "Description": "The amount of ammunition to set in the weapon's clip."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_weap_clip",
+            "Function": "native ns_set_weap_clip(idWeapon, clipsize);"
+        },
+        {
+            "Comment": "Gets the player's weapon reserve (backpack ammo) for the specified\ntype of weapon.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "Use player index, not weapon index!"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player id to check ammo count on."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "weapon",
+                    "Description": "The weapon type to check ammo count for."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The ammunition count in the player's reserve."
+                }
+            ],
+            "FunctionName": "ns_get_weap_reserve",
+            "Function": "native ns_get_weap_reserve(id,weapon);"
+        },
+        {
+            "Comment": "Sets the player's weapon reserve (backpack ammo) for the specified\ntype of weapon.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "Use player index, not weapon index!"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player id to set ammo count on."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "weapon",
+                    "Description": "The weapon type to set ammo count for."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "ammo",
+                    "Description": "The ammunition count to set."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_weap_reserve",
+            "Function": "native ns_set_weap_reserve(id,weapon,ammo);"
+        },
+        {
+            "Comment": "Gets the player's score.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "The score from level is automatically factored into the scoreboard in combat."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "idPlayer",
+                    "Description": "The player to get the score for."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The player's score."
+                }
+            ],
+            "FunctionName": "ns_get_score",
+            "Function": "native ns_get_score(idPlayer);"
+        },
+        {
+            "Comment": "Sets the player's score.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "The score from level is automatically factored into the scoreboard in combat."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "idPlayer",
+                    "Description": "The player to get the score for."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "score",
+                    "Description": "What to set the player's score as."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_set_score",
+            "Function": "native ns_set_score(idPlayer, score);"
+        },
+        {
+            "Comment": "Adds to a player's score\nReturns the new score on success",
+            "CommentTags": [],
+            "FunctionName": "ns_add_score",
+            "Function": "native ns_add_score(idPlayer,score);"
+        },
+        {
+            "Comment": "Gets a player's death count.",
+            "CommentTags": [],
+            "FunctionName": "ns_get_deaths",
+            "Function": "native ns_get_deaths(idPlayer);"
+        },
+        {
+            "Comment": "Sets a player's death count.",
+            "CommentTags": [],
+            "FunctionName": "ns_set_deaths",
+            "Function": "native ns_set_deaths(idPlayer,numdeaths);"
+        },
+        {
+            "Comment": "Adds to a player's death count\nReturns the new death count on success",
+            "CommentTags": [],
+            "FunctionName": "ns_add_deaths",
+            "Function": "native ns_add_deaths(idPlayer,numdeaths);"
+        },
+        {
+            "Comment": "Gets the index of the owner of a structure. -1 for no owner.",
+            "CommentTags": [],
+            "FunctionName": "ns_get_struct_owner",
+            "Function": "native ns_get_struct_owner(idStructsure);"
+        },
+        {
+            "Comment": "Sets the index of the owner of a structure. -1 for no owner.",
+            "CommentTags": [],
+            "FunctionName": "ns_set_struct_owner",
+            "Function": "native ns_set_struct_owner(idStructure,indexOwner);"
+        },
+        {
+            "Comment": "Gets the trait type tied to the hive.  Look at the hivetrait enum for the values.",
+            "CommentTags": [],
+            "FunctionName": "ns_get_hive_trait",
+            "Function": "native ns_get_hive_trait(idHive);"
+        },
+        {
+            "Comment": "Sets the trait type tied to the hive.  Look at the hivetrait enum for the values.",
+            "CommentTags": [],
+            "FunctionName": "ns_set_hive_trait",
+            "Function": "native ns_set_hive_trait(idHive,trait);"
+        },
+        {
+            "Comment": "Sets the players field of view, set \"_fov\" to 0.0 (or omit it) to return to normal. FOV change will persist until disconnect unless reset by a plugin",
+            "CommentTags": [],
+            "FunctionName": "ns_set_fov",
+            "Function": "native ns_set_fov(idPlayer,Float:_fov=0.0);"
+        },
+        {
+            "Comment": "Give the player an item.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The player to give the item to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "class",
+                    "Description": "The map-classname of the entity to give to the player."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "ns_give_item",
+            "Function": "native ns_give_item(id, const class[]);"
+        },
+        {
+            "Comment": "Returns 1 if a player has the hive ability number.\nIf ability is 0, it will return the number of active hives.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "idPlayer",
+                    "Description": "The player index to look up."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "ability",
+                    "Description": "The ability number to check, set to 0 to get number of active hives."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "If ability is != 0, returns 1 or 0 depending on if the client has the ability.\n            If ability is 0, returns the number of active hives."
+                }
+            ],
+            "FunctionName": "ns_get_hive_ability",
+            "Function": "native ns_get_hive_ability(idPlayer, ability=0);"
+        },
+        {
+            "Comment": "Triggered whenever a client's pev->team changes.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The id of the client."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "newteam",
+                    "Description": "The team number of the new team."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "oldteam",
+                    "Description": "The team number of the old team."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "client_changeteam",
+            "Function": "forward client_changeteam(id, newteam, oldteam);"
+        },
+        {
+            "Comment": "Triggered whenever a client's pev->deadflag changes from >0 to 0.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The id of the client."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "client_spawn",
+            "Function": "forward client_spawn(id);"
+        },
+        {
+            "Comment": "Calls NS's private damage routine on the victim entity.",
+            "CommentTags": [
+                {
+                    "Tag": "deprecated",
+                    "Description": ""
+                },
+                {
+                    "Tag": "note",
+                    "Description": "This is provided for backwards compatibility with peachy's module.\n          It is suggested to use hamsandwich for this action instead."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "IDVictim",
+                    "Description": "The victim that is taking the damage."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "IDInflictor",
+                    "Description": "The entity that is causing the damage (weapon, etc)."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "IDAttacker",
+                    "Description": "The attacker who is triggering the damage (person shooting)."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "Damage",
+                    "Description": "The amount of damage being done."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "DamageType",
+                    "Description": "The damage type being done (bitmask)."
+                }
+            ],
+            "FunctionName": "ns_takedamage",
+            "Function": "native ns_takedamage(IDVictim, IDInflictor, IDAttacker, Float:Damage, DamageType);"
+        },
+        {
+            "Comment": "Attempts to unstick a player.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "Player to unstick."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "StartDistance",
+                    "Description": "Distance to start from the player to check for a new location."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "MaxAttempts",
+                    "Description": "How many attempts to try to find a new spot before giving up."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "1 on success, 0 on cannot find a place to move player to,\n                    -1 on invalid state (stunned/webbed), -2 on invalid class (comm/egg)\n                    -3 if the player is dead or a spectator, -4 on invalid player,\n                    -5 if the player is not connected."
+                }
+            ],
+            "FunctionName": "ns_unstick_player",
+            "Function": "native ns_unstick_player(id, StartDistance=32, MaxAttempts=128);"
+        },
+        {
+            "Comment": "Whether or not there is a game in progress.",
+            "CommentTags": [
+                {
+                    "Tag": "return",
+                    "Description": "true if a game is in progress, false otherwise."
+                }
+            ],
+            "FunctionName": "bool:ns_round_in_progress",
+            "Function": "native bool:ns_round_in_progress();"
+        },
+        {
+            "Comment": "Called at the approximate time that a round is started.",
+            "CommentTags": [
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "round_start",
+            "Function": "forward round_start();"
+        },
+        {
+            "Comment": "Called immediately when a round ends",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "roundtime",
+                    "Description": "The length of the round in seconds."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "round_end",
+            "Function": "forward round_end(Float:roundtime);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "forward map_reset(isload);",
+            "FunctionName": "map_reset"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_get_weapon(idPlayer,weaponid,&weapontype=0);",
+            "FunctionName": "ns_get_weapon"
+        },
+        {
+            "Comment": "Returns the location name of the provided x/y position\n(z origin is ignored; can't have location over location)\n-\nNote that as of NS 3.2 beta 2, on the following maps\nthe returned string should be passed through ns_lookup_title\nto be human readable:\n  ns_bast, ns_hera, ns_nothing, ns_tanith,\n  ns_nancy, ns_caged, ns_eclipse, ns_veil\n\nPassing the 5th parameter as non zero will auto look up\nthe title if it exists.",
+            "CommentTags": [],
+            "FunctionName": "ns_get_locationname",
+            "Function": "native ns_get_locationname(Float:x, Float:y, name[], len, titlelookup=0);"
+        },
+        {
+            "Comment": "Looks up a key from titles.txt\nReturns -1 if the key is not found\nOtherwise it returns the length of the output",
+            "CommentTags": [],
+            "FunctionName": "ns_lookup_title",
+            "Function": "native ns_lookup_title(const KeyName[], Output[], length);"
+        },
+        {
+            "Comment": "Forces the structure to fully build\nRemoves the ghost state from marine structures.\nDo not use this on hives! It wont work.",
+            "CommentTags": [],
+            "FunctionName": "ns_build_structure",
+            "Function": "native ns_build_structure(idStructure);"
+        },
+        {
+            "Comment": "Forces the structure to begin recycling\nPassing an index other than a marine structure will\nhave undefined results!\n-\nNote: This calls a private NS function!\n      Be careful when using this!",
+            "CommentTags": [],
+            "FunctionName": "ns_recycle",
+            "Function": "native ns_recycle(idStructure);"
+        },
+        {
+            "Comment": "Forces the weldable to trigger\nPassing an index other than a weldable\nwill have undefined results!\n-\nNS renames func_weldable to avhweldable\nat map load.\n-\nNote: This calls a private NS function!\n      Be careful when using this!",
+            "CommentTags": [],
+            "FunctionName": "ns_finish_weldable",
+            "Function": "native ns_finish_weldable(idWeldable);"
+        },
+        {
+            "Comment": "Gets the total time needed to weld this\nfunc_weldable shut.\nNote: NS renames \"func_weldable\"s to \"avhweldable\"s\nat run time!",
+            "CommentTags": [],
+            "FunctionName": "Float:ns_get_weld_time",
+            "Function": "native Float:ns_get_weld_time(idWeldable);"
+        },
+        {
+            "Comment": "Sets the total time needed to weld this\nfunc_weldable shut.",
+            "CommentTags": [],
+            "FunctionName": "ns_set_weld_time",
+            "Function": "native ns_set_weld_time(idWeldable,Float:value);"
+        },
+        {
+            "Comment": "Adds to the weldable's time required to open.\nReturns the new required time on success.\nNote this native clamps the low value to 0.",
+            "CommentTags": [],
+            "FunctionName": "Float:ns_add_weld_time",
+            "Function": "native Float:ns_add_weld_time(idWeldable,Float:value);"
+        },
+        {
+            "Comment": "Gets the total time this func_weldable\nhas been welded.",
+            "CommentTags": [],
+            "FunctionName": "Float:ns_get_weld_done",
+            "Function": "native Float:ns_get_weld_done(idWeldable);"
+        },
+        {
+            "Comment": "Sets the total time this func_weldable\nhas been welded.",
+            "CommentTags": [],
+            "FunctionName": "ns_set_weld_done",
+            "Function": "native ns_set_weld_done(idWeldable,Float:value);"
+        },
+        {
+            "Comment": "Adds to the total time this func_weldable\nhas been welded.  Returns the new value.\nNote this native clamps the low value to 0.0",
+            "CommentTags": [],
+            "FunctionName": "Float:ns_add_weld_done",
+            "Function": "native Float:ns_add_weld_done(idWeldable,Float:value);"
+        },
+        {
+            "Comment": "Gets/sets/adds to the energy pool of this observatory.",
+            "CommentTags": [],
+            "FunctionName": "Float:ns_get_obs_energy",
+            "Function": "native Float:ns_get_obs_energy(idObs);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_obs_energy(idObs,Float:value);",
+            "FunctionName": "ns_set_obs_energy"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:ns_add_obs_energy(idObs,Float:value);",
+            "FunctionName": "Float:ns_add_obs_energy"
+        },
+        {
+            "Comment": "Removes an upgrade from the player's bought and active upgrade lists.\nThis will not refund the points spent on the upgrade, nor will it\nimmediately strip the upgrade if the player is alive.  Rather, it will\nmake it so the player no longer receives the upgrade on spawn.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "This only works in combat."
+                },
+                {
+                    "Tag": "params",
+                    "Description": "idPlayer        The player index to change upgrades for."
+                },
+                {
+                    "Tag": "params",
+                    "Description": "ugprade        The impulse number for the upgrade to strip."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "2 for upgrade removed from player's bought and active list.\n                1 for upgrade removed from player's bought list only.\n                3 for upgrade removed from player's active list only (shouldn't happen, just incase.)\n                0 for the player didn't have the upgrade in either list."
+                }
+            ],
+            "FunctionName": "ns_remove_upgrade",
+            "Function": "native ns_remove_upgrade(idPlayer, upgrade);"
+        },
+        {
+            "Comment": "Creates a handle to the a particle system to configure\n-\nNote! this is not a particle system you can pass to\nns_fire_ps()!",
+            "CommentTags": [],
+            "FunctionName": "RawPS:ns_create_ps",
+            "Function": "native RawPS:ns_create_ps();"
+        },
+        {
+            "Comment": "Sets the name of the particle system.\n-\nThis is used for things like ns_get_ps_id()\nand through calling another particle system\nthrough the \"ps_to_gen\" field",
+            "CommentTags": [],
+            "FunctionName": "ns_set_ps_name",
+            "Function": "native ns_set_ps_name(RawPS:system, const name[]);"
+        },
+        {
+            "Comment": "Sets the sprite to use for the particle system\n-\nYou do NOT have to precache the sprite, BUT\nthe sprite must obviously be on the client to\ndisplay.",
+            "CommentTags": [],
+            "FunctionName": "ns_set_ps_sprite",
+            "Function": "native ns_set_ps_sprite(RawPS:system, const sprite[]);"
+        },
+        {
+            "Comment": "Finalizes the particle system.  Do not configure it after this.\nA usable particle system handle is returned.",
+            "CommentTags": [],
+            "FunctionName": "Particle:ns_spawn_ps",
+            "Function": "native Particle:ns_spawn_ps(RawPS:system);"
+        },
+        {
+            "Comment": "Draws a particle system at the given origin (and angles)\nFlags are the FEV_* defines from hlsdk_const.inc\nOnly use handles returned by ns_spawn_ps or ns_get_ps_id here!",
+            "CommentTags": [],
+            "FunctionName": "ns_fire_ps",
+            "Function": "native ns_fire_ps(Particle:system,const Float:origin[3],const Float:angles[3]={0.0,0.0,0.0}, flags=0);"
+        },
+        {
+            "Comment": "Looks up a particle system by name\nReturns a usable particle system handle.",
+            "CommentTags": [],
+            "FunctionName": "Particle:ns_get_ps_id",
+            "Function": "native Particle:ns_get_ps_id(const Name[]);"
+        },
+        {
+            "Comment": "The following are the parameters for configuring the\nparticle system.  Look through the fgd and NSPSEdit\nfor details!",
+            "CommentTags": [],
+            "FunctionName": "ns_set_ps_genrate",
+            "Function": "native ns_set_ps_genrate(RawPS:system, genrate);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_genshape(RawPS:system, NSPS_GenShape:genshape);",
+            "FunctionName": "ns_set_ps_genshape"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_genshape_params(RawPS:system, const params[]);",
+            "FunctionName": "ns_set_ps_genshape_params"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_spriteframes(RawPS:system, spriteframes);",
+            "FunctionName": "ns_set_ps_spriteframes"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_numparticles(RawPS:system, numparticles);",
+            "FunctionName": "ns_set_ps_numparticles"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_size(RawPS:system, Float:size);",
+            "FunctionName": "ns_set_ps_size"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_vel_params(RawPS:system, const params[]);",
+            "FunctionName": "ns_set_ps_vel_params"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_vel_shape(RawPS:system, NSPS_VelShape:shape);",
+            "FunctionName": "ns_set_ps_vel_shape"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_sys_life(RawPS:system, Float:lifetime);",
+            "FunctionName": "ns_set_ps_sys_life"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_particle_life(RawPS:system, Float:lifetime);",
+            "FunctionName": "ns_set_ps_particle_life"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_rendermode(RawPS:system, NSPS_RenderMode:rendermode);",
+            "FunctionName": "ns_set_ps_rendermode"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_to_gen(RawPS:system, const name[]);",
+            "FunctionName": "ns_set_ps_to_gen"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_anim_speed(RawPS:system, speed);",
+            "FunctionName": "ns_set_ps_anim_speed"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_spawn_flags(RawPS:system, NSPS_Flags:flags);",
+            "FunctionName": "ns_set_ps_spawn_flags"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_base_color(RawPS:system, const colors[]);",
+            "FunctionName": "ns_set_ps_base_color"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_scale(RawPS:system, Float:scale);",
+            "FunctionName": "ns_set_ps_scale"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ns_set_ps_max_alpha(RawPS:system, Float:maxalpha);",
+            "FunctionName": "ns_set_ps_max_alpha"
+        }
+    ],
+    "constants": [
+        {
+            "Comment": "Particle system natives\n-\nThe particle system emulates a map-based custom particle system.\nFamiliarity with the keyvalues from the map-based particle systems\nis recommended! You will be lost otherwise!\n-\nprsearle's NSPEdit is also recommended for designing the systems:\nhttp://homepage.ntlworld.com/pr.searle/NSPSEdit/NSPSEdit.html",
+            "CommentTags": [],
+            "Constant": ""
+        }
+    ]
+}

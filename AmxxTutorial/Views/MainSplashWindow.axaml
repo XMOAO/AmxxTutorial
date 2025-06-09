@@ -1,0 +1,10 @@
+<ursa:SplashWindow 
+        x:Class="AmxxTutorial.Views.MainSplashWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ursa="https://irihi.tech/ursa"           
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
+        Title="MainSplashWindow">
+</ursa:SplashWindow>

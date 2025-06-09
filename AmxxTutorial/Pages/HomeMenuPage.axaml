@@ -5,7 +5,6 @@
     xmlns:vm="clr-namespace:AmxxTutorial.ViewModels"
     xmlns:conv="clr-namespace:AmxxTutorial.Converters"
     xmlns:ctrls="clr-namespace:AmxxTutorial.Controls"
-    xmlns:icon="clr-namespace:AmxxTutorial.MarkupExtensions"
     xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
     x:Class="AmxxTutorial.Pages.HomeMenuPage"
     x:DataType="vm:HomeMenuPageViewModel">
@@ -48,7 +47,7 @@
 
                   <PathIcon
                       Theme="{DynamicResource InnerPathIcon}"
-                      Data="{icon:Icon Key=SemiIconBookOpenStroked}"
+                      Data="{StaticResource SemiIconBookOpenStroked}"
                       Width="48" Height="48"
                       Margin="-48,-15,0,0"
                       IsVisible="{Binding ResourceKey, Converter={x:Static conv:StringConverter.StringEquals}, ConverterParameter=SemiIconArticle}"/>

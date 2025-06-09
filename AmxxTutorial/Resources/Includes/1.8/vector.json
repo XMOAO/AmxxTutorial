@@ -1,0 +1,65 @@
+{
+    "functions": [
+        {
+            "Comment": "Returns distance between two vectors.",
+            "CommentTags": [],
+            "FunctionName": "get_distance",
+            "Function": "native get_distance(const origin1[3], const origin2[3]);"
+        },
+        {
+            "Comment": "Gets distance between two origins (float).",
+            "CommentTags": [],
+            "FunctionName": "Float:get_distance_f",
+            "Function": "native Float:get_distance_f(const Float:Origin1[3], const Float:Origin2[3]);"
+        },
+        {
+            "Comment": "Gives you a velocity in the direction a player is looking, iVelocity is the multiplier.",
+            "CommentTags": [],
+            "FunctionName": "velocity_by_aim",
+            "Function": "native velocity_by_aim(iIndex, iVelocity, Float:vRetValue[3]);"
+        },
+        {
+            "Comment": "Changes a vector into an angle vector.",
+            "CommentTags": [],
+            "FunctionName": "vector_to_angle",
+            "Function": "native vector_to_angle(const Float:fVector[3], Float:vReturn[3]);"
+        },
+        {
+            "Comment": "Changes an angle vector into a vector.",
+            "CommentTags": [],
+            "FunctionName": "angle_vector",
+            "Function": "native angle_vector(const Float:vector[3], FRU, Float:ret[3]);"
+        },
+        {
+            "Comment": "Gets the length of a vector (float[3]).",
+            "CommentTags": [],
+            "FunctionName": "Float:vector_length",
+            "Function": "native Float:vector_length(const Float:vVector[3]);"
+        },
+        {
+            "Comment": "Gets the distance between 2 vectors (float[3]).",
+            "CommentTags": [],
+            "FunctionName": "Float:vector_distance",
+            "Function": "native Float:vector_distance(const Float:vVector[3], const Float:vVector2[3]);"
+        },
+        {
+            "Comment": "Changes an integer vec to a floating vec\nThis is not a for loop because that's slower",
+            "CommentTags": [],
+            "FunctionName": "IVecFVec",
+            "Function": "stock IVecFVec(const IVec[3], Float:FVec[3])"
+        },
+        {
+            "Comment": "Changes a float vec to an integer vec",
+            "CommentTags": [],
+            "FunctionName": "FVecIVec",
+            "Function": "stock FVecIVec(const Float:FVec[3], IVec[3])"
+        }
+    ],
+    "constants": [
+        {
+            "Comment": "Used for angle_vector()",
+            "CommentTags": [],
+            "Constant": "#define ANGLEVECTOR_FORWARD      1\n#define ANGLEVECTOR_RIGHT        2\n#define ANGLEVECTOR_UP           3"
+        }
+    ]
+}

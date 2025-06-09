@@ -1,0 +1,35 @@
+{
+    "functions": [],
+    "constants": [
+        {
+            "Comment": "Int",
+            "CommentTags": [],
+            "Constant": "enum {\n    EV_INT_gamestate = 0,\n    EV_INT_oldbuttons,\n    EV_INT_groupinfo,\n    EV_INT_iuser1,\n    EV_INT_iuser2,\n    EV_INT_iuser3,\n    EV_INT_iuser4,\n    EV_INT_weaponanim,\n    EV_INT_pushmsec,\n    EV_INT_bInDuck,\n    EV_INT_flTimeStepSound,\n    EV_INT_flSwimTime,\n    EV_INT_flDuckTime,\n    EV_INT_iStepLeft,\n    EV_INT_movetype,\n    EV_INT_solid,\n    EV_INT_skin,\n    EV_INT_body,\n    EV_INT_effects,\n    EV_INT_light_level,\n    EV_INT_sequence,\n    EV_INT_gaitsequence,\n    EV_INT_modelindex,\n    EV_INT_playerclass,\n    EV_INT_waterlevel,\n    EV_INT_watertype,\n    EV_INT_spawnflags,\n    EV_INT_flags,\n    EV_INT_colormap,\n    EV_INT_team,\n    EV_INT_fixangle,\n    EV_INT_weapons,\n    EV_INT_rendermode,\n    EV_INT_renderfx,\n    EV_INT_button,\n    EV_INT_impulse,\n    EV_INT_deadflag,\n};"
+        },
+        {
+            "Comment": "Float",
+            "CommentTags": [],
+            "Constant": "enum {\n    EV_FL_impacttime = 0,\n    EV_FL_starttime,\n    EV_FL_idealpitch,\n    EV_FL_pitch_speed,\n    EV_FL_ideal_yaw,\n    EV_FL_yaw_speed,\n    EV_FL_ltime,\n    EV_FL_nextthink,\n    EV_FL_gravity,\n    EV_FL_friction,\n    EV_FL_frame,\n    EV_FL_animtime,\n    EV_FL_framerate,\n    EV_FL_health,\n    EV_FL_frags,\n    EV_FL_takedamage,\n    EV_FL_max_health,\n    EV_FL_teleport_time,\n    EV_FL_armortype,\n    EV_FL_armorvalue,\n    EV_FL_dmg_take,\n    EV_FL_dmg_save,\n    EV_FL_dmg,\n    EV_FL_dmgtime,\n    EV_FL_speed,\n    EV_FL_air_finished,\n    EV_FL_pain_finished,\n    EV_FL_radsuit_finished,\n    EV_FL_scale,\n    EV_FL_renderamt,\n    EV_FL_maxspeed,\n    EV_FL_fov,\n    EV_FL_flFallVelocity,\n    EV_FL_fuser1,\n    EV_FL_fuser2,\n    EV_FL_fuser3,\n    EV_FL_fuser4,\n};"
+        },
+        {
+            "Comment": "Vector",
+            "CommentTags": [],
+            "Constant": "enum {\n    EV_VEC_origin = 0,\n    EV_VEC_oldorigin,\n    EV_VEC_velocity,\n    EV_VEC_basevelocity,\n    EV_VEC_clbasevelocity,\n    EV_VEC_movedir,\n    EV_VEC_angles,\n    EV_VEC_avelocity,\n    EV_VEC_punchangle,\n    EV_VEC_v_angle,\n    EV_VEC_endpos,\n    EV_VEC_startpos,\n    EV_VEC_absmin,\n    EV_VEC_absmax,\n    EV_VEC_mins,\n    EV_VEC_maxs,\n    EV_VEC_size,\n    EV_VEC_rendercolor,\n    EV_VEC_view_ofs,\n    EV_VEC_vuser1,\n    EV_VEC_vuser2,\n    EV_VEC_vuser3,\n    EV_VEC_vuser4,\n};"
+        },
+        {
+            "Comment": "Edict",
+            "CommentTags": [],
+            "Constant": "enum {\n    EV_ENT_chain = 0,\n    EV_ENT_dmg_inflictor,\n    EV_ENT_enemy,\n    EV_ENT_aiment,\n    EV_ENT_owner,\n    EV_ENT_groundentity,\n    EV_ENT_pContainingEntity,\n    EV_ENT_euser1,\n    EV_ENT_euser2,\n    EV_ENT_euser3,\n    EV_ENT_euser4,\n};"
+        },
+        {
+            "Comment": "String",
+            "CommentTags": [],
+            "Constant": "enum {\n    EV_SZ_classname = 0,\n    EV_SZ_globalname,\n    EV_SZ_model,\n    EV_SZ_target,\n    EV_SZ_targetname,\n    EV_SZ_netname,\n    EV_SZ_message,\n    EV_SZ_noise,\n    EV_SZ_noise1,\n    EV_SZ_noise2,\n    EV_SZ_noise3,\n    EV_SZ_viewmodel,\n    EV_SZ_weaponmodel,\n};"
+        },
+        {
+            "Comment": "Byte",
+            "CommentTags": [],
+            "Constant": "enum {\n    EV_BYTE_controller1 = 0,\n    EV_BYTE_controller2,\n    EV_BYTE_controller3,\n    EV_BYTE_controller4,\n    EV_BYTE_blending1,\n    EV_BYTE_blending2,\n};\n\n#if defined _jghg_enums\n  #endinput\n#endif\n#define _jghg_enums\nenum {\n    // Edict\n    GL_trace_ent = 0,\n\n    // Float\n    GL_coop,\n    GL_deathmatch,\n    GL_force_retouch,\n    GL_found_secrets,\n    GL_frametime,\n    GL_serverflags,\n    GL_teamplay,\n    GL_time,\n    GL_trace_allsolid,\n    GL_trace_fraction,\n    GL_trace_inopen,\n    GL_trace_inwater,\n    GL_trace_plane_dist,\n    GL_trace_startsolid,\n\n    // Int\n    GL_cdAudioTrack,\n    GL_maxClients,\n    GL_maxEntities,\n    GL_msg_entity,\n    GL_trace_flags,\n    GL_trace_hitgroup,\n\n    // String\n    GL_pStringBase,\n    GL_mapname,\n    GL_startspot,\n\n    // Vector\n    GL_trace_endpos,\n    GL_trace_plane_normal,\n    GL_v_forward,\n    GL_v_right,\n    GL_v_up,\n    GL_vecLandmarkOffset,\n\n    // Void (not supported)\n    GL_pSaveData\n};\n\nenum\n{\n    usercmd_float_start,\n    usercmd_forwardmove,    // Float\n    usercmd_sidemove,        // Float\n    usercmd_upmove,        // Float\n    usercmd_float_end,\n    usercmd_int_start,\n    usercmd_lerp_msec,        // short\n    usercmd_msec,            // byte\n    usercmd_lightlevel,        // byte\n    usercmd_buttons,        // unsigned short\n    usercmd_impulse,        // byte\n    usercmd_weaponselect,    // byte\n    usercmd_impact_index,    // int\n    usercmd_int_end,\n    usercmd_vec_start,\n    usercmd_viewangles,        // Vector\n    usercmd_impact_position,    // vec\n    usercmd_vec_end\n};\n\n// Used by the traceresult() native.\nenum\n{\n    TR_AllSolid,            // (int) if true, plane is not valid\n    TR_StartSolid,        // (int) if true, the initial point was in a solid area\n    TR_InOpen,        // (int)\n    TR_InWater,    // (int)\n    TR_Fraction,            // (float) time completed, 1.0 = didn't hit anything\n    TR_EndPos,            // (vector) final position\n    TR_PlaneDist,        // (float)\n    TR_PlaneNormal,        // (vector) surface normal at impact\n    TR_Hit,                // (entity) entity the surface is on\n    TR_Hitgroup            // (int) 0 == generic, non zero is specific body part\n};"
+        }
+    ]
+}

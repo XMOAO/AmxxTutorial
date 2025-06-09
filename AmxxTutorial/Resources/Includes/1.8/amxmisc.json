@@ -1,0 +1,189 @@
+{
+    "functions": [
+        {
+            "Comment": "AMX Mod X misc.\n\nby the AMX Mod X Development Team\n originally developed by OLO\n\nThis file is provided as is (no warranties).",
+            "CommentTags": [],
+            "FunctionName": "is_user_admin",
+            "Function": "#if defined _amxmisc_included\n  #endinput\n#endif\n#define _amxmisc_included\n\n#if !defined _amxmodx_included\n\t#if defined AMXMOD_BCOMPAT\n\t\t#include <amxmod>\n\t#else\n\t\t#include <amxmodx>\n\t#endif\n#endif\n\n#if defined AMXMOD_BCOMPAT\n#if defined _translator_included\n#define SIMPLE_T(%1)\t_T(%1)\n#else\n#define SIMPLE_T(%1)\t%1\n#endif\n#endif\n\nstock is_user_admin(id)"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock cmd_access(id, level, cid, num, bool:accesssilent = false)",
+            "FunctionName": "cmd_access"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock access(id,level)",
+            "FunctionName": "access"
+        },
+        {
+            "Comment": "Flags:\n 1 - obey immunity\n 2 - allow yourself\n 4 - must be alive\n 8 - can't be bot",
+            "CommentTags": [],
+            "FunctionName": "cmd_target",
+            "Function": "#define CMDTARGET_OBEY_IMMUNITY (1<<0)\n#define CMDTARGET_ALLOW_SELF\t(1<<1)\n#define CMDTARGET_ONLY_ALIVE\t(1<<2)\n#define CMDTARGET_NO_BOTS\t\t(1<<3)\nstock cmd_target(id,const arg[],flags = CMDTARGET_OBEY_IMMUNITY)"
+        },
+        {
+            "Comment": "Standard method to show activity to clients connected to the server.\nThis depends on the amx_show_activity cvar.  See documentation for more details.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "The user id of the person doing the action."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "name",
+                    "Description": "The name of the person doing the action."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "fmt",
+                    "Description": "The format string to display.  Do not put the \"ADMIN:\" prefix in this."
+                }
+            ],
+            "FunctionName": "show_activity",
+            "Function": "stock show_activity( id, const name[], const fmt[], any:... )"
+        },
+        {
+            "Comment": "Standard method to show activity to one single client.\nThis is useful for messages that get pieced together by many language keys.\nThis depends on the amx_show_activity cvar.  See documentation for more details.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "idtarget",
+                    "Description": "The user id of the person to display to.  0 is invalid."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "idadmin",
+                    "Description": "The user id of the person doing the action."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "name",
+                    "Description": "The name of the person doing the action."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "fmt",
+                    "Description": "The format string to display.  Do not put the \"ADMIN:\" prefix in this."
+                }
+            ],
+            "FunctionName": "show_activity_id",
+            "Function": "stock show_activity_id(idtarget, idadmin, const name[], const fmt[], any:...)"
+        },
+        {
+            "Comment": "Standard method to show activity to one single client with normal language keys.\nThese keys need to be in the format of standard AMXX keys:\n  eg: ADMIN_KICK_1 = ADMIN: kick %s\n      ADMIN_KICK_2 = ADMIN %s: kick %s\nThis depends on the amx_show_activity cvar.  See documentation for more details.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "KeyWithoutName",
+                    "Description": "The language key that does not have the name field."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "KeyWithName",
+                    "Description": "The language key that does have the name field."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "__AdminName",
+                    "Description": "The name of the person doing the action."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "...",
+                    "Description": "Pass any extra format arguments for the language key in the variable arguments list."
+                }
+            ],
+            "FunctionName": "show_activity_key",
+            "Function": "stock show_activity_key(const KeyWithoutName[], const KeyWithName[], const ___AdminName[], any:...)"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock colored_menus()",
+            "FunctionName": "colored_menus"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock cstrike_running()",
+            "FunctionName": "cstrike_running"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock is_running(const mod[])",
+            "FunctionName": "is_running"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_basedir(name[],len)",
+            "FunctionName": "get_basedir"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_configsdir(name[],len)",
+            "FunctionName": "get_configsdir"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock get_datadir(name[],len)",
+            "FunctionName": "get_datadir"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock register_menu(const title[],keys,const function[],outside=0)",
+            "FunctionName": "register_menu"
+        },
+        {
+            "Comment": "Backwards Compatibility\ndon't use it!",
+            "CommentTags": [],
+            "FunctionName": "get_customdir",
+            "Function": "stock get_customdir(name[],len)"
+        },
+        {
+            "Comment": "Add a menu item to Menus Front-End plugin (\"amxmodmenu\"):\nMENU_TEXT: Text that will be shown for this item in menu\nMENU_CMD: Command that should be executed to start menu\nMENU_ACCESS: Access required for menu\nMENU_PLUGIN: The exact case-insensitive name of plugin holding the menu command",
+            "CommentTags": [],
+            "FunctionName": "AddMenuItem",
+            "Function": "stock AddMenuItem(const MENU_TEXT[], const MENU_CMD[], const MENU_ACCESS, const MENU_PLUGIN[])"
+        },
+        {
+            "Comment": "Just like above, but add menu item to \"amx_menu\", that should also be accessible by non-admins.",
+            "CommentTags": [],
+            "FunctionName": "AddClientMenuItem",
+            "Function": "stock AddClientMenuItem(const MENU_TEXT[], const MENU_CMD[], const MENU_ACCESS, const MENU_PLUGIN[])"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock AddMenuItem_call(const MENU_TEXT[], const MENU_CMD[], const MENU_ACCESS, const MENU_PLUGIN[], const bool:ADD_TO_CLIENT_MENU)",
+            "FunctionName": "AddMenuItem_call"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock constraint_offset(low, high, seed, offset)",
+            "FunctionName": "constraint_offset"
+        },
+        {
+            "Comment": "Returns true if the user has ANY of the provided flags\nfalse if they have none",
+            "CommentTags": [],
+            "FunctionName": "has_flag",
+            "Function": "stock has_flag(id, const flags[])"
+        },
+        {
+            "Comment": "Returns true if the user has ALL of the provided flags\nfalse otherwise",
+            "CommentTags": [],
+            "FunctionName": "has_all_flags",
+            "Function": "stock has_all_flags(id, const flags[])"
+        }
+    ],
+    "constants": []
+}

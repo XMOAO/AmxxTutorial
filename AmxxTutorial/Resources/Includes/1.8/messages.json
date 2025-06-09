@@ -1,0 +1,209 @@
+{
+    "functions": [
+        {
+            "Comment": "These functinos are used to generate client messages.\nYou may generate menu, smoke, shockwaves, thunderlights,\nintermission and many many others messages.\nSee HL SDK for more examples.",
+            "CommentTags": [],
+            "FunctionName": "message_begin",
+            "Function": "native message_begin(dest, msg_type, const origin[3] = {0,0,0}, player = 0);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native message_end();",
+            "FunctionName": "message_end"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native write_byte(x);",
+            "FunctionName": "write_byte"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native write_char(x);",
+            "FunctionName": "write_char"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native write_short(x);",
+            "FunctionName": "write_short"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native write_long(x);",
+            "FunctionName": "write_long"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native write_entity(x);",
+            "FunctionName": "write_entity"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native write_angle(x);",
+            "FunctionName": "write_angle"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native write_coord(x);",
+            "FunctionName": "write_coord"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native write_string(const x[]);",
+            "FunctionName": "write_string"
+        },
+        {
+            "Comment": "These are the same as above, except that the messages sent\n are also sent to all other plugins and Metamod plugins.\nThis means that if you send one of these messages, other plugins will\n be notified, which was previously impossible.\nBE CAREFUL! Using these incorrectly, or not for their intended purpose,\n could cause infinite recursion or something just as bad.\nNOTE! These natives are experimental.",
+            "CommentTags": [],
+            "FunctionName": "emessage_begin",
+            "Function": "native emessage_begin(dest, msg_type, const origin[3] = {0,0,0}, player = 0);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native emessage_end();",
+            "FunctionName": "emessage_end"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ewrite_byte(x);",
+            "FunctionName": "ewrite_byte"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ewrite_char(x);",
+            "FunctionName": "ewrite_char"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ewrite_short(x);",
+            "FunctionName": "ewrite_short"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ewrite_long(x);",
+            "FunctionName": "ewrite_long"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ewrite_entity(x);",
+            "FunctionName": "ewrite_entity"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ewrite_angle(x);",
+            "FunctionName": "ewrite_angle"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ewrite_coord(x);",
+            "FunctionName": "ewrite_coord"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native ewrite_string(const x[]);",
+            "FunctionName": "ewrite_string"
+        },
+        {
+            "Comment": "Sets/Gets what engine messages are blocked.",
+            "CommentTags": [],
+            "FunctionName": "set_msg_block",
+            "Function": "native set_msg_block(iMessage, iMessageFlags);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_msg_block(iMessage);",
+            "FunctionName": "get_msg_block"
+        },
+        {
+            "Comment": "Lets you directly hook a message in the engine!\nYou can overwrite the message before anything happens and either let the message continue\nor fully block it. Here is how it works:\nIf you hook a message, the message is stored but not sent. You have the opportunity to\nnot only execute code, but to get/set the contents of the message, before you choose to\neither block it or let it go on its way. The hooked function will be passed a msg_id, msg_dest, and entity index.\nThe return value can be passed to unregister_message() to stop the message from being hooked",
+            "CommentTags": [],
+            "FunctionName": "register_message",
+            "Function": "native register_message(iMsgId, const szFunction[]);"
+        },
+        {
+            "Comment": "Unregisters a message hook previously created with register_message\nYou must pass the proper message id, and return value from the message to unregister the message successfully.",
+            "CommentTags": [],
+            "FunctionName": "unregister_message",
+            "Function": "native unregister_message(iMsgId, registeredmsg);"
+        },
+        {
+            "Comment": "Gets number of arguments that were passed to this message",
+            "CommentTags": [],
+            "FunctionName": "get_msg_args",
+            "Function": "native get_msg_args();"
+        },
+        {
+            "Comment": "Gets the argument type of argument argn",
+            "CommentTags": [],
+            "FunctionName": "get_msg_argtype",
+            "Function": "native get_msg_argtype(argn);"
+        },
+        {
+            "Comment": "Gets the value of argn.",
+            "CommentTags": [],
+            "FunctionName": "get_msg_arg_int",
+            "Function": "native get_msg_arg_int(argn);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:get_msg_arg_float(argn);",
+            "FunctionName": "Float:get_msg_arg_float"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_msg_arg_string(argn, szReturn[], iLength);",
+            "FunctionName": "get_msg_arg_string"
+        },
+        {
+            "Comment": "sets the value of argn.",
+            "CommentTags": [],
+            "FunctionName": "set_msg_arg_int",
+            "Function": "native set_msg_arg_int(argn, argtype, iValue);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_msg_arg_float(argn, argtype, Float:fValue);",
+            "FunctionName": "set_msg_arg_float"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_msg_arg_string(argn, const szString[]);",
+            "FunctionName": "set_msg_arg_string"
+        },
+        {
+            "Comment": "Gets the origin of a message",
+            "CommentTags": [],
+            "FunctionName": "get_msg_origin",
+            "Function": "native get_msg_origin(const Float:_Origin[3]);"
+        }
+    ],
+    "constants": [
+        {
+            "Comment": "The get/set _msg commands will fail if used outside a hooked message scope.\nThey should never be used unless inside a registered message function.\nThere are eight different ways of sending a message, five are ints, two are floats, and one is string.\nThese are denoted by iArgType.  argn is the number\nof the argument. Exceeding the bounds of 1 to get_msg_args() is a bad idea.\nAs of AMX Mod X 1.5, the middle parameter of set_* no longer does anything.\nYou cannot change the message argument type (as this would crash the mod anyway)",
+            "CommentTags": [],
+            "Constant": ""
+        }
+    ]
+}

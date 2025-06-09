@@ -1,0 +1,119 @@
+{
+    "functions": [
+        {
+            "Comment": "Core functions\n\n(c) Copyright 1998-2003, ITB CompuPhase\n\nThis file is provided as is (no warranties).",
+            "CommentTags": [],
+            "FunctionName": "heapspace",
+            "Function": "#if defined _core_included\n  #endinput\n#endif\n#define _core_included\n\nnative heapspace();"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native funcidx(const name[]);",
+            "FunctionName": "funcidx"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native numargs();",
+            "FunctionName": "numargs"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getarg(arg, index=0);",
+            "FunctionName": "getarg"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setarg(arg, index=0, value);",
+            "FunctionName": "setarg"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native strlen(const string[]);",
+            "FunctionName": "strlen"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native tolower(c);",
+            "FunctionName": "tolower"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native toupper(c);",
+            "FunctionName": "toupper"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native swapchars(c);",
+            "FunctionName": "swapchars"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native random(max);",
+            "FunctionName": "random"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native min(value1, value2);",
+            "FunctionName": "min"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native max(value1, value2);",
+            "FunctionName": "max"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native clamp(value, min=cellmin, max=cellmax);",
+            "FunctionName": "clamp"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native power(value, exponent);",
+            "FunctionName": "power"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native sqroot(value);",
+            "FunctionName": "sqroot"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native time(&hour=0,&minute=0,&second=0);",
+            "FunctionName": "time"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native date(&year=0,&month=0,&day=0);",
+            "FunctionName": "date"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native tickcount(&granularity=0);",
+            "FunctionName": "tickcount"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock abs(x)",
+            "FunctionName": "abs"
+        }
+    ],
+    "constants": []
+}

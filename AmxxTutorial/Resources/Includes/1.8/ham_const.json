@@ -1,0 +1,690 @@
+{
+    "functions": [],
+    "constants": [
+        {
+            "Comment": "Ham return types.\n-\nReturn these from hooks to disable calling the target function.\nNumbers match up with fakemeta's FMRES_* for clarity.  They are interchangable.\n0 (or no return) is also interpretted as HAM_IGNORED.",
+            "CommentTags": [],
+            "Constant": "#define HAM_IGNORED        1    /**< Calls target function, returns normal value */\n#define HAM_HANDLED        2    /**< Tells the module you did something, still calls target function and returns normal value */\n#define HAM_OVERRIDE    3    /**< Still calls the target function, but returns whatever is set with SetHamReturn*() */\n#define HAM_SUPERCEDE    4    /**< Block the target call, and use your return value (if applicable) (Set with SetHamReturn*()) */"
+        },
+        {
+            "Comment": "A few notes about all of the following functions:\n  - Not all functions will do as you expect on all mods.\n    If a function does not do what you would believe it should\n    DO NOT file a bug report, you will be ignored.\n\n  - Passing invalid parameters has potential to crash the server\n    So be careful, and adequately test!\n\n  - All functions take (and pass) a \"this\" index as the first param.\n    This is the entity from which the function is being executed on.\n\n  - All functions and forwards (eg: {Register,Execute}Ham[B]) require\n    the mod to have the pev and base keys in addition to the function\n    keys for the corresponding mod/operating system in hamdata.ini\n\n  - Some functions that return booleans may need to be logically ANDed\n    to get the results desired.  e.g: if (ExecuteHam(Ham_TS_IsObjective, this) & 0x0000FFFF != 0) { // true.. }\n    because the module will return the full integer value.",
+            "CommentTags": [],
+            "Constant": "enum Ham\n{"
+        },
+        {
+            "Comment": "Description:     This is typically called whenever an entity is created.\n                   It is the virtual equivilent of spawn from the engine.\n                   Some mods call this on player spawns too.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Spawn, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Spawn = 0,"
+        },
+        {
+            "Comment": "Description:     This is typically called on map change.\n                   This will typically precache all assets required by the entity.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Precache, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Precache,"
+        },
+        {
+            "Comment": "Description:        Typically this is similar to an engine keyvalue call.\n                   Use the kvd natives from fakemeta to handle the kvd_handle passed.\n                   NOTE: Do not pass handle 0 to this! Use get_kvd_handle(0) from fakemeta instead!\nForward params:    function(this, kvd_handle);\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Keyvalue, this, kvd_handle);",
+            "CommentTags": [],
+            "Constant": "Ham_Keyvalue,"
+        },
+        {
+            "Comment": "Description:        Returns flags for how an entity can be used (FCAP_* constants in hlsdk_const.inc)\nForward params:    function(this)\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_ObjectCaps, this);",
+            "CommentTags": [],
+            "Constant": "Ham_ObjectCaps,"
+        },
+        {
+            "Comment": "Description:        Usually called to activate some objects.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Activate, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Activate,"
+        },
+        {
+            "Comment": "Description:        Usually called after the engine call with the same name.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_SetObjectCollisionBox, this);",
+            "CommentTags": [],
+            "Constant": "Ham_SetObjectCollisionBox,"
+        },
+        {
+            "Comment": "Description:        Returns an integer number that corresponds with what type of entity this is.\nForward params:    function(this)\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_Classify, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Classify,"
+        },
+        {
+            "Comment": "Description:        Typically called when an entity dies to notify any children entities about the death.\nForward params:    function(this, idchild)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_DeathNotice, this, idchild)",
+            "CommentTags": [],
+            "Constant": "Ham_DeathNotice,"
+        },
+        {
+            "Comment": "Description:        Usually called whenever an entity gets attacked by a hitscan (such as a gun) weapon.\n                   Use the get/set tr2 natives in fakemeta to handle the traceresult data.\n                   Do not use a handle of 0 as a traceresult in execution, use create_tr2() from Fakemeta\n                   to pass a custom handle instead.  (Don't forget to free the handle when you're done.)\nForward params:    function(this, idattacker, Float:damage, Float:direction[3], traceresult, damagebits)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_TraceAttack, this, idattacker, Float:damage, Float:direction[3], tracehandle, damagebits);",
+            "CommentTags": [],
+            "Constant": "Ham_TraceAttack,"
+        },
+        {
+            "Comment": "Description:        Usually called whenever an entity takes any kind of damage.\n                   Inflictor is the entity that caused the damage (such as a gun).\n                   Attacker is the entity that tirggered the damage (such as the gun's owner).\nForward params:    function(this, idinflictor, idattacker, Float:damage, damagebits);\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_TakeDamage, this, idinflictor, idattacker, Float:damage, damagebits);",
+            "CommentTags": [],
+            "Constant": "Ham_TakeDamage,"
+        },
+        {
+            "Comment": "Description:        Usually called whenever an entity gets a form of a heal.\nForward params:    function(this, Float:health, damagebits);\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_TakeHealth, this, Float:health, damagebits);",
+            "CommentTags": [],
+            "Constant": "Ham_TakeHealth,"
+        },
+        {
+            "Comment": "Description:        Normally called whenever an entity dies.\nForward params:    function(this, idattacker, shouldgib)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Killed, this, idattacker, shouldgib);",
+            "CommentTags": [],
+            "Constant": "Ham_Killed,"
+        },
+        {
+            "Comment": "Description:        Normally returns the blood color of the entity.\nForward params:    function(this)\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_BloodColor, this)",
+            "CommentTags": [],
+            "Constant": "Ham_BloodColor,"
+        },
+        {
+            "Comment": "Description:        Traces where blood should appear.\nForward params:    function(this, Float:Damage, Float:Direction[3], trace_handle, damagebits);\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_TraceBleed, this, Float:damage, Float:direction[3], trace_handle, damagebits);",
+            "CommentTags": [],
+            "Constant": "Ham_TraceBleed,"
+        },
+        {
+            "Comment": "Description:        Returns whether an entity is activated.\nForward params:    function(this, idActivator);\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_IsTriggered, this, idActivator);",
+            "CommentTags": [],
+            "Constant": "Ham_IsTriggered,"
+        },
+        {
+            "Comment": "Description:        Returns the id of the entity if its class is derived off of CBaseMonster, -1 otherwise.\nForward params:    function(this)\nReturn type:        Entity.\nExecute params:    ExecuteHam(Ham_MyMonsterPointer, this);",
+            "CommentTags": [],
+            "Constant": "Ham_MyMonsterPointer,"
+        },
+        {
+            "Comment": "Description:        Returns the id of the entity if its class is derived off of CBaseSquadMonster, -1 otherwise.\nForward params:    function(this)\nReturn type:        Entity.\nExecute params:    ExecuteHam(Ham_MySquadMonsterPointer, this);",
+            "CommentTags": [],
+            "Constant": "Ham_MySquadMonsterPointer,"
+        },
+        {
+            "Comment": "Description:        Returns the toggle state of the entity.\nForward params:    function(this)\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_GetToggleState, this);",
+            "CommentTags": [],
+            "Constant": "Ham_GetToggleState,"
+        },
+        {
+            "Comment": "Description:        Typically adds points to the entity.\nForward params:    function(this, points, bool:cangonegative);\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_AddPoints, this, points, bool:cangonegative);",
+            "CommentTags": [],
+            "Constant": "Ham_AddPoints,"
+        },
+        {
+            "Comment": "Description:        Typically adds points to everybody on the entity's team.\nForward params:    function(this, points, bool:cangonegative);\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_AddPointsToTeam, this, points, bool:cangonegative);",
+            "CommentTags": [],
+            "Constant": "Ham_AddPointsToTeam,"
+        },
+        {
+            "Comment": "Description:        Adds an item to the player's inventory.\nForward params:    function(this, idother);\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_AddPlayerItem, this, idother);",
+            "CommentTags": [],
+            "Constant": "Ham_AddPlayerItem,"
+        },
+        {
+            "Comment": "Description:        Removes an item to the player's inventory.\nForward params:    function(this, idother);\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_RemovePlayerItem, this, idother);",
+            "CommentTags": [],
+            "Constant": "Ham_RemovePlayerItem,"
+        },
+        {
+            "Comment": "Description:        Gives ammo to the entity.\nForward params:    function(this, Amount, const Name[], Max)\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_GiveAmmo, this, amount, \"type\", max);",
+            "CommentTags": [],
+            "Constant": "Ham_GiveAmmo,"
+        },
+        {
+            "Comment": "Description:        Unsure, I believe this is the delay between activation for an entity.\nForward params:    function(this)\nReturn type:        Float.\nExecute params:    ExecuteHam(Ham_GetDelay, this, Float:output)",
+            "CommentTags": [],
+            "Constant": "Ham_GetDelay,"
+        },
+        {
+            "Comment": "Description:        Whether or not the entity is moving.\nForward params:    function(this);\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_IsMoving, this);",
+            "CommentTags": [],
+            "Constant": "Ham_IsMoving,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_OverrideReset, this)",
+            "CommentTags": [],
+            "Constant": "Ham_OverrideReset,"
+        },
+        {
+            "Comment": "Description:        Returns the damage decal of the entity for the damage type.\nForward params:    function(this, damagebits)\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_DamageDecal, this);",
+            "CommentTags": [],
+            "Constant": "Ham_DamageDecal,"
+        },
+        {
+            "Comment": "Description:        Sets the toggle state of the entity.\nForward params:    function(this, state)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_SetToggleState, this, state);",
+            "CommentTags": [],
+            "Constant": "Ham_SetToggleState,"
+        },
+        {
+            "Comment": "Description:        Not entirely sure what this does.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_StartSneaking, this);",
+            "CommentTags": [],
+            "Constant": "Ham_StartSneaking,"
+        },
+        {
+            "Comment": "Description:        Not entirely sure what this does.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_StopSneaking, this);",
+            "CommentTags": [],
+            "Constant": "Ham_StopSneaking,"
+        },
+        {
+            "Comment": "Description:        Not entirely sure.\nForward params:    function(this, idOn)\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_OnControls, this, idOn);",
+            "CommentTags": [],
+            "Constant": "Ham_OnControls,"
+        },
+        {
+            "Comment": "Description:        Whether or not the entity is sneaking.\nForward params:    function(this);\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_IsSneaking, this);",
+            "CommentTags": [],
+            "Constant": "Ham_IsSneaking,"
+        },
+        {
+            "Comment": "Description:        Whether or not the entity is alive.\nForward params:    function(this);\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_IsAlive, this);",
+            "CommentTags": [],
+            "Constant": "Ham_IsAlive,"
+        },
+        {
+            "Comment": "Description:        Whether or not the entity uses a BSP model.\nForward params:    function(this);\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_IsBSPModel, this);",
+            "CommentTags": [],
+            "Constant": "Ham_IsBSPModel,"
+        },
+        {
+            "Comment": "Description:        Whether or not the entity can reflect gauss shots..\nForward params:    function(this);\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_ReflectGauss, this);",
+            "CommentTags": [],
+            "Constant": "Ham_ReflectGauss,"
+        },
+        {
+            "Comment": "Description:        Whether or not the target is the same as the one passed.\n                   Note the strindex parameter is a string passed that has been allocated by the engine.\n                   Use fakemeta's EngFunc_SzFromIndex to convert to a normal string, or fakemeta's\n                   EngFunc_AllocString to create a new string.\nForward params:    function(this, strindex).\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_HasTarget, this, strindex);",
+            "CommentTags": [],
+            "Constant": "Ham_HasTarget,"
+        },
+        {
+            "Comment": "Description:        Whether or not the entity is in the world.\nForward params:    function(this);\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_IsInWorld, this);",
+            "CommentTags": [],
+            "Constant": "Ham_IsInWorld,"
+        },
+        {
+            "Comment": "Description:        Whether or not the entity is a player.\nForward params:    function(this);\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_IsPlayer, this);",
+            "CommentTags": [],
+            "Constant": "Ham_IsPlayer,"
+        },
+        {
+            "Comment": "Description:        Whether or not the entity is a net client.\nForward params:    function(this);\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_IsNetClient, this);",
+            "CommentTags": [],
+            "Constant": "Ham_IsNetClient,"
+        },
+        {
+            "Comment": "Description:        Get the entity's team id.\nForward params:    function(this);\nReturn type:        String (string length returned and string byref'd in ExecuteHam).\nExecute params:    ExecuteHam(Ham_TeamId, this, buffer[], size);",
+            "CommentTags": [],
+            "Constant": "Ham_TeamId,"
+        },
+        {
+            "Comment": "Description:        Returns the next target of this.\nForward params:    function(this);\nReturn type:        Entity.\nExecute params:    ExecuteHam(Ham_GetNextTarget, this);",
+            "CommentTags": [],
+            "Constant": "Ham_GetNextTarget,"
+        },
+        {
+            "Comment": "Description:        Called whenever an entity thinks.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Think, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Think,"
+        },
+        {
+            "Comment": "Description:        Called whenever two entities touch.\nForward params:    function(this, idother);\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Touch, this, idother);",
+            "CommentTags": [],
+            "Constant": "Ham_Touch,"
+        },
+        {
+            "Comment": "Description:        Called whenver one entity uses another.\nForward params:    function(this, idcaller, idactivator, use_type, Float:value)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Use, this, idcaller, idactivator, use_type, Float:value);",
+            "CommentTags": [],
+            "Constant": "Ham_Use,"
+        },
+        {
+            "Comment": "Description:        Normally called whenever one entity blocks another from moving.\nForward params:    function(this, idother);\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Blocked, this, idother);",
+            "CommentTags": [],
+            "Constant": "Ham_Blocked,"
+        },
+        {
+            "Comment": "Description:        Normally called when a map-based item respawns, such as a health kit or something.\nForward params:    function(this);\nReturn type:        Entity.\nExecute params:    ExecuteHam(Ham_Respawn, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Respawn,"
+        },
+        {
+            "Comment": "Description:        Used in Half-Life to update a monster's owner.\nForward params:    function(this);\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_UpdateOwner, this);",
+            "CommentTags": [],
+            "Constant": "Ham_UpdateOwner,"
+        },
+        {
+            "Comment": "Description:        Normally called whenever a barnacle grabs the entity.\nForward params:    function(this);\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_FBecomeProne, this);",
+            "CommentTags": [],
+            "Constant": "Ham_FBecomeProne,"
+        },
+        {
+            "Comment": "Description:        Returns the center of the entity.\nForward params:    function(this);\nReturn type:        Vector (byref'd in Execute).\nExecute params:    ExecuteHam(Ham_Center, this, Float:output[3]);",
+            "CommentTags": [],
+            "Constant": "Ham_Center,"
+        },
+        {
+            "Comment": "Description:        Returns the eye position of the entity.\nForward params:    function(this);\nReturn type:        Vector (byref'd in Execute).\nExecute params:    ExecuteHam(Ham_EyePosition, this, Float:output[3]);",
+            "CommentTags": [],
+            "Constant": "Ham_EyePosition,"
+        },
+        {
+            "Comment": "Description:        Returns the ear position of the entity.\nForward params:    function(this);\nReturn type:        Vector (byref'd in Execute).\nExecute params:    ExecuteHam(Ham_EarPosition, this, Float:output[3]);",
+            "CommentTags": [],
+            "Constant": "Ham_EarPosition,"
+        },
+        {
+            "Comment": "Description:        Position to shoot at.\nForward params:    function(this, Float:srcvector[3]);\nReturn type:        Vector (byref'd in Execute).\nExecute params:    ExecuteHam(Ham_BodyTarget, Float:srcvector[3], Float:returnvector[3])",
+            "CommentTags": [],
+            "Constant": "Ham_BodyTarget,"
+        },
+        {
+            "Comment": "Description:        Returns the illumination of the entity.\nForward params:    function(this)\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_Illumination, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Illumination,"
+        },
+        {
+            "Comment": "Description:        Unsure, I assume it is whether or not the other entity is visible to this entity.\nForward params:    function(this, idOther);\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_FVisible, this, idOther);",
+            "CommentTags": [],
+            "Constant": "Ham_FVisible,"
+        },
+        {
+            "Comment": "Description:        Unsure, I assume it is whether or not the target vector is visible to this entity.\nForward params:    function(this, const Float:origin[3]);\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_FVecVisible, this, const Float:origin[3]);",
+            "CommentTags": [],
+            "Constant": "Ham_FVecVisible,"
+        },
+        {
+            "Comment": "Players have all the attributes of normal entities, in addition to these.",
+            "CommentTags": [],
+            "Constant": ""
+        },
+        {
+            "Comment": "Description:        Typically called every frame when a player has jump held.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Player_Jump, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Player_Jump,"
+        },
+        {
+            "Comment": "Description:        Typically called every frame when a player has duck held.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Player_Duck, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Player_Duck,"
+        },
+        {
+            "Comment": "Description:        Typically called every frame during PlayerPreThink engine call.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Player_PreThink, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Player_PreThink,"
+        },
+        {
+            "Comment": "Description:        Typically called every frame during PlayerPostThink engine call.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Player_PostThink, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Player_PostThink,"
+        },
+        {
+            "Comment": "Description:        Returns a vector that tells the gun position.\nForward params:    function(this)\nReturn type:        Vector, byreffed in execute.\nExecute params:    ExecuteHam(Ham_Player_GetGunPosition, this, Float:output[3]);",
+            "CommentTags": [],
+            "Constant": "Ham_Player_GetGunPosition,"
+        },
+        {
+            "Comment": "Description:        Whether or not the player should fade on death.\nForward param:    function(this)\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_Player_ShouldFadeOnDeath, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Player_ShouldFadeOnDeath,"
+        },
+        {
+            "Comment": "Description:        Called whenever an impulse command is executed.\nForward param:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Player_ImpulseComands, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Player_ImpulseCommands,"
+        },
+        {
+            "Comment": "Description:        Updates the client's data for hud changes (such as ammo).  Usually called every frame.\nForward param:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Player_UpdateClientData, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Player_UpdateClientData,"
+        },
+        {
+            "Comment": "Items have all the attributes of normal entities in addition to these.",
+            "CommentTags": [],
+            "Constant": ""
+        },
+        {
+            "Comment": "Description:        Adds the item to the player.\nForward params:    function(this, idPlayer);\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_Item_AddToPlayer, this, idPlayer);",
+            "CommentTags": [],
+            "Constant": "Ham_Item_AddToPlayer,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this, idOriginal);\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_Item_AddDuplicate, this, idOriginal);",
+            "CommentTags": [],
+            "Constant": "Ham_Item_AddDuplicate,"
+        },
+        {
+            "Comment": "Description:        Whether or not this entity can be deployed.\nForward params:    function(this);\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_Item_CanDeploy, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Item_CanDeploy,"
+        },
+        {
+            "Comment": "Description:        Deploys the entity (usually a weapon).\nForward params:    function(this);\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_Item_Deploy, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Item_Deploy,"
+        },
+        {
+            "Comment": "Description:        Whether or not the entity can be holstered.\nForward params:    function(this);\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_Item_CanHolster, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Item_CanHolster,"
+        },
+        {
+            "Comment": "Description:        Whether or not the entity (usually weapon) can be holstered.\nForward params:    function(this)\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_Item_Holster, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Item_Holster,"
+        },
+        {
+            "Comment": "Description:        Updates the HUD info about this item.\nForward params:    function(this);\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_UpdateItemInfo, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Item_UpdateItemInfo,"
+        },
+        {
+            "Comment": "Description:        Called each frame for an item, normally only on active items.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Item_PreFrame, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Item_PreFrame,"
+        },
+        {
+            "Comment": "Description:        Called each frame for an item, normally only on active items.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Item_PostFrame, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Item_PostFrame,"
+        },
+        {
+            "Comment": "Description:        Called when an item gets dropped, normally on death only.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Item_Drop, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Item_Drop,"
+        },
+        {
+            "Comment": "Description:        Normally called when an item gets deleted.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Item_Drop, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Item_Kill,"
+        },
+        {
+            "Comment": "Description:        Called when an entity starts being attached to (normally invisible and \"following\") a player.\nForward params:    function(this, idPlayer)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Item_AttachToPlayer, this, idPlayer)",
+            "CommentTags": [],
+            "Constant": "Ham_Item_AttachToPlayer,"
+        },
+        {
+            "Comment": "Description:        Returns the ammo index of the item.\nForward params:    function(this)\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_Item_PrimaryAmmoIndex, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Item_PrimaryAmmoIndex,"
+        },
+        {
+            "Comment": "Description:        Returns the secondary ammo index of the item.\nForward params:    function(this)\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_Item_SecondaryAmmoIndex, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Item_SecondaryAmmoIndex,"
+        },
+        {
+            "Comment": "Description:        Updates item data for the client.\nForward params:    function(this, idPlayer)\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_Item_UpdateClientData, this, idPlayer);",
+            "CommentTags": [],
+            "Constant": "Ham_Item_UpdateClientData,"
+        },
+        {
+            "Comment": "Description:        Returns the entity index if the item is a weapon, -1 otherwise.\nForward params:    function(this)\nReturn type:        Entity.\nExecute Params:    ExecuteHam(Ham_Item_GetWeaponPtr, this)",
+            "CommentTags": [],
+            "Constant": "Ham_Item_GetWeaponPtr,"
+        },
+        {
+            "Comment": "Description:        Returns the item slot for the item.\nForward params:    function(this)\nReturn type:        Integer.\nExecute Params:    ExecuteHam(Ham_Item_ItemSlot, this)",
+            "CommentTags": [],
+            "Constant": "Ham_Item_ItemSlot,"
+        },
+        {
+            "Comment": "Weapons have all the attributes to Ham_Item_*, in addition to these.",
+            "CommentTags": [],
+            "Constant": ""
+        },
+        {
+            "Comment": "Description:        Gets ammo from the target weapon.\nForward params:    function(this, idTarget)\nReturn type:        Integer.\nExecute Params:    ExecuteHam(Ham_Weapon_ExtractAmmo, this, idTarget)",
+            "CommentTags": [],
+            "Constant": "Ham_Weapon_ExtractAmmo,"
+        },
+        {
+            "Comment": "Description:        Gets clip ammo from the target weapon.\nForward params:    function(this, idTarget)\nReturn type:        Integer.\nExecute Params:    ExecuteHam(Ham_Weapon_ExtractAmmo, this, idTarget)",
+            "CommentTags": [],
+            "Constant": "Ham_Weapon_ExtractClipAmmo,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this)\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_Weapon_AddWeapon, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Weapon_AddWeapon,"
+        },
+        {
+            "Comment": "Description:        Plays the weapon's empty sound.\nForward params:    function(this)\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_Weapon_PlayEmptySound, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Weapon_PlayEmptySound,"
+        },
+        {
+            "Comment": "Description:        Sets the weapon so that it can play empty sound again.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Weapon_ResetEmptySound, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Weapon_ResetEmptySound,"
+        },
+        {
+            "Comment": "Description:        Sends an animation event for the weapon.\nForward params:    function(this, iAnim, skiplocal, body);\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Weapon_SendWeaponAnim, this, iAnim, skiplocal, body);",
+            "CommentTags": [],
+            "Constant": "Ham_Weapon_SendWeaponAnim,"
+        },
+        {
+            "Comment": "Description:        Whether or not the weapon is usable (has ammo, etc.)\nForward params:    function(this)\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_Weapon_IsUsable, this)",
+            "CommentTags": [],
+            "Constant": "Ham_Weapon_IsUsable,"
+        },
+        {
+            "Comment": "Description:        Called when the main attack of a weapon is triggered.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Weapon_PrimaryAttack, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Weapon_PrimaryAttack,"
+        },
+        {
+            "Comment": "Description:        Called when the secondary attack of a weapon is triggered.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Weapon_SecondaryAttack, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Weapon_SecondaryAttack,"
+        },
+        {
+            "Comment": "Description:        Called when the weapon is reloaded.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Weapon_Reload, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Weapon_Reload,"
+        },
+        {
+            "Comment": "Description:        Displays the idle animation for the weapon.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_Weapon_WeaponIdle, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Weapon_WeaponIdle,"
+        },
+        {
+            "Comment": "Description:        There is no more ammo for this gun, so switch to the next best one.\nForward params:    function(this)\nReturn type:        None.\nExecuteParams:    ExecuteHam(Ham_Weapon_RetireWeapon, this)",
+            "CommentTags": [],
+            "Constant": "Ham_Weapon_RetireWeapon,"
+        },
+        {
+            "Comment": "Description:        Whether or not the weapon should idle.\nForward params:    function(this)\nReturn type:        Integer (boolean).\nExecute Params:    ExecuteHam(Ham_Weapon_ShouldWeaponIdle, this)",
+            "CommentTags": [],
+            "Constant": "Ham_Weapon_ShouldWeaponIdle,"
+        },
+        {
+            "Comment": "Description:        Not sure.\nForward params:    function(this)\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_Weapon_UseDecrement, this);",
+            "CommentTags": [],
+            "Constant": "Ham_Weapon_UseDecrement,"
+        },
+        {
+            "Comment": "Description:        -\nForward params:    function(this, someboolvalue)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_TS_BreakableRespawn, this, someboolvalue);",
+            "CommentTags": [],
+            "Constant": "Ham_TS_BreakableRespawn,"
+        },
+        {
+            "Comment": "Description:        -\nForward params:    function(this)\nReturn type:        Integer (boolean)\nExecute params:    ExecuteHam(Ham_TS_CanUsedThroughWalls, this);",
+            "CommentTags": [],
+            "Constant": "Ham_TS_CanUsedThroughWalls,"
+        },
+        {
+            "Comment": "Description:        Unsure - this was removed in TS 3.0 (and thus is deprecated).\nForward params:    function(this)\nReturn type:        Integer (I think...)\nExecute params:    ExecuteHam(Ham_TS_RespawnWait, this);",
+            "CommentTags": [],
+            "Constant": "Ham_TS_RespawnWait,"
+        },
+        {
+            "Comment": "Description:        This is called on a map reset for most map based entities.\nForward params:    function(this);\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_CS_Restart, this);",
+            "CommentTags": [],
+            "Constant": "Ham_CS_Restart,"
+        },
+        {
+            "Comment": "Description:        Respawn function for players/bots only! Do not use this on non player/bot entities!\nForward params:    function(this);\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_CS_RoundRespawn, this);",
+            "CommentTags": [],
+            "Constant": "Ham_CS_RoundRespawn,"
+        },
+        {
+            "Comment": "Description:        Whether or not the player can drop the specified item.\nForward params:    function(this)\nReturn type:        Integer\nExecute params:    ExecuteHam(Ham_CS_Item_CanDrop, this);",
+            "CommentTags": [],
+            "Constant": "Ham_CS_Item_CanDrop,"
+        },
+        {
+            "Comment": "Description:        Gets the maximum speed for whenever a player has the item deployed.\nForward params:    function(this);\nReturn type:        Float, byrefed in execute.\nExecute params:    ExecuteHam(Ham_CS_Item_GetMaxSpeed, this, Float:output);",
+            "CommentTags": [],
+            "Constant": "Ham_CS_Item_GetMaxSpeed,"
+        },
+        {
+            "Comment": "Description:        I assume this spawns players at the start of a new round.\nForward params:    function(this)\nReturn type:        None.\nExecute Params:    ExecuteHam(Ham_DOD_RoundRespawn, this);",
+            "CommentTags": [],
+            "Constant": "Ham_DOD_RoundRespawn,"
+        },
+        {
+            "Comment": "Description:        I assume this spawns entities (like func_breakables) at the start of a new round.\nForward params:    function(this)\nReturn type:        None.\nExecute Params:    ExecuteHam(Ham_DOD_RoundRespawnEnt, this);",
+            "CommentTags": [],
+            "Constant": "Ham_DOD_RoundRespawnEnt,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this)\nReturn type:        None, I think...\nExecute params:    ExecuteHam(Ham_DOD_RoundStore, this);",
+            "CommentTags": [],
+            "Constant": "Ham_DOD_RoundStore,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this, someintegervalue)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_DOD_AreaSetIndex, this, someintegervalue)",
+            "CommentTags": [],
+            "Constant": "Ham_DOD_AreaSetIndex,"
+        },
+        {
+            "Comment": "Description:        Unsure\nForward params:    function(this, idPlayer)\nReturn type:        None.\nExecute Params:    ExecuteHam(Ham_DOD_AreaSendStatus, this, idPlayer);",
+            "CommentTags": [],
+            "Constant": "Ham_DOD_AreaSendStatus,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this)\nReturn type:        Integer.\nExecute Params:    ExecuteHam(Ham_DOD_GetState, this);",
+            "CommentTags": [],
+            "Constant": "Ham_DOD_GetState,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this, idtarget)\nReturn type:        Integer.\nExecute Params:    ExecuteHam(Ham_DOD_GetStateEnt, this, idtarget);",
+            "CommentTags": [],
+            "Constant": "Ham_DOD_GetStateEnt,"
+        },
+        {
+            "Comment": "Description:        Whether or not a player can drop this item.\nForward params:    function(this)\nReturn type:        Integer (boolean).\nExecute Params:    ExecuteHam(Ham_DOD_Item_CanDrop, this);",
+            "CommentTags": [],
+            "Constant": "Ham_DOD_Item_CanDrop,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this, iduser)\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_TFC_EngineerUse, this, iduser)",
+            "CommentTags": [],
+            "Constant": "Ham_TFC_EngineerUse,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_TFC_Finished, this);",
+            "CommentTags": [],
+            "Constant": "Ham_TFC_Finished,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this, entityid, Float:floata, Float:floatb)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_TFC_EmpExplode, this, entityid, Float:floata, Float:floatb)",
+            "CommentTags": [],
+            "Constant": "Ham_TFC_EmpExplode,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this, Float:floata, Float:floatb)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_TFC_CalcEmpDmgRad, this, Float:floata, Float:floatb)",
+            "CommentTags": [],
+            "Constant": "Ham_TFC_CalcEmpDmgRad,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this, entityid)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_TFC_TakeEmpBlast, this, entityid);",
+            "CommentTags": [],
+            "Constant": "Ham_TFC_TakeEmpBlast,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_TFC_EmpRemove, this);",
+            "CommentTags": [],
+            "Constant": "Ham_TFC_EmpRemove,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this, entityid, Float:floata)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_TFC_TakeConcussionBlast, this, entityid, Float:floata);",
+            "CommentTags": [],
+            "Constant": "Ham_TFC_TakeConcussionBlast,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this, entityid)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_TFC_Concuss, this, entityid);",
+            "CommentTags": [],
+            "Constant": "Ham_TFC_Concuss,"
+        },
+        {
+            "Comment": "Description:        Unsure.\n                   Is only in ESF Open Beta.\nForward params:    function(this)\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_ESF_IsEnvModel, this);",
+            "CommentTags": [],
+            "Constant": "Ham_ESF_IsEnvModel,"
+        },
+        {
+            "Comment": "Description:        Unsure.\n                   Is only in ESF Open Beta.\nForward params:    function(this, entityida, entityidb, Float:floata, Float:floatb, dmgbits)\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_ESF_TakeDamage2, this, entityida, entityidb, Float:floata, Float:floatb, dmgbits);",
+            "CommentTags": [],
+            "Constant": "Ham_ESF_TakeDamage2,"
+        },
+        {
+            "Comment": "Description:        Returns how many points each entity is worth.\nForward params:    function(this)\nReturn type:        Integer.\nExecute params:    ExecuteHam(Ham_NS_GetPointValue, this);",
+            "CommentTags": [],
+            "Constant": "Ham_NS_GetPointValue,"
+        },
+        {
+            "Comment": "Description:        Unsure.  Probably awards this with the killing of idvictim.\nForward params:    function(this, idvictim)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_NS_AwardKill, this, idvictim);",
+            "CommentTags": [],
+            "Constant": "Ham_NS_AwardKill,"
+        },
+        {
+            "Comment": "Description:        Unsure, probably whenever an entity resets after a new round.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_NS_ResetEntity, this);",
+            "CommentTags": [],
+            "Constant": "Ham_NS_ResetEntity,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_NS_UpdateOnRemove, this)",
+            "CommentTags": [],
+            "Constant": "Ham_NS_UpdateOnRemove,"
+        },
+        {
+            "Comment": "Virtual functions added to TS in TS 3",
+            "CommentTags": [],
+            "Constant": ""
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_TS_GiveSlowMul, this)",
+            "CommentTags": [],
+            "Constant": "Ham_TS_GiveSlowMul,"
+        },
+        {
+            "Comment": "Description:        Unsure.  The second paramater is actually a char.\nForward params:    function(this, Float:someval, someotherval)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_TS_GoSlow, this, Float:someval, someotherval)",
+            "CommentTags": [],
+            "Constant": "Ham_TS_GoSlow,"
+        },
+        {
+            "Comment": "Description:        Probably returns true if the user is in slow mo.\nForward params:    function(this)\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_TS_InSlow, this)",
+            "CommentTags": [],
+            "Constant": "Ham_TS_InSlow,"
+        },
+        {
+            "Comment": "Description:        Returns true if the entity is an objective.\nForward params:    function(this)\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_TS_IsObjective, this)",
+            "CommentTags": [],
+            "Constant": "Ham_TS_IsObjective,"
+        },
+        {
+            "Comment": "Description:        Unsure.\nForward params:    function(this, bool:someval)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_TS_EnableObjective, this, bool:someval)",
+            "CommentTags": [],
+            "Constant": "Ham_TS_EnableObjective,"
+        },
+        {
+            "Comment": "Description:        Probably called when the engine call to OnEntFreePrivateData is called (the entity destructor.)\nForward params:    function(this)\nReturn type:        None.\nExecute params:    ExecuteHam(Ham_TS_OnEntFreePrivateData, this)",
+            "CommentTags": [],
+            "Constant": "Ham_TS_OnFreeEntPrivateData,"
+        },
+        {
+            "Comment": "Description:        Probably called when the engine call to ShouldCollide is called.\nForward params:    function(this, otherEntity)\nReturn type:        Integer (boolean).\nExecute params:    ExecuteHam(Ham_TS_ShouldCollide, this, otherEntity)",
+            "CommentTags": [],
+            "Constant": "Ham_TS_ShouldCollide,"
+        },
+        {
+            "Comment": "DONT USE ME LOL",
+            "CommentTags": [],
+            "Constant": "HAM_LAST_ENTRY_DONT_USE_ME_LOL\n};\n\nenum HamError\n{\n    HAM_OK = 0,\n    \n    HAM_INVALID_FUNC,            // The function is not valid\n    HAM_FUNC_NOT_CONFIGURED,    // This function is not configured in hamdata.ini\n    \n    HAM_ERR_END\n};"
+        }
+    ]
+}

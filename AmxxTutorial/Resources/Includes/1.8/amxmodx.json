@@ -1,0 +1,1400 @@
+{
+    "functions": [
+        {
+            "Comment": "Function is called just after server activation.\nGood place for configuration loading, commands and cvars registration.",
+            "CommentTags": [],
+            "FunctionName": "plugin_init",
+            "Function": "forward plugin_init();"
+        },
+        {
+            "Comment": "Called when the plugin is paused.",
+            "CommentTags": [],
+            "FunctionName": "plugin_pause",
+            "Function": "forward plugin_pause();"
+        },
+        {
+            "Comment": "Called when the plugin is unpaused.",
+            "CommentTags": [],
+            "FunctionName": "plugin_unpause",
+            "Function": "forward plugin_unpause();"
+        },
+        {
+            "Comment": "Called when the mod tries to change the map.",
+            "CommentTags": [],
+            "FunctionName": "server_changelevel",
+            "Function": "forward server_changelevel(map[]);"
+        },
+        {
+            "Comment": "Function is called when all plugin_init from plugins\nwere called, so all commmands and cvars should be already registered.",
+            "CommentTags": [],
+            "FunctionName": "plugin_cfg",
+            "Function": "forward plugin_cfg();"
+        },
+        {
+            "Comment": "Function called before plugin unloading (server deactivation)",
+            "CommentTags": [],
+            "FunctionName": "plugin_end",
+            "Function": "forward plugin_end();"
+        },
+        {
+            "Comment": "Called on log message.",
+            "CommentTags": [],
+            "FunctionName": "plugin_log",
+            "Function": "forward plugin_log();"
+        },
+        {
+            "Comment": "Use here model_precache() and sound_precache() functions.",
+            "CommentTags": [],
+            "FunctionName": "plugin_precache",
+            "Function": "forward plugin_precache();"
+        },
+        {
+            "Comment": "Whenever player info is changed, this function is called.",
+            "CommentTags": [],
+            "FunctionName": "client_infochanged",
+            "Function": "forward client_infochanged(id);"
+        },
+        {
+            "Comment": "Called on client connection.",
+            "CommentTags": [],
+            "FunctionName": "client_connect",
+            "Function": "forward client_connect(id);"
+        },
+        {
+            "Comment": "Called when client gets valid STEAM id (usually\nbetween client_connect() and client_putinserver()).",
+            "CommentTags": [],
+            "FunctionName": "client_authorized",
+            "Function": "forward client_authorized(id);"
+        },
+        {
+            "Comment": "Called when client is disconnecting from server.",
+            "CommentTags": [],
+            "FunctionName": "client_disconnect",
+            "Function": "forward client_disconnect(id);"
+        },
+        {
+            "Comment": "Called when client is sending command.",
+            "CommentTags": [],
+            "FunctionName": "client_command",
+            "Function": "forward client_command(id);"
+        },
+        {
+            "Comment": "Called when client is entering to a game.",
+            "CommentTags": [],
+            "FunctionName": "client_putinserver",
+            "Function": "forward client_putinserver(id);"
+        },
+        {
+            "Comment": "Sets informations about plugin. Returns the plugin id of the calling plugin.",
+            "CommentTags": [],
+            "FunctionName": "register_plugin",
+            "Function": "native register_plugin(const plugin_name[],const version[],const author[]);"
+        },
+        {
+            "Comment": "Precache model. Can be used only in plugin_precache() function.",
+            "CommentTags": [],
+            "FunctionName": "precache_model",
+            "Function": "native precache_model(const name[]);"
+        },
+        {
+            "Comment": "Precache sound. Can be used only in plugin_precache() function.",
+            "CommentTags": [],
+            "FunctionName": "precache_sound",
+            "Function": "native precache_sound(const name[]);"
+        },
+        {
+            "Comment": "Precaches any file.",
+            "CommentTags": [],
+            "FunctionName": "precache_generic",
+            "Function": "native precache_generic(const szFile[]);"
+        },
+        {
+            "Comment": "Sets info for player.",
+            "CommentTags": [],
+            "FunctionName": "set_user_info",
+            "Function": "native set_user_info(index,const info[],const value[]);"
+        },
+        {
+            "Comment": "Gets info from player.",
+            "CommentTags": [],
+            "FunctionName": "get_user_info",
+            "Function": "native get_user_info(index,const info[],output[],len);"
+        },
+        {
+            "Comment": "Sets info for server.",
+            "CommentTags": [],
+            "FunctionName": "set_localinfo",
+            "Function": "native set_localinfo(const info[],const value[]);"
+        },
+        {
+            "Comment": "Gets info from server.",
+            "CommentTags": [],
+            "FunctionName": "get_localinfo",
+            "Function": "native get_localinfo(const info[],output[],len);"
+        },
+        {
+            "Comment": "Shows text in MOTD window. When there is no header, the MOTD title\nwill be the name of server. If message is filename, then a contents\nof this file will be displayed as MOTD.",
+            "CommentTags": [],
+            "FunctionName": "show_motd",
+            "Function": "native show_motd(player,const message[],const header[]=\"\");"
+        },
+        {
+            "Comment": "Sends message to player. Set index to 0 to send text globaly.",
+            "CommentTags": [],
+            "FunctionName": "client_print",
+            "Function": "native client_print(index,type,const message[],any:...);"
+        },
+        {
+            "Comment": "Sends message to player by engine. Set index to 0 to send text globaly.",
+            "CommentTags": [],
+            "FunctionName": "engclient_print",
+            "Function": "native engclient_print(player,type,const message[],any:...);"
+        },
+        {
+            "Comment": "Sends message to console.",
+            "CommentTags": [],
+            "FunctionName": "console_print",
+            "Function": "native console_print(id,const message[],any:...);"
+        },
+        {
+            "Comment": "Sends command to console.",
+            "CommentTags": [],
+            "FunctionName": "console_cmd",
+            "Function": "native console_cmd(id,const cmd[],any:...);"
+        },
+        {
+            "Comment": "Registers event on which a given function will be called\nFlags:\n\"a\" - global event.\n\"b\" - specified.\n\"c\" - send only once when repeated to other players.\n\"d\" - call if is send to dead player.\n\"e\" - to alive.\nNOTE: Due to a long-standing bug that would break compatibility with old plugins,\n      the client id should be checked for alive/dead state if you use d or e.\nExamples for conditions:\n\"2=c4\" - 2nd parameter of message must be sting \"c4\".\n\"3>10\" - 3rd parameter must be greater then 10.\n\"3!4\" - 3rd must be different from 4.\n\"2&Buy\" - 2nd parameter of message must contain \"Buy\" substring.\n\"2!Buy\" - 2nd parameter of message can't contain \"Buy\" substring.",
+            "CommentTags": [],
+            "FunctionName": "register_event",
+            "Function": "native register_event(const event[],const function[],const flags[],const cond[]=\"\", ... );"
+        },
+        {
+            "Comment": "Registers log event on which the given function will be called\nExamples for conditions:\n\"0=World triggered\" \"1=Game_Commencing\"\n\"1=say\"\n\"3=Terrorists_Win\"\n\"1=entered the game\"\n\"0=Server cvar\"",
+            "CommentTags": [],
+            "FunctionName": "register_logevent",
+            "Function": "native register_logevent(const function[], argsnum,  ... );"
+        },
+        {
+            "Comment": "Sets format for hudmessage.\nNote - as of AMX Mod X 1.61, setting the channel to -1\n will automatically choose the next available HUD channel for a player.",
+            "CommentTags": [],
+            "FunctionName": "set_hudmessage",
+            "Function": "native set_hudmessage(red=200, green=100, blue=0, Float:x=-1.0, Float:y=0.35, effects=0, Float:fxtime=6.0, Float:holdtime=12.0, Float:fadeintime=0.1, Float:fadeouttime=0.2,channel=4);"
+        },
+        {
+            "Comment": "Displays HUD message to given player.",
+            "CommentTags": [],
+            "FunctionName": "show_hudmessage",
+            "Function": "native show_hudmessage(index,const message[],any:...);"
+        },
+        {
+            "Comment": "Displays menu. Keys have bit values (key 1 is (1<<0), key 5 is (1<<4) etc.).",
+            "CommentTags": [],
+            "FunctionName": "show_menu",
+            "Function": "native show_menu(index,keys,const menu[], time = -1, const title[] = \"\");"
+        },
+        {
+            "Comment": "Gets value from client messages.\nWhen you are asking for string the array and length is needed (read_data(2,name,len)).\nInteger is returned by function (new me = read_data(3)).\nFloat is set in second parameter (read_data(3,value)).",
+            "CommentTags": [],
+            "FunctionName": "read_data",
+            "Function": "native read_data(value, any:... );"
+        },
+        {
+            "Comment": "Returns number of values in client message.",
+            "CommentTags": [],
+            "FunctionName": "read_datanum",
+            "Function": "native read_datanum();"
+        },
+        {
+            "Comment": "Gets log message. Can be called only in plugin_log() forward function.",
+            "CommentTags": [],
+            "FunctionName": "read_logdata",
+            "Function": "native read_logdata(output[],len);"
+        },
+        {
+            "Comment": "Returns number of log arguments.\nCan be called only in plugin_log() forward function.",
+            "CommentTags": [],
+            "FunctionName": "read_logargc",
+            "Function": "native read_logargc();"
+        },
+        {
+            "Comment": "Gets log argument indexed from 0.\nCan be called only in plugin_log() forward function.",
+            "CommentTags": [],
+            "FunctionName": "read_logargv",
+            "Function": "native read_logargv(id,output[],len);"
+        },
+        {
+            "Comment": "Parse log data about user ( \"Butcher<5><BOT><TERRORIST>\" etc. ).",
+            "CommentTags": [],
+            "FunctionName": "parse_loguser",
+            "Function": "native parse_loguser(const text[], name[], nlen, &userid = -2, authid[] = \"\", alen = 0, team[]=\"\", tlen=0);"
+        },
+        {
+            "Comment": "Prints message to server console.\nYou may use text formating (f.e. server_print(\"%-32s %.2f!\",\"hello\",7.345))",
+            "CommentTags": [],
+            "FunctionName": "server_print",
+            "Function": "native server_print(const message[], any:...);"
+        },
+        {
+            "Comment": "Returns 1 or 0.",
+            "CommentTags": [],
+            "FunctionName": "is_map_valid",
+            "Function": "native is_map_valid(const mapname[]);"
+        },
+        {
+            "Comment": "Returns 1 or 0.",
+            "CommentTags": [],
+            "FunctionName": "is_user_bot",
+            "Function": "native is_user_bot(index);"
+        },
+        {
+            "Comment": "Returns 1 or 0.",
+            "CommentTags": [],
+            "FunctionName": "is_user_hltv",
+            "Function": "native is_user_hltv(index);"
+        },
+        {
+            "Comment": "Returns 1 or 0.",
+            "CommentTags": [],
+            "FunctionName": "is_user_connected",
+            "Function": "native is_user_connected(index);"
+        },
+        {
+            "Comment": "Returns 1 or 0.",
+            "CommentTags": [],
+            "FunctionName": "is_user_connecting",
+            "Function": "native is_user_connecting(index);"
+        },
+        {
+            "Comment": "Returns 1 or 0.",
+            "CommentTags": [],
+            "FunctionName": "is_user_alive",
+            "Function": "native is_user_alive(index);"
+        },
+        {
+            "Comment": "Returns 1 or 0.",
+            "CommentTags": [],
+            "FunctionName": "is_dedicated_server",
+            "Function": "native is_dedicated_server();"
+        },
+        {
+            "Comment": "Returns 1 or 0.",
+            "CommentTags": [],
+            "FunctionName": "is_linux_server",
+            "Function": "native is_linux_server();"
+        },
+        {
+            "Comment": "Returns 1 or 0.",
+            "CommentTags": [],
+            "FunctionName": "is_jit_enabled",
+            "Function": "native is_jit_enabled();"
+        },
+        {
+            "Comment": "Returns AMXX's version string of the current gameserver",
+            "CommentTags": [],
+            "FunctionName": "get_amxx_verstring",
+            "Function": "native get_amxx_verstring(buffer[], length);"
+        },
+        {
+            "Comment": "If player is not attacked function returns 0, in other\ncase returns index of attacking player. On second and third\nparameter you may get info about weapon and body hit place.\nAs of 1.75, get_user_attacker can return a non-player index if the player was attacked by a non-player entity.",
+            "CommentTags": [],
+            "FunctionName": "get_user_attacker",
+            "Function": "native get_user_attacker(index,...);"
+        },
+        {
+            "Comment": "If player doesn't hit at anything function returns 0.0,\nin other case the distance between hit point and player is returned.\nIf player is aiming at another player then the id and part of body are set.",
+            "CommentTags": [],
+            "FunctionName": "Float:get_user_aiming",
+            "Function": "native Float:get_user_aiming(index,&id,&body,dist=9999);"
+        },
+        {
+            "Comment": "Returns player frags.",
+            "CommentTags": [],
+            "FunctionName": "get_user_frags",
+            "Function": "native get_user_frags(index);"
+        },
+        {
+            "Comment": "Returns player armor.",
+            "CommentTags": [],
+            "FunctionName": "get_user_armor",
+            "Function": "native get_user_armor(index);"
+        },
+        {
+            "Comment": "Returns player deaths.",
+            "CommentTags": [],
+            "FunctionName": "get_user_deaths",
+            "Function": "native get_user_deaths(index);"
+        },
+        {
+            "Comment": "Returns player health.",
+            "CommentTags": [],
+            "FunctionName": "get_user_health",
+            "Function": "native get_user_health(index);"
+        },
+        {
+            "Comment": "Returns index.",
+            "CommentTags": [],
+            "FunctionName": "get_user_index",
+            "Function": "native get_user_index(const name[]);"
+        },
+        {
+            "Comment": "Returns ip.",
+            "CommentTags": [],
+            "FunctionName": "get_user_ip",
+            "Function": "native get_user_ip(index,ip[],len, without_port = 0);"
+        },
+        {
+            "Comment": "Returns if the player has the weapon or not in their pev->weapons field.\nset \"setweapon\" to 0 to turn the bit off, set to 1 to turn it on.",
+            "CommentTags": [],
+            "FunctionName": "user_has_weapon",
+            "Function": "native user_has_weapon(index,weapon,setweapon=-1);"
+        },
+        {
+            "Comment": "Returns id of currently carried weapon. Gets also\nammount of ammo in clip and backpack.",
+            "CommentTags": [],
+            "FunctionName": "get_user_weapon",
+            "Function": "native get_user_weapon(index,&clip=0,&ammo=0);"
+        },
+        {
+            "Comment": "Gets ammo and clip from current weapon.",
+            "CommentTags": [],
+            "FunctionName": "get_user_ammo",
+            "Function": "native get_user_ammo(index,weapon,&clip,&ammo);"
+        },
+        {
+            "Comment": "Converts numbers from range 0 - 999 to words.",
+            "CommentTags": [],
+            "FunctionName": "num_to_word",
+            "Function": "native num_to_word(num,output[],len);"
+        },
+        {
+            "Comment": "Returns team id. When length is greater then 0\nthen a name of team is set.",
+            "CommentTags": [],
+            "FunctionName": "get_user_team",
+            "Function": "native get_user_team(index, team[]=\"\", len = 0);"
+        },
+        {
+            "Comment": "Returns player playing time in seconds.\nIf flag is set then result is without connection time.",
+            "CommentTags": [],
+            "FunctionName": "get_user_time",
+            "Function": "native get_user_time(index, flag = 0);"
+        },
+        {
+            "Comment": "Gets ping and loss at current time.",
+            "CommentTags": [],
+            "FunctionName": "get_user_ping",
+            "Function": "native get_user_ping(index, &ping, &loss);"
+        },
+        {
+            "Comment": "Gets origin from player.\nModes:\n0 - current position.\n1 - position from eyes (weapon aiming).\n2 - end position from player position.\n3 - end position from eyes (hit point for weapon).\n4 - position of last bullet hit (only CS).",
+            "CommentTags": [],
+            "FunctionName": "get_user_origin",
+            "Function": "native get_user_origin(index, origin[3], mode = 0);"
+        },
+        {
+            "Comment": "Returns all carried weapons as bit sum. Gets\n also theirs indexes.\nNote that num is incremental - if you pass 0, you get\n 32 weapons towards the total.  Afterwards, num will\n will contain the number of weapons retrieved.\nHowever, subsequent calls to get_user_weapons() will\n return the next batch of weapons, in case the mod\n supports more than 32 weapons.\nThis means to call get_user_weapons() on the same\n inputs twice, you must reset num to 0 to get the\n original output again.",
+            "CommentTags": [],
+            "FunctionName": "get_user_weapons",
+            "Function": "native get_user_weapons(index,weapons[32],&num);"
+        },
+        {
+            "Comment": "Returns weapon name.",
+            "CommentTags": [],
+            "FunctionName": "get_weaponname",
+            "Function": "native get_weaponname(id,weapon[],len);"
+        },
+        {
+            "Comment": "Returns player name.",
+            "CommentTags": [],
+            "FunctionName": "get_user_name",
+            "Function": "native get_user_name(index,name[],len);"
+        },
+        {
+            "Comment": "Gets player authid.",
+            "CommentTags": [],
+            "FunctionName": "get_user_authid",
+            "Function": "native get_user_authid(index, authid[] ,len);"
+        },
+        {
+            "Comment": "Returns player userid.",
+            "CommentTags": [],
+            "FunctionName": "get_user_userid",
+            "Function": "native get_user_userid(index);"
+        },
+        {
+            "Comment": "Slaps player with given power.",
+            "CommentTags": [],
+            "FunctionName": "user_slap",
+            "Function": "native user_slap(index,power,rnddir=1);"
+        },
+        {
+            "Comment": "Kills player. When flag is set to 1 then death won't decrase frags.",
+            "CommentTags": [],
+            "FunctionName": "user_kill",
+            "Function": "native user_kill(index,flag=0);"
+        },
+        {
+            "Comment": "Logs something into the current amx logfile\nParameters:\n string[] - format string\n ...      - optional parameters\nReturn value:\n always 0",
+            "CommentTags": [],
+            "FunctionName": "log_amx",
+            "Function": "native log_amx(const string[], any:...);"
+        },
+        {
+            "Comment": "Sends message to standard HL logs.",
+            "CommentTags": [],
+            "FunctionName": "log_message",
+            "Function": "native log_message(const message[],any:...);"
+        },
+        {
+            "Comment": "Sends log message to specified file.",
+            "CommentTags": [],
+            "FunctionName": "log_to_file",
+            "Function": "native log_to_file(const file[],const message[],any:...);"
+        },
+        {
+            "Comment": "Returns number of players put in server.\nIf flag is set then also connecting are counted.",
+            "CommentTags": [],
+            "FunctionName": "get_playersnum",
+            "Function": "native get_playersnum(flag=0);"
+        },
+        {
+            "Comment": "Sets indexes of players.\nFlags:\n\"a\" - don't collect dead players.\n\"b\" - don't collect alive players.\n\"c\" - skip bots.\n\"d\" - skip real players.\n\"e\" - match with team.\n\"f\" - match with part of name.\n\"g\" - ignore case sensitivity.\n\"h\" - skip HLTV.\nExample: Get all alive CTs: get_players(players,num,\"ae\",\"CT\")",
+            "CommentTags": [],
+            "FunctionName": "get_players",
+            "Function": "native get_players(players[32], &num ,const flags[]=\"\", const team[]=\"\");"
+        },
+        {
+            "Comment": "Gets argument from command.",
+            "CommentTags": [],
+            "FunctionName": "read_argv",
+            "Function": "native read_argv(id,output[],len);"
+        },
+        {
+            "Comment": "Gets line of all arguments.",
+            "CommentTags": [],
+            "FunctionName": "read_args",
+            "Function": "native read_args(output[],len);"
+        },
+        {
+            "Comment": "Returns number of arguments (+ one as command).",
+            "CommentTags": [],
+            "FunctionName": "read_argc",
+            "Function": "native read_argc();"
+        },
+        {
+            "Comment": "Converts string to sum of bits.\nExample: \"abcd\" is a sum of 1, 2, 4 and 8.",
+            "CommentTags": [],
+            "FunctionName": "read_flags",
+            "Function": "native read_flags(const flags[]);"
+        },
+        {
+            "Comment": "Converts sum of bits to string.\nExample: 3 will return \"ab\".",
+            "CommentTags": [],
+            "FunctionName": "get_flags",
+            "Function": "native get_flags(flags,output[],len);"
+        },
+        {
+            "Comment": "Find player.\nFlags:\n\"a\" - with given name.\n\"b\" - with given part of name.\n\"c\" - with given authid.\n\"d\" - with given ip.\n\"e\" - with given team name.\n\"f\" - don't look in dead players.\n\"g\" - don't look in alive players.\n\"h\" - skip bots.\n\"i\" - skip real players.\n\"j\" - return index of last found player.\n\"k\" - with given userid.\n\"l\" - ignore case sensitivity.",
+            "CommentTags": [],
+            "FunctionName": "find_player",
+            "Function": "native find_player(const flags[], ... );"
+        },
+        {
+            "Comment": "Removes quotes from sentence.",
+            "CommentTags": [],
+            "FunctionName": "remove_quotes",
+            "Function": "native remove_quotes(text[]);"
+        },
+        {
+            "Comment": "Executes command on player.",
+            "CommentTags": [],
+            "FunctionName": "client_cmd",
+            "Function": "native client_cmd(index,const command[],any:...);"
+        },
+        {
+            "Comment": "This is an emulation of a client command (commands aren't send to client!).\nIt allows to execute some commands on players and bots.\nFunction is excellent for forcing to do an action related to a game (not settings!).\nThe command must stand alone but in arguments you can use spaces.",
+            "CommentTags": [],
+            "FunctionName": "engclient_cmd",
+            "Function": "native engclient_cmd(index,const command[],const arg1[]=\"\",const arg2[]=\"\");"
+        },
+        {
+            "Comment": "Executes command on a server console.",
+            "CommentTags": [],
+            "FunctionName": "server_cmd",
+            "Function": "native server_cmd(const command[],any:...);"
+        },
+        {
+            "Comment": "Sets a cvar to given value.",
+            "CommentTags": [],
+            "FunctionName": "set_cvar_string",
+            "Function": "native set_cvar_string(const cvar[],const value[]);"
+        },
+        {
+            "Comment": "If a cvar exists returns 1, in other case 0",
+            "CommentTags": [],
+            "FunctionName": "cvar_exists",
+            "Function": "native cvar_exists(const cvar[]);"
+        },
+        {
+            "Comment": "Removes a cvar flags (not allowed for amx_version,\nfun_version and sv_cheats cvars).",
+            "CommentTags": [],
+            "FunctionName": "remove_cvar_flags",
+            "Function": "native remove_cvar_flags(const cvar[],flags = -1);"
+        },
+        {
+            "Comment": "Sets a cvar flags (not allowed for amx_version,\nfun_version and sv_cheats cvars).",
+            "CommentTags": [],
+            "FunctionName": "set_cvar_flags",
+            "Function": "native set_cvar_flags(const cvar[],flags);"
+        },
+        {
+            "Comment": "Returns a cvar flags.",
+            "CommentTags": [],
+            "FunctionName": "get_cvar_flags",
+            "Function": "native get_cvar_flags(const cvar[]);"
+        },
+        {
+            "Comment": "Sets a cvar to given float.",
+            "CommentTags": [],
+            "FunctionName": "set_cvar_float",
+            "Function": "native set_cvar_float(const cvar[],Float:value);"
+        },
+        {
+            "Comment": "Gets a cvar float.",
+            "CommentTags": [],
+            "FunctionName": "Float:get_cvar_float",
+            "Function": "native Float:get_cvar_float(const cvarname[]);"
+        },
+        {
+            "Comment": "Gets a cvar integer value.",
+            "CommentTags": [],
+            "FunctionName": "get_cvar_num",
+            "Function": "native get_cvar_num(const cvarname[]);"
+        },
+        {
+            "Comment": "Sets a cvar with integer value.",
+            "CommentTags": [],
+            "FunctionName": "set_cvar_num",
+            "Function": "native set_cvar_num(const cvarname[],value);"
+        },
+        {
+            "Comment": "Reads a cvar value.",
+            "CommentTags": [],
+            "FunctionName": "get_cvar_string",
+            "Function": "native get_cvar_string(const cvarname[],output[],iLen);"
+        },
+        {
+            "Comment": "Returns a name of currently played map.",
+            "CommentTags": [],
+            "FunctionName": "get_mapname",
+            "Function": "native get_mapname(name[],len);"
+        },
+        {
+            "Comment": "Returns time remaining on map in seconds.",
+            "CommentTags": [],
+            "FunctionName": "get_timeleft",
+            "Function": "native get_timeleft();"
+        },
+        {
+            "Comment": "Returns a game time.",
+            "CommentTags": [],
+            "FunctionName": "Float:get_gametime",
+            "Function": "native Float:get_gametime();"
+        },
+        {
+            "Comment": "Returns maxplayers setting.",
+            "CommentTags": [],
+            "FunctionName": "get_maxplayers",
+            "Function": "native get_maxplayers();"
+        },
+        {
+            "Comment": "Returns a name of currently played mod.",
+            "CommentTags": [],
+            "FunctionName": "get_modname",
+            "Function": "native get_modname(name[],len);"
+        },
+        {
+            "Comment": "Returns time in given format. The most popular is: \"%m/%d/%Y - %H:%M:%S\".",
+            "CommentTags": [],
+            "FunctionName": "get_time",
+            "Function": "native get_time(const format[],output[],len);"
+        },
+        {
+            "Comment": "Returns time in given format. The most popular is: \"%m/%d/%Y - %H:%M:%S\".\nLast parameter sets time to format.",
+            "CommentTags": [],
+            "FunctionName": "format_time",
+            "Function": "native format_time(output[],len, const format[],time = -1);"
+        },
+        {
+            "Comment": "Returns system time in seconds elapsed since 00:00:00 on January 1, 1970.\nOffset is given in seconds.",
+            "CommentTags": [],
+            "FunctionName": "get_systime",
+            "Function": "native get_systime(offset = 0);"
+        },
+        {
+            "Comment": "Returns time in input and additionaly fills missing information\nwith current time and date. If time is different than -1 then parsed\ntime is added to given time.\nExample:\nparset_time( \"10:32:54 04/02/2003\", \"%H:%M:%S %m:%d:%Y\" )\nFor more information see strptime(...) function from C libraries.",
+            "CommentTags": [],
+            "FunctionName": "parse_time",
+            "Function": "native parse_time(const input[],const format[], time = -1);"
+        },
+        {
+            "Comment": "Calls function on specified time.\nFlags:\n\"a\" - repeat.\n\"b\" - loop task.\n\"c\" - do task on time after a map timeleft.\n\"d\" - do task on time before a map timelimit.",
+            "CommentTags": [],
+            "FunctionName": "set_task",
+            "Function": "native set_task(Float:time,const function[],id = 0,const parameter[]=\"\",len = 0,const flags[]=\"\", repeat = 0);"
+        },
+        {
+            "Comment": "Removes all tasks with given id. If outside var is\nset then a task can be removed also when\nwas set in another plugin.",
+            "CommentTags": [],
+            "FunctionName": "remove_task",
+            "Function": "native remove_task(id = 0, outside = 0);"
+        },
+        {
+            "Comment": "Changes the time of a task",
+            "CommentTags": [],
+            "FunctionName": "change_task",
+            "Function": "native change_task(id = 0, Float:newTime=1.0, outside = 0);"
+        },
+        {
+            "Comment": "Returns 1 if task under given id exists.",
+            "CommentTags": [],
+            "FunctionName": "task_exists",
+            "Function": "native task_exists(id = 0, outside = 0);"
+        },
+        {
+            "Comment": "Sets the users flags with the assignment by bitwise OR operator.",
+            "CommentTags": [],
+            "FunctionName": "set_user_flags",
+            "Function": "native set_user_flags(index,flags=-1,id=0);"
+        },
+        {
+            "Comment": "Gets flags from player. Set index to 0 if you want to read flags from server.",
+            "CommentTags": [],
+            "FunctionName": "get_user_flags",
+            "Function": "native get_user_flags(index,id=0);"
+        },
+        {
+            "Comment": "Removes flags for player.",
+            "CommentTags": [],
+            "FunctionName": "remove_user_flags",
+            "Function": "native remove_user_flags(index,flags=-1,id=0);"
+        },
+        {
+            "Comment": "Registers function which will be called from client console.\nSet FlagManager to 1 to make FlagManager always include this command\nSet FlagManager to 0 to make FlagManager never include this command\nReturns the command ID.",
+            "CommentTags": [],
+            "FunctionName": "register_clcmd",
+            "Function": "native register_clcmd(const client_cmd[],const function[],flags=-1, const info[]=\"\", FlagManager=-1);"
+        },
+        {
+            "Comment": "Registers function which will be called from any console.\nSet FlagManager to 1 to make FlagManager always include this command\nSet FlagManager to 0 to make FlagManager never include this command\nReturns the command ID.",
+            "CommentTags": [],
+            "FunctionName": "register_concmd",
+            "Function": "native register_concmd(const cmd[],const function[],flags=-1, const info[]=\"\", FlagManager=-1);"
+        },
+        {
+            "Comment": "Registers function which will be called from server console.\nReturns the command ID.",
+            "CommentTags": [],
+            "FunctionName": "register_srvcmd",
+            "Function": "native register_srvcmd(const server_cmd[],const function[],flags=-1, const info[]=\"\");"
+        },
+        {
+            "Comment": "Gets info about client command.",
+            "CommentTags": [],
+            "FunctionName": "get_clcmd",
+            "Function": "native get_clcmd(index, command[], len1, &flags, info[], len2, flag);"
+        },
+        {
+            "Comment": "Returns number of registered client commands.",
+            "CommentTags": [],
+            "FunctionName": "get_clcmdsnum",
+            "Function": "native get_clcmdsnum(flag);"
+        },
+        {
+            "Comment": "Gets info about server command.",
+            "CommentTags": [],
+            "FunctionName": "get_srvcmd",
+            "Function": "native get_srvcmd(index,server_cmd[],len1,&flags, info[],len2, flag);"
+        },
+        {
+            "Comment": "Returns number of registered server commands.",
+            "CommentTags": [],
+            "FunctionName": "get_srvcmdsnum",
+            "Function": "native get_srvcmdsnum(flag);"
+        },
+        {
+            "Comment": "Gets info about console command. If id is set to 0,\nthen function returns only server cmds, if positive then\nreturns only client cmds. in other case returns all console commands.",
+            "CommentTags": [],
+            "FunctionName": "get_concmd",
+            "Function": "native get_concmd(index,cmd[],len1,&flags, info[],len2, flag, id = -1);"
+        },
+        {
+            "Comment": "Gets the parent plugin id of a console command.",
+            "CommentTags": [],
+            "FunctionName": "get_concmd_plid",
+            "Function": "native get_concmd_plid(cid, flag_mask, id_type);"
+        },
+        {
+            "Comment": "Returns number of registered console commands.",
+            "CommentTags": [],
+            "FunctionName": "get_concmdsnum",
+            "Function": "native get_concmdsnum(flag,id = -1);"
+        },
+        {
+            "Comment": "Returns the number of plugin-registered cvars.",
+            "CommentTags": [],
+            "FunctionName": "get_plugins_cvarsnum",
+            "Function": "native get_plugins_cvarsnum();"
+        },
+        {
+            "Comment": "Returns information about a plugin-registered cvar.",
+            "CommentTags": [],
+            "FunctionName": "get_plugins_cvar",
+            "Function": "native get_plugins_cvar(num, name[], namelen, &flags=0, &plugin_id=0, &pcvar_handle=0);"
+        },
+        {
+            "Comment": "Gets unique id of menu. Outside set to 1 allows\nto catch menus outside a plugin where register_menuid is called.",
+            "CommentTags": [],
+            "FunctionName": "register_menuid",
+            "Function": "native register_menuid(const menu[], outside=0 );"
+        },
+        {
+            "Comment": "Calls function when player uses specified menu and proper keys.",
+            "CommentTags": [],
+            "FunctionName": "register_menucmd",
+            "Function": "native register_menucmd(menuid,keys, const function[] );"
+        },
+        {
+            "Comment": "Gets what menu the player is watching and what keys for menu he have.\nWhen there is no menu the index is 0. If the id is negative then the menu\nis VGUI in other case the id is from register_menuid() function.",
+            "CommentTags": [],
+            "FunctionName": "get_user_menu",
+            "Function": "native get_user_menu(index,&id,&keys);"
+        },
+        {
+            "Comment": "Forces server to execute sent server command at current time.\nVery useful for map changes, setting cvars and other activities.",
+            "CommentTags": [],
+            "FunctionName": "server_exec",
+            "Function": "native server_exec();"
+        },
+        {
+            "Comment": "Emits sound. Sample must be precached.",
+            "CommentTags": [],
+            "FunctionName": "emit_sound",
+            "Function": "native emit_sound(index, channel, const sample[], Float:vol, Float:att,flags, pitch);"
+        },
+        {
+            "Comment": "Registers new cvar for HL engine.\nReturns the cvar pointer for get/set_pcvar functions.",
+            "CommentTags": [],
+            "FunctionName": "register_cvar",
+            "Function": "native register_cvar(const name[],const string[],flags = 0,Float:fvalue = 0.0);"
+        },
+        {
+            "Comment": "Generates random floating point number from a to b.",
+            "CommentTags": [],
+            "FunctionName": "Float:random_float",
+            "Function": "native Float:random_float(Float:a,Float:b);"
+        },
+        {
+            "Comment": "Generates random integer from a to b.",
+            "CommentTags": [],
+            "FunctionName": "random_num",
+            "Function": "native random_num(a,b);"
+        },
+        {
+            "Comment": "Returns id of client message.\nExample: get_user_msgid(\"TextMsg\").",
+            "CommentTags": [],
+            "FunctionName": "get_user_msgid",
+            "Function": "native get_user_msgid(const name[]);"
+        },
+        {
+            "Comment": "Gets name of client message index. Return value is number of\ncharacters copied into name. Returns 0 on invalid msgid.",
+            "CommentTags": [],
+            "FunctionName": "get_user_msgname",
+            "Function": "native get_user_msgname(msgid, name[], len);"
+        },
+        {
+            "Comment": "Checks if public variable with given name exists in loaded plugins.",
+            "CommentTags": [],
+            "FunctionName": "xvar_exists",
+            "Function": "native xvar_exists( const name[] );"
+        },
+        {
+            "Comment": "Returns an unique id for public variable specified by name. If such\nvariable doesn't exist then returned value is -1.",
+            "CommentTags": [],
+            "FunctionName": "get_xvar_id",
+            "Function": "native get_xvar_id( const name[] );"
+        },
+        {
+            "Comment": "Returns an integer value of a public variable. Id is a value\nreturned by get_xvar_id(...) native.",
+            "CommentTags": [],
+            "FunctionName": "get_xvar_num",
+            "Function": "native get_xvar_num( id );"
+        },
+        {
+            "Comment": "Returns a float value of a public variable. Id is a value\nreturned by get_xvar_id(...) native.",
+            "CommentTags": [],
+            "FunctionName": "Float:get_xvar_float",
+            "Function": "native Float:get_xvar_float( id );"
+        },
+        {
+            "Comment": "Sets a value of a public variable. Id is a value\nreturned by get_xvar_id(...) native.",
+            "CommentTags": [],
+            "FunctionName": "set_xvar_num",
+            "Function": "native set_xvar_num( id, value = 0 );"
+        },
+        {
+            "Comment": "Sets a float value of a public variable. Id is a value\nreturned by get_xvar_id(...) native.",
+            "CommentTags": [],
+            "FunctionName": "set_xvar_float",
+            "Function": "native set_xvar_float( id, Float:value = 0.0 );"
+        },
+        {
+            "Comment": "Checks whether a module is loaded. If it is not, the return value is -1, otherwise\nthe return value is the module id. The function is case insensitive.",
+            "CommentTags": [],
+            "FunctionName": "is_module_loaded",
+            "Function": "native is_module_loaded(const name[]);"
+        },
+        {
+            "Comment": "Gets info about a module.\nParameters:\n id         - the id of the module\n name[]     - The name of the module will be stored here\n nameLen    - maximal length of the name\n author[]   - the author will be stored here\n authorLen  - maximal length of the author\n version[]  - the version of the module will be stored here\n versionLen - maximal length of the version\n status - the status of the module will be stored here\nReturn value:\n id         - success\n -1         - module not found",
+            "CommentTags": [],
+            "FunctionName": "get_module",
+            "Function": "native get_module(id, name[], nameLen, author[], authorLen, version[], versionLen, &status);"
+        },
+        {
+            "Comment": "Returns number of currently registered modules",
+            "CommentTags": [],
+            "FunctionName": "get_modulesnum",
+            "Function": "native get_modulesnum();"
+        },
+        {
+            "Comment": "Checks whether a plugin is loaded by the given registered name (such as \"Admin Base\"), or, optionally\nthe given filename (\"admin.amxx\").",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "name",
+                    "Description": "Either the plugin name to lookup, or the plugin filename to lookup."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "usefilename",
+                    "Description": "Set to true if you want to search for the plugin by the filename, false to search\n      by the plugin's registered name."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "Plugin ID of the matching plugin on a successful search, -1 on a failed search."
+                },
+                {
+                    "Tag": "note",
+                    "Description": "Prior to 1.8, this function would only search for plugins registered names, not\n                  the filename."
+                },
+                {
+                    "Tag": "note",
+                    "Description": "The plugin registered name search is a case insensitive search, however, the plugin\n                  filename search is case sensitive."
+                }
+            ],
+            "FunctionName": "is_plugin_loaded",
+            "Function": "native is_plugin_loaded(const name[], bool:usefilename=false);"
+        },
+        {
+            "Comment": "Gets info about plugin by given index.\nFunction returns -1 if plugin doesn't exist with given index.\nNote: the [...] portion should not be used, and is only for backward compatibility.\nUse index of -1 to use the calling plugin's ID.",
+            "CommentTags": [],
+            "FunctionName": "get_plugin",
+            "Function": "native get_plugin(index,filename[]=\"\",len1=0,name[]=\"\",len2=0,version[]=\"\",len3=0,author[]=\"\",len4=0,status[]=\"\",len5=0,...);"
+        },
+        {
+            "Comment": "Returns number of all loaded plugins.",
+            "CommentTags": [],
+            "FunctionName": "get_pluginsnum",
+            "Function": "native get_pluginsnum();"
+        },
+        {
+            "Comment": "Pauses function or plugin so it won't be executed.\nIn most cases param1 is name of function and\nparam2 name of plugin (all depends on flags).\nFlags:\n\"a\" - pause whole plugin.\n\"c\" - look outside the plugin (by given plugin name).\n\"d\" - set \"stopped\" status when pausing whole plugin.\n      In this status plugin is unpauseable.\nExample: pause(\"ac\",\"myplugin.amxx\")\n\nNote: There used to be the b and e flags as well,\nwhich have been deprecated and are no longer used.",
+            "CommentTags": [],
+            "FunctionName": "pause",
+            "Function": "native pause(const flag[], const param1[]=\"\",const param2[]=\"\");"
+        },
+        {
+            "Comment": "Unpauses function or plugin.\nFlags:\n\"a\" - unpause whole plugin.\n\"c\" - look outside the plugin (by given plugin name).",
+            "CommentTags": [],
+            "FunctionName": "unpause",
+            "Function": "native unpause(const flag[], const param1[]=\"\",const param2[]=\"\");"
+        },
+        {
+            "Comment": "Call a function in this / an another plugin by name.\nParameters:\n plugin - plugin filename; if \"\", the caller plugin is used.\n          If specified, it has to be the exact filename (for example stats.amxx)\n func   - function name\nReturn value:\n  1     - Success\n  0     - Runtime error\n -1     - Plugin not found\n -2     - Function not found",
+            "CommentTags": [],
+            "FunctionName": "callfunc_begin",
+            "Function": "native callfunc_begin(const func[], const plugin[]=\"\");"
+        },
+        {
+            "Comment": "Call a function in this / an another plugin by id.\nParameters:\n plugin - plugin id; the id you would pass to get_plugin\n          If < 0, the current plugin is taken\n func   - function id\nReturn value:\n  1     - Success\n -1     - Plugin not found\n -2     - Function not executable",
+            "CommentTags": [],
+            "FunctionName": "callfunc_begin_i",
+            "Function": "native callfunc_begin_i(func, plugin = -1);"
+        },
+        {
+            "Comment": "Get a function id (for callfunc_begin_i)\nTo get the plugin id, use the find_plugin stock",
+            "CommentTags": [],
+            "FunctionName": "get_func_id",
+            "Function": "native get_func_id(const funcName[], pluginId = -1);"
+        },
+        {
+            "Comment": "Push a parameter (integer, string, float)\nNote that none of these values are const.\nAnything pushed by intrf, floatrf, array, or str\n can be modified by the called function.",
+            "CommentTags": [],
+            "FunctionName": "callfunc_push_int",
+            "Function": "native callfunc_push_int(value);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native callfunc_push_float(Float: value);",
+            "FunctionName": "callfunc_push_float"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native callfunc_push_intrf(&value);",
+            "FunctionName": "callfunc_push_intrf"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native callfunc_push_floatrf(& Float: value);",
+            "FunctionName": "callfunc_push_floatrf"
+        },
+        {
+            "Comment": "If copyback is 1 (default), any changes are copied back.\nNote that this will defy the 'const' specifier for push_str(),\n which is only kept for special backwards compatibility.",
+            "CommentTags": [],
+            "FunctionName": "callfunc_push_str",
+            "Function": "native callfunc_push_str(const VALUE[], bool:copyback=true);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native callfunc_push_array(const VALUE[], array_size, bool:copyback=true);",
+            "FunctionName": "callfunc_push_array"
+        },
+        {
+            "Comment": "Make the actual call.\nReturn value of the function called.",
+            "CommentTags": [],
+            "FunctionName": "callfunc_end",
+            "Function": "native callfunc_end();"
+        },
+        {
+            "Comment": "Called on inconsistent file. You can put any text\ninto reason to change an original message.",
+            "CommentTags": [],
+            "FunctionName": "inconsistent_file",
+            "Function": "forward inconsistent_file(id,const filename[], reason[64] );"
+        },
+        {
+            "Comment": "Forces the client and server to be running with the same\nversion of the specified file ( e.g., a player model ).",
+            "CommentTags": [],
+            "FunctionName": "force_unmodified",
+            "Function": "native force_unmodified(force_type, const mins[3] , const maxs[3], const filename[]);"
+        },
+        {
+            "Comment": "Calculates the md5 keysum of a string",
+            "CommentTags": [],
+            "FunctionName": "md5",
+            "Function": "native md5(const szString[], md5buffer[34]);"
+        },
+        {
+            "Comment": "Calculates the md5 keysum of a file",
+            "CommentTags": [],
+            "FunctionName": "md5_file",
+            "Function": "native md5_file(const file[], md5buffer[34]);"
+        },
+        {
+            "Comment": "Returns the internal flags set on the plugin's state\nIf hdr is 1, it will return the pcode flags rather than state flags.\n\nUse a plid of -1 to get the flags for the calling plugin.",
+            "CommentTags": [],
+            "FunctionName": "plugin_flags",
+            "Function": "native plugin_flags(hdr=0, plid=-1);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [
+                {
+                    "Tag": "deprecated",
+                    "Description": "Do not use!"
+                }
+            ],
+            "FunctionName": "plugin_modules",
+            "Function": "forward plugin_modules();"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native require_module(const module[]);",
+            "FunctionName": "require_module"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native is_amd64_server();",
+            "FunctionName": "is_amd64_server"
+        },
+        {
+            "Comment": "Returns plugin id searched by file/name.  Returns INVALID_PLUGIN_ID on failure.",
+            "CommentTags": [],
+            "FunctionName": "find_plugin_byfile",
+            "Function": "native find_plugin_byfile(const filename[], ignoreCase=1);"
+        },
+        {
+            "Comment": "This is called before plugin_init and allows you to register natives.",
+            "CommentTags": [],
+            "FunctionName": "plugin_natives",
+            "Function": "forward plugin_natives();"
+        },
+        {
+            "Comment": "Registers a NATIVE.  When a plugin uses your native (you should distribute a .inc),\nthe handler will be called with two parameters: the calling plugin id, and the\nnumber of parameters.\nIf you set style=1, the method of parameter passing is a tad more efficient.\nInstead of \"id, numParams\", you label the native exactly as how the parameters\n should, in theory, be sent.  Then for each byreference parameter, you call\n param_convert(num).  This is theoretically more efficient but quite hacky.\n The method was discovered by dJeyL, props to him!",
+            "CommentTags": [],
+            "FunctionName": "register_native",
+            "Function": "native register_native(const name[], const handler[], style=0);"
+        },
+        {
+            "Comment": "Registers a library.  To mark a library as required, place the following\nin your include file:\n #pragma reqlib <name>\n #if !defined AMXMODX_NOAUTOLOAD\n  #pragma loadlib <name>\n #endif",
+            "CommentTags": [],
+            "FunctionName": "register_library",
+            "Function": "native register_library(const library[]);"
+        },
+        {
+            "Comment": "Logs an error in your native, and breaks into the debugger.\nActs as if the calling plugin had the error.",
+            "CommentTags": [],
+            "FunctionName": "log_error",
+            "Function": "native log_error(error, const fmt[], any:...);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native param_convert(num);",
+            "FunctionName": "param_convert"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_string(param, dest[], maxlen);",
+            "FunctionName": "get_string"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_string(param, dest[], maxlen);",
+            "FunctionName": "set_string"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_param(param);",
+            "FunctionName": "get_param"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:get_param_f(param);",
+            "FunctionName": "Float:get_param_f"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_param_byref(param);",
+            "FunctionName": "get_param_byref"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:get_float_byref(param);",
+            "FunctionName": "Float:get_float_byref"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_param_byref(param, value);",
+            "FunctionName": "set_param_byref"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_float_byref(param, Float:value);",
+            "FunctionName": "set_float_byref"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_array(param, dest[], size);",
+            "FunctionName": "get_array"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_array_f(param, Float:dest[], size);",
+            "FunctionName": "get_array_f"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_array(param, const source[], size);",
+            "FunctionName": "set_array"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_array_f(param, const Float:source[], size);",
+            "FunctionName": "set_array_f"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native query_client_cvar(id, const cvar[], const resultFunc[], paramlen=0, const params[] = \"\");",
+            "FunctionName": "query_client_cvar"
+        },
+        {
+            "Comment": "Allows you to trap error messages that occur in your plugin.\nYou can use this to override the debug messages that occur when your plugin\n causes some sort of runtime error.  Your handler will be called in this style:\n\npublic error_filter(error_code, bool:debugging, message[])\n   error_code is the AMX_ERR code.  debugging is whether or not the plugin is in debug mode.\n   message[] is any message that was sent along with the error.\nReturn PLUGIN_CONTINUE to let the error pass through the filter.\nReturn PLUGIN_HANDLED to block the error from displaying.",
+            "CommentTags": [],
+            "FunctionName": "set_error_filter",
+            "Function": "native set_error_filter(const handler[]);"
+        },
+        {
+            "Comment": "Gets a trace handle for the item at the top of the traced call stack.\nReturns 0 if no debugging information is available.",
+            "CommentTags": [],
+            "FunctionName": "dbg_trace_begin",
+            "Function": "native dbg_trace_begin();"
+        },
+        {
+            "Comment": "Gets the next item in a traced call stack.  Returns 0 if no more traces exist.",
+            "CommentTags": [],
+            "FunctionName": "dbg_trace_next",
+            "Function": "native dbg_trace_next(trace);"
+        },
+        {
+            "Comment": "Gets the call stack info for a trace.",
+            "CommentTags": [],
+            "FunctionName": "dbg_trace_info",
+            "Function": "native dbg_trace_info(trace, &line, function[], maxLength1, file[], maxLength2);"
+        },
+        {
+            "Comment": "Gets the formatted error string, which looks like \"Run time error X: (description)\"",
+            "CommentTags": [],
+            "FunctionName": "dbg_fmt_error",
+            "Function": "native dbg_fmt_error(buffer[], maxLength);"
+        },
+        {
+            "Comment": "Sets a native filter.  This must be first set in plugin_natives(), but future calls will\n simply set a new filter.\nThis filter will allow your plugin to load even if its modules aren't loaded.  For example,\n if Fun isn't loaded and you use set_user_frags, your plugin will still load.  However, if you\n attempt to call this native, your filter will intercept it with these parameters:\n\npublic function native_filter(const name[], index)\n native - name of native\n index - index of native\n trap - 0 if native couldn't be found, 1 if native use was attempted\n\nIf you return PLUGIN_HANDLED, no error is thrown.  If you return PLUGIN_CONTINUE,\n your plugin will have a run-time-error.  To print your own error, or change the default,\n you can return PLUGIN_HANDLED or return PLUGIN_CONTINUE and use set_error_filter.\nIf you return PLUGIN_CONTINUE when trap is 0, the plugin will ABORT AND FAIL TO LOAD!\nWhen trap is 0, it is unsafe to use natives that modify the server or use other plugins.",
+            "CommentTags": [],
+            "FunctionName": "set_native_filter",
+            "Function": "native set_native_filter(const handler[]);"
+        },
+        {
+            "Comment": "This function sets a module/library filter.  It will let you intercept the automatic requirement\n of a module and return PLUGIN_CONTINUE to fail load or PLUGIN_HANDLED to imply that load\n can continue even without the module.\n\nThis is the most unforgiving of the filter functions.  You can ONLY call it during plugin_natives,\n and any error that occurs is not filtered -- instead your plugin will fail to load as if you\n returned PLUGIN_CONTINUE.\n\nYour handler will be called with this prototype:\n\npublic module_filter(const library[], LibType:type);\n library - library or class name of the module that is required\n libtype - The type of requirement being checked (library/module or class).\n\n\nset_module_filter() returns 0 on success (unlike most natives).",
+            "CommentTags": [],
+            "FunctionName": "set_module_filter",
+            "Function": "native set_module_filter(const handler[]);"
+        },
+        {
+            "Comment": "Aborts execution of the current callback.  Your script will throw a run time error.\nYou can also specify an optional message.\nYou should NOT call this function inside:\n - Error or module filters (native filters are safe if trap is 1)\n - plugin_natives()\nNote that the plugin's filename is prepending to your message:\n [myplugin.amxx] MESSAGE",
+            "CommentTags": [],
+            "FunctionName": "abort",
+            "Function": "native abort(error, const fmt[]=\"\", any:...);"
+        },
+        {
+            "Comment": "Checks if a specific module is loaded.  This is the exact same method AMX Mod X\n uses to see if a module is required by a plugin.  For example:\n module_exists(\"cstrike\")\n module_exists(\"dbi\")",
+            "CommentTags": [],
+            "FunctionName": "module_exists",
+            "Function": "native module_exists(const logtag[]);"
+        },
+        {
+            "Comment": "Checks if a library/class is loaded.  This is the newer version of module_exists.",
+            "CommentTags": [],
+            "FunctionName": "LibraryExists",
+            "Function": "native LibraryExists(const library[], LibType:type);"
+        },
+        {
+            "Comment": "Returns the next valid hudchannel for a user, from 1-4.",
+            "CommentTags": [],
+            "FunctionName": "next_hudchannel",
+            "Function": "native next_hudchannel(player);"
+        },
+        {
+            "Comment": "Creates a HUD Synchronization Object.  Create one of these\n for each section of the screen that contains overlapping HUD messages.\nFor example, if you use both sides of the screen to display three messages\n that can potentially overlap, each side counts as a synchronizable area.\nYou can then use ShowSyncHudMsg() to correctly synchronize displaying the\n HUD message with any other messages potentially in its class.  Note that this\n does not yet do anything like reserve screen area, its sole purpose is to be\n able to wipe an old message on an auto-channel and ensure that it will not\n clear a message from another plugin.\nThe parameters are kept blank for future use.",
+            "CommentTags": [],
+            "FunctionName": "CreateHudSyncObj",
+            "Function": "native CreateHudSyncObj(num=0, ...);"
+        },
+        {
+            "Comment": "Displays a synchronized HUD message.  This will check that your\n HUD object has its previous display on the screen cleared before\n it proceeds to write another.  It will only do this in the case\n of that channel not having been cleared already.\nTarget can be 0 for all players or 1-get_maxplayers().\nYou must use set_hudmessage, although the channel parameter is\n entirely ignored.",
+            "CommentTags": [],
+            "FunctionName": "ShowSyncHudMsg",
+            "Function": "native ShowSyncHudMsg(target, syncObj, const fmt[], any:...);"
+        },
+        {
+            "Comment": "Clears the display on a HudSync Object.  This is essentially the same\n thing as: ShowSyncHudMsg(x, y, \"\"), except doing that would send\n out two messages and use up another channel.  This re-uses the last\n channel and clears it at the same time.\nNote: for this you do not have to use set_hudmessage().\nNote: target can be 0 for all players.",
+            "CommentTags": [],
+            "FunctionName": "ClearSyncHud",
+            "Function": "native ClearSyncHud(target, syncObj);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native int3();",
+            "FunctionName": "int3"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_fail_state(const err_msg[]);",
+            "FunctionName": "set_fail_state"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_var_addr(any:...);",
+            "FunctionName": "get_var_addr"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_addr_val(addr);",
+            "FunctionName": "get_addr_val"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_addr_val(addr, val);",
+            "FunctionName": "set_addr_val"
+        },
+        {
+            "Comment": "Creates a multi-plugin forward.\nStop type must be one of the ET_ values in amxconst.inc\nresults will be > 0 for success",
+            "CommentTags": [],
+            "FunctionName": "CreateMultiForward",
+            "Function": "native CreateMultiForward(const name[], stop_type, ...);"
+        },
+        {
+            "Comment": "Creates a multi-forward plugin that can filter between old/new plugins.\nOld plugins are used by the AMX Mod backwards compatibility layer.\nStop type must be one of the ET_ values in amxconst.inc\nForward type must be one of the FORWARD_ values in amxconst.inc.",
+            "CommentTags": [],
+            "FunctionName": "CreateMultiForwardEx",
+            "Function": "native CreateMultiForwardEx(const name[], stop_type, forward_type, ...);"
+        },
+        {
+            "Comment": "Creates a forward for one plugin.\nResults will be > 0 for success.\nid should be an id such as returned by find_plugin_byfile.\nUnlike get_plugin(), negative numbers will not work.",
+            "CommentTags": [],
+            "FunctionName": "CreateOneForward",
+            "Function": "native CreateOneForward(plugin_id, const name[], ...);"
+        },
+        {
+            "Comment": "prepares an array.  use this and pass the result into\nExecuteForward() instead of the array itself.",
+            "CommentTags": [],
+            "FunctionName": "PrepareArray",
+            "Function": "native PrepareArray(const array[], size, copyback=0);"
+        },
+        {
+            "Comment": "executes a forward.  returns result in ret.\nreturns 1 for success, 0 for failure.",
+            "CommentTags": [],
+            "FunctionName": "ExecuteForward",
+            "Function": "native ExecuteForward(forward_handle, &ret, any:...);"
+        },
+        {
+            "Comment": "Destroys/deallocates any type of forward",
+            "CommentTags": [],
+            "FunctionName": "DestroyForward",
+            "Function": "native DestroyForward(forward_handle);"
+        },
+        {
+            "Comment": "Get a cvar pointer.  Returns 0 if not found.",
+            "CommentTags": [],
+            "FunctionName": "get_cvar_pointer",
+            "Function": "native get_cvar_pointer(const cvar[]);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_pcvar_flags(pcvar);",
+            "FunctionName": "get_pcvar_flags"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_pcvar_flags(pcvar, flags);",
+            "FunctionName": "set_pcvar_flags"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_pcvar_num(pcvar);",
+            "FunctionName": "get_pcvar_num"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_pcvar_num(pcvar, num);",
+            "FunctionName": "set_pcvar_num"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:get_pcvar_float(pcvar);",
+            "FunctionName": "Float:get_pcvar_float"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_pcvar_float(pcvar, Float:num);",
+            "FunctionName": "set_pcvar_float"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_pcvar_string(pcvar, string[], maxlen);",
+            "FunctionName": "get_pcvar_string"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_pcvar_string(pcvar, const string[]);",
+            "FunctionName": "set_pcvar_string"
+        },
+        {
+            "Comment": "Sets a whole array to a certain value.",
+            "CommentTags": [],
+            "FunctionName": "arrayset",
+            "Function": "native arrayset(array[], value, size);"
+        },
+        {
+            "Comment": "Returns the weapon id, otherwise 0 when no id found.\nThe weapon name is case sensitive, and has the weapon_* form.",
+            "CommentTags": [],
+            "FunctionName": "get_weaponid",
+            "Function": "native get_weaponid(const name[]);"
+        },
+        {
+            "Comment": "Adds an admin to the dynamic admin storage\nfor lookup at a later time",
+            "CommentTags": [],
+            "FunctionName": "admins_push",
+            "Function": "native admins_push(const AuthData[], const Password[], Access, Flags);"
+        },
+        {
+            "Comment": "Gets the number of admins in the dynamic admin\nstorage list",
+            "CommentTags": [],
+            "FunctionName": "admins_num",
+            "Function": "native admins_num();"
+        },
+        {
+            "Comment": "Gets information about a dynamically stored admin\nUse the enum AdminProp\nReturns an integer value: AdminProp_Access, AdminProp_Flags\nSets the buffer string: AdminProp_Auth, AdminProp_Password",
+            "CommentTags": [],
+            "FunctionName": "admins_lookup",
+            "Function": "native admins_lookup(num, AdminProp:Property, Buffer[]=\"\", BufferSize=0);"
+        },
+        {
+            "Comment": "Clears the list of dynamically stored admins",
+            "CommentTags": [],
+            "FunctionName": "admins_flush",
+            "Function": "native admins_flush();"
+        }
+    ],
+    "constants": [
+        {
+            "Comment": "The following two natives are useful for creating cross-mod plugins\n where instead of #define flags to compile separate versions, you can\n filter out the natives and modules depending on the current mod.\nExamples of this usage are in plmenu.sma, which filters out the cstrike module.",
+            "CommentTags": [],
+            "Constant": ""
+        },
+        {
+            "Comment": "CVAR Pointer natives.  Use these for\n more optimized CVAR usage.\nregister_cvar() returns a pointer you can use.",
+            "CommentTags": [],
+            "Constant": ""
+        }
+    ]
+}

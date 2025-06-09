@@ -1,0 +1,71 @@
+{
+    "functions": [
+        {
+            "Comment": "Gets stats from given weapon index. If wpnindex is 0\nthen the stats are from all weapons. If weapon has not been used function\nreturns 0 in other case 1. Fields in stats are:\n0 - kills\n1 - deaths\n2 - headshots\n3 - teamkilling\n4 - shots\n5 - hits\n6 - damage\n\nFor body hits fields see amxconst.inc.",
+            "CommentTags": [],
+            "FunctionName": "get_user_wstats",
+            "Function": "native get_user_wstats(index,wpnindex,stats[8],bodyhits[8]);"
+        },
+        {
+            "Comment": "Gets round stats from given weapon index.",
+            "CommentTags": [],
+            "FunctionName": "get_user_wrstats",
+            "Function": "native get_user_wrstats(index,wpnindex,stats[8],bodyhits[8]);"
+        },
+        {
+            "Comment": "Gets overall stats which are stored in file on server\nand updated on every respawn or user disconnect.\nFunction returns the position in stats by diff. kills to deaths.",
+            "CommentTags": [],
+            "FunctionName": "get_user_stats",
+            "Function": "native get_user_stats(index,stats[8],bodyhits[8]);"
+        },
+        {
+            "Comment": "Gets round stats of player.",
+            "CommentTags": [],
+            "FunctionName": "get_user_rstats",
+            "Function": "native get_user_rstats(index,stats[8],bodyhits[8]);"
+        },
+        {
+            "Comment": "Gets stats with which user have killed/hurt his victim. If victim is 0\nthen stats are from all victims. If victim has not been hurt, function\nreturns 0 in other case 1. User stats are reset on his respawn.",
+            "CommentTags": [],
+            "FunctionName": "get_user_vstats",
+            "Function": "native get_user_vstats(index,victim,stats[8],bodyhits[8],wpnname[]=\"\",len=0);"
+        },
+        {
+            "Comment": "Gets stats with which user have been killed/hurt. If killer is 0\nthen stats are from all attacks. If killer has not hurt user, function\nreturns 0 in other case 1. User stats are reset on his respawn.",
+            "CommentTags": [],
+            "FunctionName": "get_user_astats",
+            "Function": "native get_user_astats(index,wpnindex,stats[8],bodyhits[8],wpnname[]=\"\",len=0);"
+        },
+        {
+            "Comment": "Resets life, weapon, victims and attackers user stats.",
+            "CommentTags": [],
+            "FunctionName": "reset_user_wstats",
+            "Function": "native reset_user_wstats(index);"
+        },
+        {
+            "Comment": "Gets overall stats which stored in stats.dat file in amx folder\nand updated on every mapchange or user disconnect.\nFunction returns next index of stats entry or 0 if no more exists.",
+            "CommentTags": [],
+            "FunctionName": "get_stats",
+            "Function": "native get_stats(index,stats[8],bodyhits[8],name[],len,authid[] = \"\",authidlen = 0);"
+        },
+        {
+            "Comment": "Returns number of all entries in stats.",
+            "CommentTags": [],
+            "FunctionName": "get_statsnum",
+            "Function": "native get_statsnum();"
+        },
+        {
+            "Comment": "new stats:\n0 - total defusions\n1 - bomb defused\n2 - bomb plants\n3 - bomb explosions",
+            "CommentTags": [],
+            "FunctionName": "get_user_stats2",
+            "Function": "native get_user_stats2(index,stats[4]);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_stats2(index,stats[4],authid[] = \"\",authidlen = 0);",
+            "FunctionName": "get_stats2"
+        }
+    ],
+    "constants": []
+}

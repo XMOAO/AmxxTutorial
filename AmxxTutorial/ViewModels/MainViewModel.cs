@@ -18,6 +18,8 @@ using AmxxTutorial.Pages;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using AmxxTutorial.Controls;
+using System.Security.AccessControl;
+using System.Linq;
 
 namespace AmxxTutorial.ViewModels;
 
@@ -33,6 +35,8 @@ public partial class MainViewModel : ViewModelBase
     // For switching scheme by binding.
     [ObservableProperty]
     private bool _CheckToggleScheme;
+    public event EventHandler<bool>? OnThemeChanged;
+    partial void OnCheckToggleSchemeChanged(bool value) => OnThemeChanged?.Invoke(this, value);
 
     public IReadOnlyList<RightMenuItem> RightMenuItems { get; }
 
@@ -49,38 +53,39 @@ public partial class MainViewModel : ViewModelBase
     private ObservableCollection<NavigationTabItem> _NavigationTabItemInfo;
 
     // Tab switch control
-    private NavigationTabItem _selectedNavigationTab;
-    public NavigationTabItem SelectedNavigationTab
+    [ObservableProperty]
+    private NavigationTabItem _SelectedNavigationTab;
+
+    partial void OnSelectedNavigationTabChanged(NavigationTabItem value)
     {
-        get => _selectedNavigationTab;
-        set
+        if (value != null)
         {
-            if (_selectedNavigationTab != value)
-            {
-                _selectedNavigationTab = value;
-                OnPropertyChanged(nameof(SelectedNavigationTab));
-            }
+            foreach (var tab in NavigationTabItemInfo)
+                tab.IsSelected = tab == value;
         }
     }
 
     public MainViewModel()
     {
-        _NavigationTabItemIcons = IconFactory.GetIconsByKeys(NavigationTabItemIconsKey);
+        if (NavigationTabItemIcons!= null)
+            NavigationTabItemIcons.Clear();
 
-        _NavigationTabItemInfo = new ObservableCollection<NavigationTabItem>
+        NavigationTabItemIcons = IconFactory.GetIconsByKeys(NavigationTabItemIconsKey);
+
+        NavigationTabItemInfo = new ObservableCollection<NavigationTabItem>
         {
             new NavigationTabItem { Header="Home", Detail="Home_Desc",
-                                    Page = null, Icon = _NavigationTabItemIcons[0] },
+                                    Icon = _NavigationTabItemIcons[0], Page = null  },
             new NavigationTabItem { Header="Article", Detail="Article_Desc",
-                                    Page = null, Icon = _NavigationTabItemIcons[1] },
+                                    Icon = _NavigationTabItemIcons[1], Page = null },
             new NavigationTabItem { Header="Reader",  Detail="Reader_Desc",
-                                    Page = new FunctionViewer(), Icon = _NavigationTabItemIcons[2]  },
+                                    Icon = _NavigationTabItemIcons[2], Page = new FunctionViewerPage()  },
             new NavigationTabItem { Header="Search",  Detail="Search_Desc",
-                                    Page = new FunctionFinder(), Icon = _NavigationTabItemIcons[3]  },
+                                    Icon = _NavigationTabItemIcons[3], Page = new FunctionFinderPage()  },
             new NavigationTabItem { Header="Setting", Detail="Setting_Desc",
-                                    Page = null, Icon = _NavigationTabItemIcons[4] }
+                                    Icon = _NavigationTabItemIcons[4], Page = null }
         };
-        SelectedNavigationTab = _NavigationTabItemInfo[0];
+        SelectedNavigationTab = NavigationTabItemInfo.FirstOrDefault();
 
         RightMenuItems =
         [
@@ -233,10 +238,18 @@ public class RightMenuItem
     public IList<RightMenuItem>? Items { get; set; }
 }
 
-public class NavigationTabItem
+public partial class NavigationTabItem : ViewModelBase
 {
-    public string Header { get; set; }
-    public string Detail { get; set; }
-    public IconItem Icon { get; set; }
-    public BaseUserControl? Page { get; set; }
+    [ObservableProperty]
+    private string? _Header;
+    [ObservableProperty]
+    private string? _Detail;
+    [ObservableProperty]
+    private IconItem? _Icon;
+
+    [ObservableProperty]
+    private Control? _Page;
+
+    [ObservableProperty]
+    private bool? _IsSelected;
 }

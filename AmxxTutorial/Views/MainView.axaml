@@ -92,105 +92,78 @@
 
     <!-- TabControl Section -->
     <Border Grid.Row="1" Margin="5">
-      <TabControl TabStripPlacement="Left"
-                  VerticalAlignment="Stretch"
-                  HorizontalAlignment="Stretch"
-                  ItemsSource="{Binding NavigationTabItemInfo}"
-                  SelectedItem="{Binding SelectedNavigationTab, Mode=TwoWay}">
+      <DockPanel>
+        <!-- 左侧：只负责显示 Tab 图标＋文字，不要 ContentTemplate -->
+        <TabControl
+          DockPanel.Dock="Left"
+          Width="80"
+          TabStripPlacement="Left"
+          VerticalAlignment="Stretch"
+          HorizontalAlignment="Stretch"
+          ItemsSource="{Binding NavigationTabItemInfo}"
+          SelectedItem="{Binding SelectedNavigationTab, Mode=TwoWay}">
 
-        <TabControl.Styles>
-          <Style Selector="TabControl /template/ #PART_BorderSeparator" x:SetterTargetType="Border">
-            <Setter Property="IsVisible" Value="False" />
-          </Style>
-        </TabControl.Styles>
+          <TabControl.Styles>
+            <Style Selector="TabControl /template/ #PART_BorderSeparator" x:SetterTargetType="Border">
+              <Setter Property="IsVisible" Value="False" />
+            </Style>
+          </TabControl.Styles>
 
-        <!-- Tab Item Template -->
-        <TabControl.ItemTemplate>
-          <DataTemplate>
-            <Grid Width="80" Height="80"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center">
-              <StackPanel Orientation="Vertical"
-                          HorizontalAlignment="Center"
-                          VerticalAlignment="Center">
-
-                <Viewbox Width="35" Height="35" Stretch="Uniform">
-                  <PathIcon Theme="{DynamicResource InnerPathIcon}"
-                            Data="{Binding Icon.Geometry}" />
-                </Viewbox>
-
-                <ctrl:LocalizedTextBlock HorizontalAlignment="Center"
-                                         ResourceKey="{Binding Header}"
-                                         FontSize="12"
-                                         IsVisible="{Binding !$parent[TabItem].IsSelected}" />
-              </StackPanel>
-            </Grid>
-          </DataTemplate>
-        </TabControl.ItemTemplate>
-
-        <!-- Tab Content Template -->
-        <TabControl.ContentTemplate>
-          <DataTemplate x:DataType="vm:NavigationTabItem">
-            <Border HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Theme="{DynamicResource CardBorder}"
-                    Classes="Shadow"
-                    CornerRadius="6"
-                    Margin="0"
-                    Padding="">
-              <Grid RowDefinitions="Auto, *" >
-
-                <!-- 头部：图标、文字、按钮 三列 -->
-                <Grid Grid.Row="0" 
-                      ColumnDefinitions="Auto, Auto, *">
-
-                  <Canvas Grid.Column="0" Width="100" Height="100"
-                          VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <Border Margin="0"
-                            Padding=""
-                            CornerRadius="8"
-                            Classes="Shadow"
-                            Theme="{DynamicResource CardBorder}">
-                      <PathIcon Theme="{DynamicResource InnerPathIcon}"
-                                Data="{Binding Icon.Geometry}"
-                                Width="50" Height="50" />
-                    </Border>
-                  </Canvas>
-
-                  <!-- 文本区：一行大字 + 一行小字 -->
-                  <StackPanel Grid.Column="1"
-                              Margin="10"
-                              
-                              Orientation="Vertical"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Bottom">
-                    <ctrl:LocalizedTextBlock Theme="{StaticResource TitleTextBlock}"
-                                             ResourceKey="{Binding Header}"
-                                             Classes="H1"
-                                             VerticalAlignment="Center"/>
-                    <ctrl:LocalizedTextBlock Classes="Secondary"
-                                             ResourceKey="{Binding Detail}"
-                                             VerticalAlignment="Center"
-                                             Margin="0,5,0,0"/>
-                  </StackPanel>
-
-                  <!-- 每个页面自带的右上按钮 -->
-                  <ContentControl Grid.Column="2" 
-                                  Content="{Binding Page.PageExtraContent}"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"/>
-                </Grid>
-
-                <!-- 页面内容 -->
-                <ContentControl Grid.Row="1" Margin="0"
-                                VerticalAlignment="Stretch"
-                                HorizontalAlignment="Stretch"
-                                Content="{Binding Page}"/>
+          <!-- 只保留 ItemTemplate 用于绘制按钮 -->
+          <TabControl.ItemTemplate>
+            <DataTemplate>
+              <Grid Width="80" Height="80" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                  <Viewbox Width="35" Height="35" Stretch="Uniform">
+                    <PathIcon Theme="{DynamicResource InnerPathIcon}"
+                              Data="{Binding Icon.Geometry}" />
+                  </Viewbox>
+                  <ctrl:LocalizedTextBlock HorizontalAlignment="Center"
+                                           ResourceKey="{Binding Header}"
+                                           FontSize="12"
+                                           IsVisible="{Binding !IsSelected}" />
+                </StackPanel>
               </Grid>
-            </Border>
-          </DataTemplate>
-        </TabControl.ContentTemplate>
-      </TabControl>
+            </DataTemplate>
+          </TabControl.ItemTemplate>
+        </TabControl>
+
+        <!-- 右侧：一次性实例化所有页面，仅用 IsVisible 切换 -->
+        <ItemsControl ItemsSource="{Binding NavigationTabItemInfo}">
+          <!-- 用 Grid 做 ItemsPanel，这样所有子项都在同一个单元格，互相覆盖 -->
+          <ItemsControl.Styles>
+            <Style Selector="ItemsControl > ContentPresenter"
+                   x:DataType="vm:NavigationTabItem"
+                   x:CompileBindings="True">
+              <Setter Property="IsVisible" Value="{Binding IsSelected}" />
+            </Style>
+          </ItemsControl.Styles>
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <Grid />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="vm:NavigationTabItem">
+              <Border HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Theme="{DynamicResource CardBorder}"
+                      Classes="Shadow"
+                      CornerRadius="6"
+                      Margin="0">
+                <ContentControl Content="{Binding Page}"
+                                IsVisible="{Binding IsSelected}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"/>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+
+
+        
+      </ItemsControl>
+      </DockPanel>
     </Border>
   </Grid>
 </UserControl>

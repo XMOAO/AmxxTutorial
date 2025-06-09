@@ -26,13 +26,19 @@
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="Irihi.Ursa" />
     <PackageReference Include="Irihi.Ursa.Themes.Semi" />
+    <PackageReference Include="Markdown.Avalonia" />
+    <PackageReference Include="Markdown.Avalonia.SyntaxHigh" />
     <PackageReference Include="Semi.Avalonia" />
     <PackageReference Include="Semi.Avalonia.AvaloniaEdit" />
-    <PackageReference Include="Semi.Avalonia.ColorPicker" />
-    <PackageReference Include="Semi.Avalonia.DataGrid" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Pages\FunctionFinderPage.axaml.cs">
+      <DependentUpon>FunctionFinderPage.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\FunctionViewerPage.axaml.cs">
+      <DependentUpon>FunctionViewerPage.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Pages\HomeMenuPage.axaml.cs">
       <DependentUpon>HomeMenuPage.axaml</DependentUpon>
     </Compile>
@@ -45,9 +51,14 @@
     <Compile Update="Resources\Locales\Locales_en-us.axaml.cs">
       <DependentUpon>Locales_en-us.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\MainSplashWindow.axaml.cs">
+      <DependentUpon>MainSplashWindow.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Resources\Includes\" />
+    <Folder Include="Resources\Others\" />
+    <Folder Include="Styles\" />
   </ItemGroup>
 </Project>

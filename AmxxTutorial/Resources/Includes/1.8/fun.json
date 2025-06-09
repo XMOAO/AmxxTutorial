@@ -1,0 +1,137 @@
+{
+    "functions": [
+        {
+            "Comment": "Returns 1 if receiver hears sender via voice communication.",
+            "CommentTags": [],
+            "FunctionName": "get_client_listen",
+            "Function": "native get_client_listen(receiver, sender);"
+        },
+        {
+            "Comment": "Sets who can listen who. Function returns 0\nif for some reasons this setting can't be done.",
+            "CommentTags": [],
+            "FunctionName": "set_client_listen",
+            "Function": "native set_client_listen(receiver, sender, listen);"
+        },
+        {
+            "Comment": "Sets player godmode. If you want to disable godmode set only first parameter.",
+            "CommentTags": [],
+            "FunctionName": "set_user_godmode",
+            "Function": "native set_user_godmode(index, godmode = 0);"
+        },
+        {
+            "Comment": "Returns 1 if godmode is set.",
+            "CommentTags": [],
+            "FunctionName": "get_user_godmode",
+            "Function": "native get_user_godmode(index);"
+        },
+        {
+            "Comment": "Sets player armor.",
+            "CommentTags": [],
+            "FunctionName": "set_user_armor",
+            "Function": "native set_user_armor(index, armor);"
+        },
+        {
+            "Comment": "Sets player health.",
+            "CommentTags": [],
+            "FunctionName": "set_user_health",
+            "Function": "native set_user_health(index, health);"
+        },
+        {
+            "Comment": "Move player to origin.",
+            "CommentTags": [],
+            "FunctionName": "set_user_origin",
+            "Function": "native set_user_origin(index, const origin[3]);"
+        },
+        {
+            "Comment": "Sets player rendering mode.",
+            "CommentTags": [],
+            "FunctionName": "set_user_rendering",
+            "Function": "native set_user_rendering(index, fx = kRenderFxNone, r = 255, g = 255, b = 255, render = kRenderNormal, amount = 16);"
+        },
+        {
+            "Comment": "Gives item to player, name of item can start\nwith weapon_, ammo_ and item_. This event\nis announced with proper message to all players.",
+            "CommentTags": [],
+            "FunctionName": "give_item",
+            "Function": "native give_item(index, const item[]);"
+        },
+        {
+            "Comment": "Sets hit zones for player.\nParts of body are as bits:\n1   - generic\n2   - head\n4   - chest\n8   - stomach\n16  - left arm\n32  - right arm\n64  - left leg\n128 - right leg",
+            "CommentTags": [],
+            "FunctionName": "set_user_hitzones",
+            "Function": "native set_user_hitzones(index = 0, target = 0, body = 255);"
+        },
+        {
+            "Comment": "Get user hitzones.",
+            "CommentTags": [],
+            "FunctionName": "get_user_hitzones",
+            "Function": "native get_user_hitzones(index, target);"
+        },
+        {
+            "Comment": "Sets users max. speed.",
+            "CommentTags": [],
+            "FunctionName": "set_user_maxspeed",
+            "Function": "native set_user_maxspeed(index, Float:speed = -1.0);"
+        },
+        {
+            "Comment": "Returns users max. speed.",
+            "CommentTags": [],
+            "FunctionName": "Float:get_user_maxspeed",
+            "Function": "native Float:get_user_maxspeed(index);"
+        },
+        {
+            "Comment": "Sets users gravity.",
+            "CommentTags": [],
+            "FunctionName": "set_user_gravity",
+            "Function": "native set_user_gravity(index, Float:gravity = 1.0);"
+        },
+        {
+            "Comment": "Returns users gravity.",
+            "CommentTags": [],
+            "FunctionName": "Float:get_user_gravity",
+            "Function": "native Float:get_user_gravity(index);"
+        },
+        {
+            "Comment": "Spawns entity.",
+            "CommentTags": [],
+            "FunctionName": "spawn",
+            "Function": "native spawn(index);"
+        },
+        {
+            "Comment": "Sets player noclip. If you want to disable noclip set only first parameter.",
+            "CommentTags": [],
+            "FunctionName": "set_user_noclip",
+            "Function": "native set_user_noclip(index, noclip = 0);"
+        },
+        {
+            "Comment": "Returns 1 if noclip is set.",
+            "CommentTags": [],
+            "FunctionName": "get_user_noclip",
+            "Function": "native get_user_noclip(index);"
+        },
+        {
+            "Comment": "Returns 1 if player has silent footsteps, 0 if footsteps are set to normal",
+            "CommentTags": [],
+            "FunctionName": "get_user_footsteps",
+            "Function": "native get_user_footsteps(index);"
+        },
+        {
+            "Comment": "Gives player silent footsteps.\nif set = 0 it will return footsteps to normal",
+            "CommentTags": [],
+            "FunctionName": "set_user_footsteps",
+            "Function": "native set_user_footsteps(id, set = 1);"
+        },
+        {
+            "Comment": "Strips all weapons from user.",
+            "CommentTags": [],
+            "FunctionName": "strip_user_weapons",
+            "Function": "native strip_user_weapons(index);"
+        },
+        {
+            "Comment": "Sets player frags.",
+            "CommentTags": [],
+            "FunctionName": "set_user_frags",
+            "Function": "native set_user_frags(index, frags);"
+        }
+    ],
+    "constants": []
+}

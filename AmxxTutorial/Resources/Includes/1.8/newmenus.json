@@ -1,0 +1,466 @@
+{
+    "functions": [
+        {
+            "Comment": "@brief Creates a new menu object.\n\nThe handler function should be prototyped as:\n\npublic <function>(id, menu, item)\n id     - Client the menu is being acted upon.\n menu   - Menu resource identifier.\n item   - Item the client selected.  If less than 0, the menu was \n          cancelled and the item is a status code.  menu_display \n            should never be called immediately if the item is a status \n            code, for re-entrancy reasons.\n\nThe handler function should always return PLUGIN_HANDLED to block \nany old menu handlers from potentially feeding on the menu, unless \nthat is the desired functionality.\n\n@param title         Title the menu should use.\n@param handler        Name of the handler function.  The function will be invoked \n                       once and only once to every menu_display() call.\n@param ml            Unused (should be 0).\n@return                Menu resource identifier which must be destroyed via \n                       menu_destroy().  All menus are destroyed when the plugin \n                       unloads.\n@error                Function name not found.",
+            "CommentTags": [],
+            "FunctionName": "menu_create",
+            "Function": "native menu_create(const title[], const handler[], ml=0);"
+        },
+        {
+            "Comment": "Creates a menu item callback handler.\n\nThe handler function should be prototyped as:\n\npublic <function>(id, menu, item)\n id      - Client index being displayed to.\n menu    - Menu resource identifier.\n item    - Item being drawn.\n<return> - ITEM_IGNORE to use the default functionality.  ITEM_ENABLED to\n           explicitly enable or ITEM_DISABLED to explicitly disable.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "function",
+                    "Description": "Function name."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "Menu callback ID."
+                }
+            ],
+            "FunctionName": "menu_makecallback",
+            "Function": "native menu_makecallback(const function[]);"
+        },
+        {
+            "Comment": "Adds an menu to a menu.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "menu",
+                    "Description": "Menu resource identifier."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "name",
+                    "Description": "Item text to display."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "info",
+                    "Description": "Item info string for internal information."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "paccess",
+                    "Description": "Access required by the player viewing the menu."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "callback",
+                    "Description": "If set to a valid ID from menu_makecallback(), the\n         callback will be invoked before drawing the item."
+                },
+                {
+                    "Tag": "noreturn"
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid menu resource."
+                }
+            ],
+            "FunctionName": "menu_additem",
+            "Function": "native menu_additem(menu, const name[], const info[]=\"\", paccess=0, callback=-1);"
+        },
+        {
+            "Comment": "Returns the number of pages in a menu.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "menu",
+                    "Description": "Menu resource identifier."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "Number of pages in the menu."
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid menu resource."
+                }
+            ],
+            "FunctionName": "menu_pages",
+            "Function": "native menu_pages(menu);"
+        },
+        {
+            "Comment": "Returns the number of items in a menu.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "menu",
+                    "Description": "Menu resource identifier."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "Number of items in the menu."
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid menu resource."
+                }
+            ],
+            "FunctionName": "menu_items",
+            "Function": "native menu_items(menu);"
+        },
+        {
+            "Comment": "Displays a menu to one client.  This should never be called from a handler\nwhen the item is less than 0 (i.e. calling this from a cancelled menu will\nresult in an error).",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "Client index."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "menu",
+                    "Description": "Menu resource identifier."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "page",
+                    "Description": "Page to start from (starting from 0)."
+                },
+                {
+                    "Tag": "noreturn"
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid menu resource or client index."
+                }
+            ],
+            "FunctionName": "menu_display",
+            "Function": "native menu_display(id, menu, page=0);"
+        },
+        {
+            "Comment": "Given a page on a menu and a keypress on that page, returns the item id selected.\nIf the item is less than 0, a special option was chosen (such as MENU_EXIT).",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "menu",
+                    "Description": "Menu resource identifier."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "page",
+                    "Description": "Page on the menu."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "key",
+                    "Description": "Key pressed (from 1 to 10)."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "Item identifier, or <0 for a special selection code."
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid menu resource."
+                }
+            ],
+            "FunctionName": "menu_find_id",
+            "Function": "native menu_find_id(menu, page, key);"
+        },
+        {
+            "Comment": "Retrieves info about a menu item.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "menu",
+                    "Description": "Menu resource identifier."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "Item identifier."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "access",
+                    "Description": "Variable to store access value."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "info",
+                    "Description": "Buffer to store item info."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "infolen",
+                    "Description": "Item info buffer length."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "name",
+                    "Description": "Buffer to store item display text."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "namelen",
+                    "Description": "Item name buffer length."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "callback",
+                    "Description": "Callback ID."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "1 on success, 0 on failure."
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid menu resource."
+                }
+            ],
+            "FunctionName": "menu_item_getinfo",
+            "Function": "native menu_item_getinfo(menu, item, &access, info[], infolen, name[]=\"\", namelen=0, &callback);"
+        },
+        {
+            "Comment": "Sets an item's display text.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "menu",
+                    "Description": "Menu resource identifier."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "Item identifier."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "name",
+                    "Description": "New item display text."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "1 on success, 0 on failure."
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid menu resource."
+                }
+            ],
+            "FunctionName": "menu_item_setname",
+            "Function": "native menu_item_setname(menu, item, const name[]);"
+        },
+        {
+            "Comment": "Sets an item's info string.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "menu",
+                    "Description": "Menu resource identifier."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "Item identifier."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "info",
+                    "Description": "New item info string."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "1 on success, 0 on failure."
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid menu resource."
+                }
+            ],
+            "FunctionName": "menu_item_setcmd",
+            "Function": "native menu_item_setcmd(menu, item, const info[]);"
+        },
+        {
+            "Comment": "Sets an item's callback.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "menu",
+                    "Description": "Menu resource identifier."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "item",
+                    "Description": "Item identifier."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "callback",
+                    "Description": "New callback from menu_makecallback(), or -1 to clear."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "1 on success, 0 on failure."
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid menu resource."
+                }
+            ],
+            "FunctionName": "menu_item_setcall",
+            "Function": "native menu_item_setcall(menu, item, callback=-1);"
+        },
+        {
+            "Comment": "Destroys a menu.  Player menus will be cancelled (although may still linger\non the HUD), and future attempts to access the menu resource will result in\nan error.\n\nThis must be called if you create menus dynamically, otherwise you will\nleak memory.  For normal dynamic menus, you will destroy the menu in the\nhandler function (remembering to handle the case of a menu being cancelled,\nit must still be destroyed).",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "menu",
+                    "Description": "Menu resource identifier."
+                },
+                {
+                    "Tag": "noreturn"
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid menu resource."
+                }
+            ],
+            "FunctionName": "menu_destroy",
+            "Function": "native menu_destroy(menu);"
+        },
+        {
+            "Comment": "Returns information about a menu (if any) the client is currently viewing.\n\nIf newmenu is valid, then the menu will refer to the menuid associated with\nthe title.  If newmenu is not valid, and the menu is valid, then the player\nis viewing a menu displayed with show_menu().\n\nBoth may be invalid if the player is not viewing a menu.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "id",
+                    "Description": "Client index."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "menu",
+                    "Description": "Variable to store old menu id.  If none, then <1 will be\n             stored."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "newmenu",
+                    "Description": "Variable to store new menu id.  If none, then -1 will be\n          stored."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "menupage",
+                    "Description": "Variable to store current page of the new menu, if any."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "1 if the player is viewing a menu, 0 otherwise."
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid client."
+                }
+            ],
+            "FunctionName": "player_menu_info",
+            "Function": "native player_menu_info(id, &menu, &newmenu, &menupage=0);"
+        },
+        {
+            "Comment": "Adds a blank line to a menu.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "menu",
+                    "Description": "Menu resource identifier."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "slot",
+                    "Description": "1 (default) if the line should shift the numbering down.\n              0 if the line should be a visual shift only."
+                },
+                {
+                    "Tag": "noreturn"
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid menu resource."
+                }
+            ],
+            "FunctionName": "menu_addblank",
+            "Function": "native menu_addblank(menu, slot=1);"
+        },
+        {
+            "Comment": "Adds a text line to a menu.  Only available in amxmodx 1.8.1 and above.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "menu",
+                    "Description": "Menu resource identifier."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "text",
+                    "Description": "Text to add."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "slot",
+                    "Description": "1 (default) if the line should shift the numbering down.\n              0 if the line should be a visual shift only."
+                },
+                {
+                    "Tag": "noreturn"
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid menu resource."
+                }
+            ],
+            "FunctionName": "menu_addtext",
+            "Function": "native menu_addtext(menu, const text[], slot=1);"
+        },
+        {
+            "Comment": "Sets a menu property.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "menu",
+                    "Description": "Menu resource identifier."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "prop",
+                    "Description": "MPROP_ constant."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "...",
+                    "Description": "Property parameters."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "1 on success, 0 on failure."
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid menu resource or property."
+                }
+            ],
+            "FunctionName": "menu_setprop",
+            "Function": "native menu_setprop(menu, prop, ...);"
+        },
+        {
+            "Comment": "Cancels a player's menu, effectively forcing the player to select MENU_EXIT.\nThe menu will still exist on their screen but any results are invalidated,\nand the callback is invoked.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "player",
+                    "Description": "Client index."
+                },
+                {
+                    "Tag": "noreturn"
+                },
+                {
+                    "Tag": "error",
+                    "Description": "Invalid client index."
+                }
+            ],
+            "FunctionName": "menu_cancel",
+            "Function": "native menu_cancel(player);"
+        }
+    ],
+    "constants": []
+}

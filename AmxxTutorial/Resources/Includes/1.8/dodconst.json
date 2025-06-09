@@ -1,0 +1,25 @@
+{
+    "functions": [],
+    "constants": [
+        {
+            "Comment": "DoD teams",
+            "CommentTags": [],
+            "Constant": "#define ALLIES            1\n#define AXIS             2\n\n#define FT_NEW            1<<0\n#define FT_OLD            1<<1\n\n#define STAMINA_SET        0\n#define STAMINA_RESET        1\n\n#define FUSE_SET        0\n#define FUSE_RESET        1\n\n#define DODMAX_WEAPONS        46 // 5 slots for custom weapons\n\n// DoD Weapon Types\nenum\n{\n    DODWT_PRIMARY = 0,\n    DODWT_SECONDARY,\n    DODWT_MELEE,\n    DODWT_GRENADE, \n    DODWT_OTHER\n};\n\n// Ammo Channels\n#define AMMO_SMG 1         // thompson, greasegun, sten, mp40\n#define AMMO_ALTRIFLE 2     // carbine, k43, mg34\n#define AMMO_RIFLE 3         // garand, enfield, scoped enfield, k98, scoped k98\n#define AMMO_PISTOL 4         // colt, webley, luger\n#define AMMO_SPRING 5         // springfield\n#define AMMO_HEAVY 6         // bar, bren, stg44, fg42, scoped fg42\n#define AMMO_MG42 7            // mg42\n#define AMMO_30CAL 8         // 30cal\n#define AMMO_GREN 9         // grenades (should be all 3 types)\n#define AMMO_ROCKET 13         // bazooka, piat, panzerschreck\nenum { \n    PS_NOPRONE =0,\n    PS_PRONE,\n    PS_PRONEDEPLOY,\n    PS_DEPLOY,\n};"
+        },
+        {
+            "Comment": "info types for dod_get_map_info native",
+            "CommentTags": [],
+            "Constant": "enum {\n    MI_ALLIES_TEAM = 0,\n    MI_ALLIES_PARAS,\n    MI_AXIS_PARAS,\n};"
+        },
+        {
+            "Comment": "DoD weapons",
+            "CommentTags": [],
+            "Constant": "enum {\n    DODW_AMERKNIFE = 1,\n    DODW_GERKNIFE,\n    DODW_COLT,\n    DODW_LUGER,\n    DODW_GARAND,\n    DODW_SCOPED_KAR,\n    DODW_THOMPSON,\n    DODW_STG44,\n    DODW_SPRINGFIELD,\n    DODW_KAR,\n    DODW_BAR,\n    DODW_MP40,\n    DODW_HANDGRENADE,\n    DODW_STICKGRENADE,\n    DODW_STICKGRENADE_EX,\n    DODW_HANDGRENADE_EX,\n    DODW_MG42,\n    DODW_30_CAL,\n    DODW_SPADE,\n    DODW_M1_CARBINE,\n    DODW_MG34,\n    DODW_GREASEGUN,\n    DODW_FG42,\n    DODW_K43,\n    DODW_ENFIELD,\n    DODW_STEN,\n    DODW_BREN,\n    DODW_WEBLEY,\n    DODW_BAZOOKA,\n    DODW_PANZERSCHRECK,\n    DODW_PIAT,\n    DODW_SCOPED_FG42,\n    DODW_FOLDING_CARBINE,\n    DODW_KAR_BAYONET,\n    DODW_SCOPED_ENFIELD,\n    DODW_MILLS_BOMB,\n    DODW_BRITKNIFE,\n    DODW_GARAND_BUTT,\n    DODW_ENFIELD_BAYONET,\n    DODW_MORTAR,\n    DODW_K43_BUTT,\n};"
+        },
+        {
+            "Comment": "DoD Classes",
+            "CommentTags": [],
+            "Constant": "enum {\n    DODC_GARAND = 1,\n    DODC_CARBINE,\n    DODC_THOMPSON, \n    DODC_GREASE, \n    DODC_SNIPER, \n    DODC_BAR, \n    DODC_30CAL, \n    DODC_BAZOOKA, \n    //DODC_ALLIES_MORTAR,\n    DODC_KAR = 10, \n    DODC_K43, \n    DODC_MP40, \n    DODC_MP44, \n    DODC_SCHARFSCHUTZE, \n    DODC_FG42, \n    DODC_SCOPED_FG42, \n    DODC_MG34, \n    DODC_MG42, \n    DODC_PANZERJAGER, \n    //DODC_AXIS_MORTAR,\n    DODC_ENFIELD = 21, \n    DODC_STEN, \n    DODC_MARKSMAN, \n    DODC_BREN, \n    DODC_PIAT, \n    //DODC_BRIT_MORTAR,\n};"
+        }
+    ]
+}

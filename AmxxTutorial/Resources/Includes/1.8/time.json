@@ -1,0 +1,17 @@
+{
+    "functions": [
+        {
+            "Comment": "Stock by Brad",
+            "CommentTags": [],
+            "FunctionName": "get_time_length",
+            "Function": "stock get_time_length(id, unitCnt, type, output[], outputLen)"
+        }
+    ],
+    "constants": [
+        {
+            "Comment": "Time unit types for get_time_length()",
+            "CommentTags": [],
+            "Constant": "enum \n{\n    timeunit_seconds = 0,\n    timeunit_minutes,\n    timeunit_hours,\n    timeunit_days,\n    timeunit_weeks,\n};\n\n// seconds are in each time unit\n#define SECONDS_IN_MINUTE 60\n#define SECONDS_IN_HOUR   3600\n#define SECONDS_IN_DAY    86400\n#define SECONDS_IN_WEEK   604800"
+        }
+    ]
+}

@@ -1,0 +1,280 @@
+{
+    "functions": [
+        {
+            "Comment": "Creates a connection information tuple.\nThis tuple must be passed into connection routines.\nFreeing the tuple is not necessary, but is a good idea if you\n create many of them.  You can cache these handles globally.\n!!NOTE!! I have seen most people think that this connects to the DB.\n  Nowhere does it say this, and in fact it does not.  It only caches\n  the connection information, the host/user/pass/etc.\n\nThe optional timeout parameter specifies how long connections should wait before\ngiving up.  If 0, the default (which is undefined) is used.",
+            "CommentTags": [],
+            "FunctionName": "Handle:SQL_MakeDbTuple",
+            "Function": "native Handle:SQL_MakeDbTuple(const host[], const user[], const pass[], const db[], timeout=0);"
+        },
+        {
+            "Comment": "Frees an SQL handle.\nThe handle can be to anything (tuple, connection, query, results, etc).\nIf you free a database connection, it closes the connection as well.",
+            "CommentTags": [],
+            "FunctionName": "SQL_FreeHandle",
+            "Function": "native SQL_FreeHandle(Handle:h);"
+        },
+        {
+            "Comment": "Opens a database connection.\nReturns an SQL handle, which must be freed.\nReturns Empty_Handle on failure.",
+            "CommentTags": [],
+            "FunctionName": "Handle:SQL_Connect",
+            "Function": "native Handle:SQL_Connect(Handle:cn_tuple, &errcode, error[], maxlength);"
+        },
+        {
+            "Comment": "Prepares a query.\nThe query must always be freed.\nThis does not actually do the query!",
+            "CommentTags": [],
+            "FunctionName": "Handle:SQL_PrepareQuery",
+            "Function": "native Handle:SQL_PrepareQuery(Handle:db, const fmt[], any:...);"
+        },
+        {
+            "Comment": "Back-quotes characters in a string for database querying.\nNote: The buffer's maximum size should be 2*strlen(string) to catch\nall scenarios.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "db",
+                    "Description": "Database handle for localization, or Empty_Handle\n                 for when a handle is not available."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "buffer",
+                    "Description": "Buffer to copy to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "buflen",
+                    "Description": "Maximum size of the buffer."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "string",
+                    "Description": "String to backquote (should not overlap buffer)."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "Length of new string, or -1 on failure."
+                }
+            ],
+            "FunctionName": "SQL_QuoteString",
+            "Function": "native SQL_QuoteString(Handle:db, buffer[], buflen, const string[]);"
+        },
+        {
+            "Comment": "Back-quotes characters in a string for database querying.\nNote: The buffer's maximum size should be 2*strlen(string) to catch\nall scenarios.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "db",
+                    "Description": "Database handle for localization, or Empty_Handle\n                 for when a handle is not available."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "buffer",
+                    "Description": "Buffer to copy to."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "buflen",
+                    "Description": "Maximum size of the buffer."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "fmt",
+                    "Description": "Format of string to backquote (should not overlap buffer)."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "...",
+                    "Description": "Format arguments."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "Length of new string, or -1 on failure."
+                }
+            ],
+            "FunctionName": "SQL_QuoteStringFmt",
+            "Function": "native SQL_QuoteStringFmt(Handle:db, buffer[], buflen, const fmt[], any:...);"
+        },
+        {
+            "Comment": "Prepares and executes a threaded query.\nThis will not interrupt gameplay in the event of a poor/lossed\n connection, however, the interface is more complicated and\n asynchronous.  Furthermore, a new connection/disconnection is\n made for each query to simplify driver support.\nThe handler should look like:",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "failstate",
+                    "Description": "- One of the three TQUERY_ defines."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "query",
+                    "Description": "- Handle to the query, do not free it."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "error",
+                    "Description": "- An error message, if any."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "errnum",
+                    "Description": "- An error code, if any."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "data",
+                    "Description": "- Data array you passed in."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "size",
+                    "Description": "- Size of the data array you passed in."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "queuetime",
+                    "Description": "- Amount of gametime that passed while the query was resolving.\n\ndler(failstate, Handle:query, error[], errnum, data[], size, Float:queuetime)\n\ne you pass in is a DB Tuple, NOT an active connection!\ne does not need to be freed.\n function is not guaranteed to be in another thread\ns not).  You're seeing data \"after the fact\",\n execute another query you should run\ny again with new data."
+                }
+            ],
+            "FunctionName": "SQL_ThreadQuery",
+            "Function": "native SQL_ThreadQuery(Handle:db_tuple, const handler[], const query[], const data[]=\"\", dataSize=0);"
+        },
+        {
+            "Comment": "Executes a query.\nReturns 1 if the query succeeded.\nReturns 0 if the query failed.\nNOTE: You can call this multiple times as long as its parent\n connection is kept open.  Each time the result set will be freed\n from the previous call.",
+            "CommentTags": [],
+            "FunctionName": "SQL_Execute",
+            "Function": "native SQL_Execute(Handle:query);"
+        },
+        {
+            "Comment": "Gets information about a failed query error.\nReturns the errorcode.",
+            "CommentTags": [],
+            "FunctionName": "SQL_QueryError",
+            "Function": "native SQL_QueryError(Handle:query, error[], maxlength);"
+        },
+        {
+            "Comment": "Returns 1 if there are more results to be read,\n 0 otherwise.",
+            "CommentTags": [],
+            "FunctionName": "SQL_MoreResults",
+            "Function": "native SQL_MoreResults(Handle:query);"
+        },
+        {
+            "Comment": "Tells whether a specific column in the current row\n is NULL or not.",
+            "CommentTags": [],
+            "FunctionName": "SQL_IsNull",
+            "Function": "native SQL_IsNull(Handle:query, column);"
+        },
+        {
+            "Comment": "Retrieves the current result.\nA successful query starts at the first result,\n so you should not call SQL_NextRow() first.\nPassing no extra params - return int\nPassing one extra param - return float in 1st extra arg\nPassing two extra params - return string in 1st arg, max length in 2nd\nExample:\n new num = SQL_ReadResult(query, 0)\n new Float:num2\n new str[32]\n SQL_ReadResult(query, 1, num2)\n SQL_ReadResult(query, 2, str, 31)",
+            "CommentTags": [],
+            "FunctionName": "SQL_ReadResult",
+            "Function": "native SQL_ReadResult(Handle:query, column, {Float,_}:...);"
+        },
+        {
+            "Comment": "Advances to the next result (return value should be ignored).",
+            "CommentTags": [],
+            "FunctionName": "SQL_NextRow",
+            "Function": "native SQL_NextRow(Handle:query);"
+        },
+        {
+            "Comment": "Returns the number of affected rows.",
+            "CommentTags": [],
+            "FunctionName": "SQL_AffectedRows",
+            "Function": "native SQL_AffectedRows(Handle:query);"
+        },
+        {
+            "Comment": "Returns the number of rows total.",
+            "CommentTags": [],
+            "FunctionName": "SQL_NumResults",
+            "Function": "native SQL_NumResults(Handle:query);"
+        },
+        {
+            "Comment": "Returns the number of columns total.",
+            "CommentTags": [],
+            "FunctionName": "SQL_NumColumns",
+            "Function": "native SQL_NumColumns(Handle:query);"
+        },
+        {
+            "Comment": "Returns the name of a column.\nErrors on a bad field number.",
+            "CommentTags": [],
+            "FunctionName": "SQL_FieldNumToName",
+            "Function": "native SQL_FieldNumToName(Handle:query, num, name[], maxlength);"
+        },
+        {
+            "Comment": "Returns the number of a named column, or -1 if not found.",
+            "CommentTags": [],
+            "FunctionName": "SQL_FieldNameToNum",
+            "Function": "native SQL_FieldNameToNum(Handle:query, const name[]);"
+        },
+        {
+            "Comment": "Rewinds a result set to the first row.",
+            "CommentTags": [],
+            "FunctionName": "SQL_Rewind",
+            "Function": "native SQL_Rewind(Handle:query);"
+        },
+        {
+            "Comment": "Returns the insert id of the last INSERT query.\nReturns 0 otherwise.",
+            "CommentTags": [],
+            "FunctionName": "SQL_GetInsertId",
+            "Function": "native SQL_GetInsertId(Handle:query);"
+        },
+        {
+            "Comment": "Returns which driver this plugin is currently bound to.",
+            "CommentTags": [],
+            "FunctionName": "SQL_GetAffinity",
+            "Function": "native SQL_GetAffinity(driver[], maxlen);"
+        },
+        {
+            "Comment": "Sets driver affinity.  You can use this to force a particular\n driver implementation.  This will automatically change all SQL\n natives in your plugin to be \"bound\" to the module in question.\nIf no such module is found, it will return 0.  This isn't necessarily bad -\n the user might have typed the wrong driver.  Unless your plugin is built\n to handle different driver types at once, you should let this error pass.\nNote, that using this while you have open handles to another database\n type will cause problems.  I.e., you cannot open a handle, switch\n affinity, then close the handle with a different driver.\nSwitching affinity is an O(n*m) operation, where n is the number of\n SQL natives and m is the number of used natives in total.\nIntuitive programmers will note that this causes problems for threaded queries.\n You will have to either force your script to work under one affinity, or to\n pack the affinity type into the query data, check it against the current, then\n set the new affinity if necessary.  Then, restore the old for safety.",
+            "CommentTags": [],
+            "FunctionName": "SQL_SetAffinity",
+            "Function": "native SQL_SetAffinity(const driver[]);"
+        },
+        {
+            "Comment": "Returns the original query string that a query handle used.",
+            "CommentTags": [],
+            "FunctionName": "SQL_GetQueryString",
+            "Function": "native SQL_GetQueryString(Handle:query, buffer[], maxlength);"
+        },
+        {
+            "Comment": "For queries which return multiple result sets, this advances to the next\nresult set if one is available.  Otherwise, the current result set is\ndestroyed and will no longer be accessible.\n\nThis function will always return false on SQLite, and when using threaded\nqueries in MySQL.  Nonetheless, it has the same effect of removing the last\nresult set.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "query",
+                    "Description": "Query Handle."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "True on success, false on failure."
+                }
+            ],
+            "FunctionName": "bool:SQL_NextResultSet",
+            "Function": "native bool:SQL_NextResultSet(Handle:query);"
+        },
+        {
+            "Comment": "This function can be used to find out if a table in a Sqlite database exists.\n(updated for newer API)",
+            "CommentTags": [],
+            "FunctionName": "bool:sqlite_TableExists",
+            "Function": "stock bool:sqlite_TableExists(Handle:db, const table[])"
+        },
+        {
+            "Comment": "Use this for executing a query where you don't care about the result.\nReturns 0 on failure, 1 on success",
+            "CommentTags": [],
+            "FunctionName": "SQL_SimpleQuery",
+            "Function": "stock SQL_SimpleQuery(Handle:db, const query[], error[]=\"\", maxlength=0, &rows=0)"
+        },
+        {
+            "Comment": "Use this for executing a query where you don't care about the result.\nReturns 0 on failure, 1 on success",
+            "CommentTags": [],
+            "FunctionName": "SQL_SimpleQueryFmt",
+            "Function": "stock SQL_SimpleQueryFmt(Handle:db, error[]=\"\", maxlength=0, &rows=0, const fmt[], any:...)"
+        },
+        {
+            "Comment": "Use this for executing a query and not caring about the error.\nReturns -1 on error, >=0 on success (with number of affected rows)",
+            "CommentTags": [],
+            "FunctionName": "SQL_QueryAndIgnore",
+            "Function": "stock SQL_QueryAndIgnore(Handle:db, const queryfmt[], any:...)"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Handle:SQL_MakeStdTuple(timeout = 0)",
+            "FunctionName": "Handle:SQL_MakeStdTuple"
+        }
+    ],
+    "constants": []
+}

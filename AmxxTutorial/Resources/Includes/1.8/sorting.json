@@ -1,0 +1,41 @@
+{
+    "functions": [
+        {
+            "Comment": "Basic sorting functions below.",
+            "CommentTags": [],
+            "FunctionName": "SortIntegers",
+            "Function": "native SortIntegers(array[], array_size, SortMethod:order = Sort_Ascending);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native SortFloats(Float:array[], array_size, SortMethod:order = Sort_Ascending);",
+            "FunctionName": "SortFloats"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native SortStrings(array[][], num_strings, SortMethod:order = Sort_Ascending);",
+            "FunctionName": "SortStrings"
+        },
+        {
+            "Comment": "Sorts a custom 1D array.  You must pass in a comparison function.\nThe sorting algorithm then uses your comparison function to sort the data.\nThe function is called in the following manner:\n\npublic MySortFunc(elem1, elem2, const array[], const data[], data_size)\n\n elem1, elem2    - Current element pair being compared\n array[]            - Array in its current mid-sorted state.\n data[]            - Extra data array you passed to the sort func.\n data_size        - Size of extra data you passed to the sort func.\n\nYour function should return:\n -1 if elem1 should go before elem2\n  0 if elem1 and elem2 are equal\n  1 if elem1 should go after elem2\nNote that the parameters after elem2 are all optional and you do not need to specify them.",
+            "CommentTags": [],
+            "FunctionName": "SortCustom1D",
+            "Function": "native SortCustom1D(array[], array_size, const comparefunc[], data[]=\"\", data_size=0);"
+        },
+        {
+            "Comment": "Sorts a custom 2D array.\nThe sorting algorithm then uses your comparison function to sort the data.\nThe function is called in the following manner:\n\npublic MySortFunc(const elem1[], const elem2[], const array[], data[], data_size)\n\n elem1[], elem2[] - Current element array pairs being compared\n array[][]         - Array in its currently being sorted state.\n data[]             - Extra data array you passed to the sort func.\n data_size         - Size of extra data you passed to the sort func.\n\nYour function should return:\n -1 if elem1[] should go before elem2[]\n  0 if elem1[] and elem2 are equal[]\n  1 if elem1[] should go after elem2[]\nNote that the parameters after elem2[] are all optional and you do not need to specify them.",
+            "CommentTags": [],
+            "FunctionName": "SortCustom2D",
+            "Function": "native SortCustom2D(array[][], array_size, const comparefunc[], data[]=\"\", data_size=0);"
+        }
+    ],
+    "constants": [
+        {
+            "Comment": "Custom sorting functions below.",
+            "CommentTags": [],
+            "Constant": ""
+        }
+    ]
+}

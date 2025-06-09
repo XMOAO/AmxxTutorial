@@ -1,0 +1,174 @@
+<UserControl
+  x:Class="AmxxTutorial.Pages.FunctionViewerPage"
+  xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:semi="https://irihi.tech/semi"
+  xmlns:ursa="https://irihi.tech/ursa"
+  mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+  xmlns:vm="clr-namespace:AmxxTutorial.ViewModels"
+  xmlns:ctrl="clr-namespace:AmxxTutorial.Controls"
+  xmlns:shared="clr-namespace:AmxxTutorial.Shared"
+  xmlns:avaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+  xmlns:editing="using:AvaloniaEdit.Editing"
+  xmlns:interact="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+  x:DataType="vm:FunctionViewerViewModel">
+  
+  <UserControl.Styles>
+    <semi:AvaloniaEditSemiTheme />
+  </UserControl.Styles>
+
+  <Design.DataContext>
+    <vm:FunctionViewerViewModel />
+  </Design.DataContext>
+
+  <DockPanel LastChildFill="True">
+    <!-- 顶部工具栏 -->
+    <Border Background="{DynamicResource ToolbarBackground}" DockPanel.Dock="Top" Padding="10">
+      <Grid ColumnDefinitions="Auto,*,Auto,Auto" VerticalAlignment="Center">
+
+        <!-- 搜索框 + 清空按钮 -->
+        <StackPanel Orientation="Horizontal" Grid.Column="0" Spacing="4">
+          <TextBox Width="120"
+                   Classes="ClearButton"
+                   Text="{Binding SearchCurText}"
+                   Watermark="{StaticResource SearchIncFiles}" />
+          <ComboBox
+                   Width="80"
+                   ItemsSource="{Binding IncVersions}"
+                   SelectedItem="{Binding SelectedVersion}"/>
+
+          <ursa:IconButton
+                  Theme="{DynamicResource BorderlessIconButton}"
+                  Icon="{StaticResource SemiIconHelpCircle}"
+                  ToolTip.Tip="{StaticResource SearchIncFilesTooltip}" />
+        </StackPanel>
+
+        <!-- 占位空格 -->
+        <Panel Grid.Column="1" />
+
+        <!-- 刷新按钮 -->
+        <ursa:IconButton 
+                         Grid.Column="2"
+                         Margin="0,0,4,0"
+                         Theme="{DynamicResource BorderlessIconButton}"
+                         Classes="Tertiary"
+                         FontWeight="Normal"
+                         IconPlacement="Left"
+                         Icon="{StaticResource SemiIconRefresh}"
+                         Content="{StaticResource Refresh}"
+                         Command="{Binding ResetAreaCommand}"/>
+
+        <!-- 设置按钮 -->
+        <ursa:IconButton Grid.Column="3"
+                         Theme="{DynamicResource BorderlessIconButton}"
+                         Classes="Tertiary"
+                         FontWeight="Normal"
+                         IconPlacement="Left"
+                         Icon="{StaticResource SemiIconSetting}"
+                         Content="{StaticResource Setting}"
+                         Command="{Binding ShowDialogCommand}" />
+      </Grid>
+    </Border>
+
+    <!-- 主内容区 -->
+    <DockPanel>
+      <!-- 左侧 TabControl -->
+      <TabControl DockPanel.Dock="Left"
+                  Width="200"
+                  TabStripPlacement="Left"
+                  ItemsSource="{Binding FilteredIncFiles}"
+                  SelectedItem="{Binding SelectedIncFile, Mode=TwoWay}"
+                  Theme="{DynamicResource NavigationTab}"
+                  IsVisible="{Binding SearchedResultValidity}">
+        <TabControl.Styles>
+          <Style Selector="TabControl /template/ #PART_BorderSeparator" x:SetterTargetType="Border">
+            <Setter Property="IsVisible" Value="False" />
+          </Style>
+        </TabControl.Styles>
+        <TabControl.ItemTemplate>
+          <DataTemplate>
+            <TabItem Header="{Binding FileName}" />
+          </DataTemplate>
+        </TabControl.ItemTemplate>
+        <TabControl.ContentTemplate>
+          <DataTemplate />
+        </TabControl.ContentTemplate>
+      </TabControl>
+      
+      <TextBlock DockPanel.Dock="Left"
+                 FontWeight="600"
+                 Width="200"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 TextAlignment="Center"
+                 Text="{StaticResource SearchIncFilesNullRes}"
+                 IsVisible="{Binding !SearchedResultValidity}"/>
+
+      <!-- 右侧代码编辑器 -->
+      <Border Margin="20,0,0,0" Padding="0 5" DockPanel.Dock="Right"
+              BorderBrush="{DynamicResource SemiGrey1}"
+              Background="{DynamicResource SemiColorBackground1}"
+              BorderThickness="1"
+              CornerRadius="10"
+              ClipToBounds="True">
+        <Grid ClipToBounds="True">
+          <ursa:Banner
+                Margin="10"
+                Height="100"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                Classes.Bordered="True"
+                Header="这里什么都没有"
+                Content="是不是忘记选中文件了呢..."
+                IsVisible="{Binding !SearchedResultValidity}"/>
+          <avaloniaEdit:TextEditor Margin="0 5"
+            x:Name="ContentTextEditor"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            HorizontalScrollBarVisibility="Visible"
+            VerticalScrollBarVisibility="Visible"
+            IsReadOnly="True"
+            SyntaxHighlighting="C++"
+            FontFamily="{DynamicResource CodeFontFamily}"
+            FontWeight="{Binding TextFontWeight}"
+            FontSize="{Binding TextFontSize}"
+            ShowLineNumbers="{Binding ShowLineNum}"
+            IsVisible="{Binding SearchedResultValidity}">
+            
+            <avaloniaEdit:TextEditor.ContextFlyout>
+              <MenuFlyout>
+                <MenuItem Header="{StaticResource TextEditorFlyout_SelectAll}" 
+                          InputGesture="Ctrl+A" 
+                          Command="{Binding MouseSelectAllCommand}"/>
+                <MenuItem Header="-"/>
+                <MenuItem Header="{StaticResource TextEditorFlyout_Cut}"
+                          InputGesture="Ctrl+X" IsEnabled="False"
+                          Command="{Binding MouseCutCommand}" CommandParameter="{Binding #ContentTextEditor.TextArea}"/>
+                <MenuItem Header="{StaticResource TextEditorFlyout_Copy}" 
+                          InputGesture="Ctrl+C" 
+                          Command="{Binding MouseCopyCommand}" CommandParameter="{Binding #ContentTextEditor.TextArea}"/>
+                <MenuItem Header="{StaticResource TextEditorFlyout_Paste}"
+                          InputGesture="Ctrl+V" IsEnabled="False"
+                          Command="{Binding MousePasteCommand}" CommandParameter="{Binding #ContentTextEditor.TextArea}"/>
+              </MenuFlyout>
+            </avaloniaEdit:TextEditor.ContextFlyout>
+            <avaloniaEdit:TextEditor.Styles>
+              <Style Selector="editing|LineNumberMargin">
+                <Setter Property="MinWidthInDigits" Value="3" />
+              </Style>
+            </avaloniaEdit:TextEditor.Styles>
+            <interact:Interaction.Behaviors>
+              <shared:DocumentTextBindingBehavior
+                Text="{Binding SelectedIncFile.Content, Mode=TwoWay}" />
+            </interact:Interaction.Behaviors>
+          </avaloniaEdit:TextEditor>
+
+          <ursa:OverlayDialogHost HostId="FuncViewerHost" />
+        </Grid>
+      </Border>
+      
+    </DockPanel>
+  </DockPanel>
+</UserControl>

@@ -1,0 +1,365 @@
+{
+    "functions": [
+        {
+            "Comment": "Convert an integer into a floating point value",
+            "CommentTags": [],
+            "FunctionName": "Float:float",
+            "Function": "native Float:float(value);"
+        },
+        {
+            "Comment": "Convert a string into a floating point value",
+            "CommentTags": [],
+            "FunctionName": "Float:floatstr",
+            "Function": "native Float:floatstr(const string[]);"
+        },
+        {
+            "Comment": "Multiple two floats together",
+            "CommentTags": [],
+            "FunctionName": "Float:floatmul",
+            "Function": "native Float:floatmul(Float:oper1, Float:oper2);"
+        },
+        {
+            "Comment": "Divide the dividend float by the divisor float",
+            "CommentTags": [],
+            "FunctionName": "Float:floatdiv",
+            "Function": "native Float:floatdiv(Float:dividend, Float:divisor);"
+        },
+        {
+            "Comment": "Add two floats together",
+            "CommentTags": [],
+            "FunctionName": "Float:floatadd",
+            "Function": "native Float:floatadd(Float:dividend, Float:divisor);"
+        },
+        {
+            "Comment": "Subtract oper2 float from oper1 float",
+            "CommentTags": [],
+            "FunctionName": "Float:floatsub",
+            "Function": "native Float:floatsub(Float:oper1, Float:oper2);"
+        },
+        {
+            "Comment": "Return the fractional part of a float",
+            "CommentTags": [],
+            "FunctionName": "Float:floatfract",
+            "Function": "native Float:floatfract(Float:value);"
+        },
+        {
+            "Comment": "Round a float into a integer value",
+            "CommentTags": [],
+            "FunctionName": "floatround",
+            "Function": "native floatround(Float:value, floatround_method:method=floatround_round);"
+        },
+        {
+            "Comment": "Compare two integers. If the two elements are equal, return 0.\nIf the first argument is greater than the second argument, return 1,\nIf the first argument is less than the second argument, return -1.",
+            "CommentTags": [],
+            "FunctionName": "floatcmp",
+            "Function": "native floatcmp(Float:fOne, Float:fTwo);"
+        },
+        {
+            "Comment": "Return the square root of the input value, same as floatpower(value, 0.5)",
+            "CommentTags": [],
+            "FunctionName": "Float:floatsqroot",
+            "Function": "native Float:floatsqroot(Float:value);"
+        },
+        {
+            "Comment": "Return the value raised to the power of the exponent",
+            "CommentTags": [],
+            "FunctionName": "Float:floatpower",
+            "Function": "native Float:floatpower(Float:value, Float:exponent);"
+        },
+        {
+            "Comment": "Return the logarithm",
+            "CommentTags": [],
+            "FunctionName": "Float:floatlog",
+            "Function": "native Float:floatlog(Float:value, Float:base=10.0);"
+        },
+        {
+            "Comment": "Return the sine, cosine or tangent.\nThe input angle may be in radians, degrees or grades.",
+            "CommentTags": [],
+            "FunctionName": "Float:floatsin",
+            "Function": "native Float:floatsin(Float:value, anglemode:mode=radian);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:floatcos(Float:value, anglemode:mode=radian);",
+            "FunctionName": "Float:floatcos"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:floattan(Float:value, anglemode:mode=radian);",
+            "FunctionName": "Float:floattan"
+        },
+        {
+            "Comment": "Return the hyperbolic sine, cosine or tangent.\nThe input angle may be in radians, degrees or grades.",
+            "CommentTags": [],
+            "FunctionName": "Float:floatsinh",
+            "Function": "native Float:floatsinh(Float:angle, anglemode:mode=radian);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:floatcosh(Float:angle, anglemode:mode=radian);",
+            "FunctionName": "Float:floatcosh"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:floattanh(Float:angle, anglemode:mode=radian);",
+            "FunctionName": "Float:floattanh"
+        },
+        {
+            "Comment": "Return the absolute value",
+            "CommentTags": [],
+            "FunctionName": "Float:floatabs",
+            "Function": "native Float:floatabs(Float:value);"
+        },
+        {
+            "Comment": "Return the angle of a sine, cosine or tangent.\nThe output angle may be in radians, degrees, or grades.",
+            "CommentTags": [],
+            "FunctionName": "Float:floatatan",
+            "Function": "native Float:floatatan(Float:angle, {anglemode,_}:radix);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:floatacos(Float:angle, {anglemode,_}:radix);",
+            "FunctionName": "Float:floatacos"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:floatasin(Float:angle, {anglemode,_}:radix);",
+            "FunctionName": "Float:floatasin"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:floatatan2(Float:x, Float:y, {anglemode,_}:radix);",
+            "FunctionName": "Float:floatatan2"
+        },
+        {
+            "Comment": "user defined operators",
+            "CommentTags": [],
+            "FunctionName": "Float:operator*",
+            "Function": "native Float:operator*(Float:oper1, Float:oper2) = floatmul;"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:operator/(Float:oper1, Float:oper2) = floatdiv;",
+            "FunctionName": "Float:operator/"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:operator+(Float:oper1, Float:oper2) = floatadd;",
+            "FunctionName": "Float:operator+"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native Float:operator-(Float:oper1, Float:oper2) = floatsub;",
+            "FunctionName": "Float:operator-"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:operator++(Float:oper)",
+            "FunctionName": "Float:operator++"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:operator--(Float:oper)",
+            "FunctionName": "Float:operator--"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:operator-(Float:oper)",
+            "FunctionName": "Float:operator-"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:operator*(Float:oper1, oper2)",
+            "FunctionName": "Float:operator*"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:operator/(Float:oper1, oper2)",
+            "FunctionName": "Float:operator/"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:operator/(oper1, Float:oper2)",
+            "FunctionName": "Float:operator/"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:operator+(Float:oper1, oper2)",
+            "FunctionName": "Float:operator+"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:operator-(Float:oper1, oper2)",
+            "FunctionName": "Float:operator-"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:operator-(oper1, Float:oper2)",
+            "FunctionName": "Float:operator-"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator==(Float:oper1, Float:oper2)",
+            "FunctionName": "bool:operator=="
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator==(Float:oper1, oper2)",
+            "FunctionName": "bool:operator=="
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator!=(Float:oper1, Float:oper2)",
+            "FunctionName": "bool:operator!="
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator!=(Float:oper1, oper2)",
+            "FunctionName": "bool:operator!="
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator>(Float:oper1, Float:oper2)",
+            "FunctionName": "bool:operator>"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator>(Float:oper1, oper2)",
+            "FunctionName": "bool:operator>"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator>(oper1, Float:oper2)",
+            "FunctionName": "bool:operator>"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator>=(Float:oper1, Float:oper2)",
+            "FunctionName": "bool:operator>="
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator>=(Float:oper1, oper2)",
+            "FunctionName": "bool:operator>="
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator>=(oper1, Float:oper2)",
+            "FunctionName": "bool:operator>="
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator<(Float:oper1, Float:oper2)",
+            "FunctionName": "bool:operator<"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator<(Float:oper1, oper2)",
+            "FunctionName": "bool:operator<"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator<(oper1, Float:oper2)",
+            "FunctionName": "bool:operator<"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator<=(Float:oper1, Float:oper2)",
+            "FunctionName": "bool:operator<="
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator<=(Float:oper1, oper2)",
+            "FunctionName": "bool:operator<="
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator<=(oper1, Float:oper2)",
+            "FunctionName": "bool:operator<="
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:operator!(Float:oper)",
+            "FunctionName": "bool:operator!"
+        },
+        {
+            "Comment": "forbidden operations",
+            "CommentTags": [],
+            "FunctionName": "operator%",
+            "Function": "forward operator%(Float:oper1, Float:oper2);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "forward operator%(Float:oper1, oper2);",
+            "FunctionName": "operator%"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "forward operator%(oper1, Float:oper2);",
+            "FunctionName": "operator%"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:floatmin(Float:ValueA, Float:ValueB)",
+            "FunctionName": "Float:floatmin"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:floatmax(Float:ValueA, Float:ValueB)",
+            "FunctionName": "Float:floatmax"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:floatclamp(Float:Value, Float:MinValue, Float:MaxValue)",
+            "FunctionName": "Float:floatclamp"
+        }
+    ],
+    "constants": [
+        {
+            "Comment": "Different methods of rounding",
+            "CommentTags": [],
+            "Constant": "enum floatround_method {\n    floatround_round = 0,\n    floatround_floor,\n    floatround_ceil,\n    floatround_tozero\n};\n\nenum anglemode {\n    radian = 0,\n    degrees,\n    grades\n};"
+        }
+    ]
+}

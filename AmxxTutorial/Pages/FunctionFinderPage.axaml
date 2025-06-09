@@ -1,0 +1,128 @@
+
+<UserControl x:Class="AmxxTutorial.Pages.FunctionFinderPage"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ursa="https://irihi.tech/ursa"
+             xmlns:semi="https://irihi.tech/semi"
+             xmlns:u-semi="https://irihi.tech/ursa/themes/semi"
+             xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
+             xmlns:mds="https://github.com/whistyun/Markdown.Avalonia.SyntaxHigh"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="clr-namespace:AmxxTutorial.ViewModels"
+             xmlns:conv="clr-namespace:AmxxTutorial.Converters"
+             x:DataType="vm:FunctionFinderViewModel">
+
+  <Design.DataContext>
+    <vm:FunctionFinderViewModel />
+  </Design.DataContext>
+
+  <Grid>
+    <ursa:LoadingContainer
+      VerticalContentAlignment="Stretch"
+      HorizontalContentAlignment="Stretch"
+        x:Name ="LoadingArea"
+                IsLoading="True"
+                LoadingMessage="Loading...">
+      <Grid RowDefinitions="Auto,*" Margin="10" x:Name="MainViewArea">
+
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Left"
+                    Margin="0 0 0 15">
+          <ursa:AutoCompleteBox
+                x:Name="FuncSearchBar"
+                Classes="ClearButton"
+                Width="250"
+                Text="{Binding SearchCurText, Mode=TwoWay}"
+                SelectedItem="{Binding SelectedSearchEntry, Mode=TwoWay}"
+                ValueMemberBinding="{ReflectionBinding FunctionName}"
+                Watermark="{StaticResource SearchIncFuncsTooltip}"/>
+          <ursa:Breadcrumb
+                DisplayMemberBinding="{Binding Section}"
+                CommandBinding="{Binding Command}"
+                ItemsSource="{Binding NavColumns}">
+            <ursa:Breadcrumb.Styles>
+              <Style Selector="ursa|BreadcrumbItem" x:DataType="vm:NavBreadCrumbItem">
+                <Setter Property="IsReadOnly" Value="{Binding IsReadOnly}"/>
+              </Style>
+            </ursa:Breadcrumb.Styles>
+          </ursa:Breadcrumb>
+        </StackPanel>
+
+        <!-- 内容区域 -->
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
+          <ursa:NavMenu x:Name="IncListNavMenu"
+                      Margin="-8"
+                      Grid.Column="0"
+                      ExpandWidth="250"
+                      ItemsSource="{Binding IncFiles}"
+                      SelectedItem="{Binding SelectedFuncItem, Mode=TwoWay}"
+                      HeaderBinding="{Binding Header}"
+                      IconBinding="{Binding Icon}"
+                      SubMenuBinding="{Binding Children}"
+                      SubMenuIndent="15"
+                      Foreground="Gray">
+            <ursa:NavMenu.Styles>
+              <Style x:DataType="vm:IncTreeItem" Selector="ursa|NavMenuItem">
+                <Setter Property="IsVerticalCollapsed" Value="{Binding !IsExpanded, Mode=TwoWay}" />
+                <Setter Property="IsSeparator" Value="{Binding IsSeparator}" />
+                <Setter Property="ToolTip.Tip" Value="{Binding FuncEntry?.Comment, TargetNullValue={x:Null}}" />
+                <Setter Property="FontSize" Value="{Binding FontSize}" />
+              </Style>
+            </ursa:NavMenu.Styles>
+            <ursa:NavMenu.IconTemplate>
+              <DataTemplate DataType="{x:Type x:String}">
+                <ursa:TwoTonePathIcon
+                    Width="16"
+                    Height="16"
+                    ActiveForeground="{DynamicResource SemiBlue5}"
+                    ActiveStrokeBrush="{DynamicResource SemiBlue5}"
+                    Data="{Binding Converter={x:Static conv:IconConverter.Instance}}"
+                    Foreground="{DynamicResource SemiGrey5}"
+                    StrokeBrush="{DynamicResource SemiGrey5}"
+                    IsActive="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ursa:NavMenuItem}, Path=IsHighlighted, Mode=TwoWay}"/>
+              </DataTemplate>
+            </ursa:NavMenu.IconTemplate>
+          </ursa:NavMenu>
+
+          <!-- 右侧内容区 -->
+          <Border
+              Grid.Column="1"
+              Margin="15 0"
+              BorderThickness="1"
+              CornerRadius="4"
+              Padding="15 0">
+            <md:MarkdownScrollViewer
+                    x:Name="MarkdownScrollViewer"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Margin="5 0"
+                    MaxWidth="1000"
+                    Markdown="{Binding MarkDownText}">
+
+              <md:MarkdownScrollViewer.Engine>
+                <md:Markdown
+                  HyperlinkCommand="{Binding MarkDownRedirectHyperlink}"/>
+              </md:MarkdownScrollViewer.Engine>
+
+              <md:MarkdownScrollViewer.Plugins>
+                <md:MdAvPlugins>
+                  <mds:SyntaxHighlight>
+                    <mds:Alias Name="Pawn" XSHD="avares://AmxxTutorial/Assets/Pawn-Mode.xshd"/>
+                  </mds:SyntaxHighlight>
+                </md:MdAvPlugins>
+              </md:MarkdownScrollViewer.Plugins>
+
+              <md:MarkdownScrollViewer.Styles>
+                <StyleInclude Source="avares://AmxxTutorial/Styles/MatoMarkDownEditor.axaml"/>
+              </md:MarkdownScrollViewer.Styles>
+            </md:MarkdownScrollViewer>
+          </Border>
+        </Grid>
+      </Grid>
+    </ursa:LoadingContainer>
+  </Grid>
+  
+</UserControl>

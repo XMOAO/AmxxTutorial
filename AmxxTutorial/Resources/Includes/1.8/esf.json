@@ -1,0 +1,245 @@
+{
+    "functions": [
+        {
+            "Comment": "*********************************************\n\n[ Corona-Bytes.NET ] EvolutionX Core Plugin\n\n(c) Corona - Bytes .NET coders :: coders@corona-bytes.net\n\n> 2005 Corona Bytes :: http://www.corona-bytes.net\n\n*********************************************",
+            "CommentTags": [],
+            "FunctionName": "setClientPL",
+            "Function": "#if defined __EVOLUTION_CORE__\n  #endinput\n#endif\n#define __EVOLUTION_CORE__\n\n#pragma library EvolutionXCore\n\nnative setClientPL \t\t\t\t( Client, PowerLevel );"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientPL \t\t\t\t( Client );",
+            "FunctionName": "getClientPL"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setClientACPL \t\t\t( Client, ActualPowerLevel );",
+            "FunctionName": "setClientACPL"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientACPL \t\t\t( Client );",
+            "FunctionName": "getClientACPL"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setClientADPL \t\t\t( Client, AfterDeathPowerLevel );",
+            "FunctionName": "setClientADPL"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientADPL \t\t\t( Client );",
+            "FunctionName": "getClientADPL"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setClientSPL \t\t\t( Client, PowerLevel );",
+            "FunctionName": "setClientSPL"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setClientPLtoADPL \t\t( Client );",
+            "FunctionName": "setClientPLtoADPL"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setClientKI \t\t\t\t( Client, Ki );",
+            "FunctionName": "setClientKI"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientKI \t\t\t\t( Client );",
+            "FunctionName": "getClientKI"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setClientHP \t\t\t\t( Client, Health );",
+            "FunctionName": "setClientHP"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientHP \t\t\t\t( Client );",
+            "FunctionName": "getClientHP"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setClientMHP\t \t\t\t( Client, MaximumHealth );",
+            "FunctionName": "setClientMHP"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientMHP \t\t\t( Client );",
+            "FunctionName": "getClientMHP"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setClientSPEED \t\t\t( Client, Speed );",
+            "FunctionName": "setClientSPEED"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientSPEED \t\t\t( Client );",
+            "FunctionName": "getClientSPEED"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setClientSWOOPSPEED \t\t( Client, SwoopSpeed );",
+            "FunctionName": "setClientSWOOPSPEED"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientSWOOPSPEED \t\t( Client );",
+            "FunctionName": "getClientSWOOPSPEED"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setClientPROTECT \t\t( Client, bool:Enable = true );",
+            "FunctionName": "setClientPROTECT"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientPROTECT \t\t( Client );",
+            "FunctionName": "getClientPROTECT"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setClientFROZEN \t\t\t( Client, bool:Enable = true );",
+            "FunctionName": "setClientFROZEN"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientFROZEN \t\t\t( Client );",
+            "FunctionName": "getClientFROZEN"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setClientGOD \t\t\t( Client, bool:Enable = true );",
+            "FunctionName": "setClientGOD"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientGOD \t\t\t( Client );",
+            "FunctionName": "getClientGOD"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientFLY \t\t\t( Client );",
+            "FunctionName": "getClientFLY"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setClientHiddenTURBO \t( Client, bool:Enable = true );",
+            "FunctionName": "setClientHiddenTURBO"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientTURBO \t\t\t( Client );",
+            "FunctionName": "getClientTURBO"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientBLOCK \t\t\t( Client );",
+            "FunctionName": "getClientBLOCK"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native setClientHiddenPOWERUP \t( Client, bool:Enable = true );",
+            "FunctionName": "setClientHiddenPOWERUP"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientPOWERUP \t\t( Client );",
+            "FunctionName": "getClientPOWERUP"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientSWOOPING \t\t( Client );",
+            "FunctionName": "getClientSWOOPING"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientATKSHOOT \t\t( Client );",
+            "FunctionName": "getClientATKSHOOT"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientATKCHARGE \t\t( Client );",
+            "FunctionName": "getClientATKCHARGE"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientMELEE \t\t\t( Client );",
+            "FunctionName": "getClientMELEE"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientTHROWAWAY \t\t( Client );",
+            "FunctionName": "getClientTHROWAWAY"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientTHROW\t \t\t( Client );",
+            "FunctionName": "getClientTHROW"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientWALLGND\t\t\t( Client );",
+            "FunctionName": "getClientWALLGND"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientINFREEFALL\t\t( Client );",
+            "FunctionName": "getClientINFREEFALL"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native getClientBEAMJUMP\t\t( Client );",
+            "FunctionName": "getClientBEAMJUMP"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native silentClientKILL\t\t\t( Client );",
+            "FunctionName": "silentClientKILL"
+        }
+    ],
+    "constants": []
+}

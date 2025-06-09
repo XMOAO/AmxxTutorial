@@ -1,0 +1,10 @@
+{
+    "functions": [],
+    "constants": [
+        {
+            "Comment": "Genshape used in ns_set_ps_genshape\nNOTE: The following are in the ns.ps file but\n      are not listed in the .fgd file.  Use\n      at your own risk!\n      Line, Triangle, Plane, Cylinder,\n      Cone, Disc, Rectangle and None",
+            "CommentTags": [],
+            "Constant": "enum NSPS_GenShape\n{\n    NSPS_GS_POINT = 0,\n    NSPS_GS_LINE,\n    NSPS_GS_TRIANGLE,\n    NSPS_GS_PLANE,\n    NSPS_GS_BOX,\n    NSPS_GS_CYLINDER,\n    NSPS_GS_CONE,\n    NSPS_GS_BLOB,\n    NSPS_GS_DISC,\n    NSPS_GS_RECTANGLE,\n    NSPS_GS_NONE\n};\nenum NSPS_RenderMode\n{\n    NSPS_R_NORMAL = 0,\n    NSPS_R_TRANSCOLOR,\n    NSPS_R_TRANSTEXTURE,\n    NSPS_R_GLOW,\n    NSPS_R_TRANSALPHA,\n    NSPS_R_ADDITIVE\n};\nenum NSPS_Flags\n{\n    NSPS_FL_START_ON = 1,\n    NSPS_FL_PARTICLE_DENSITY = 2,\n    NSPS_FL_FADE_IN = 4,\n    NSPS_FL_FADE_OUT = 8,\n    NSPS_FL_USE_GRAVITY = 16,\n    NSPS_FL_USE_TRI = 32,\n    NSPS_FL_CONSTRAIN_PITCH = 128,\n    NSPS_FL_COLLIDE = 256,\n    NSPS_FL_HI_DETAIL = 512,\n    NSPS_FL_FACE_UP = 1024\n};"
+        }
+    ]
+}

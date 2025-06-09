@@ -1,0 +1,495 @@
+{
+    "functions": [
+        {
+            "Comment": "stock fm_get_decal_index(const decalname[])\nreturn engfunc(EngFunc_DecalIndex, decalname)",
+            "CommentTags": [],
+            "FunctionName": "Float:fm_entity_range",
+            "Function": "stock Float:fm_entity_range(ent1, ent2) {"
+        },
+        {
+            "Comment": "stock fm_find_ent_by_class(index, const classname[])\nreturn engfunc(EngFunc_FindEntityByString, index, \"classname\", classname)",
+            "CommentTags": [],
+            "FunctionName": "fm_find_ent_by_owner",
+            "Function": "stock fm_find_ent_by_owner(index, const classname[], owner, jghgtype = 0) {"
+        },
+        {
+            "Comment": "stock fm_find_ent_by_tname(index, const targetname[])\nreturn engfunc(EngFunc_FindEntityByString, index, \"targetname\", targetname)",
+            "CommentTags": [],
+            "FunctionName": "fm_find_ent_by_model",
+            "Function": "stock fm_find_ent_by_model(index, const classname[], const model[]) {"
+        },
+        {
+            "Comment": "stock fm_is_valid_ent(index)\nreturn pev_valid(index)",
+            "CommentTags": [],
+            "FunctionName": "fm_entity_set_origin",
+            "Function": "stock fm_entity_set_origin(index, const Float:origin[3]) {"
+        },
+        {
+            "Comment": "stock fm_point_contents(const Float:point[3])\nreturn engfunc(EngFunc_PointContents, point)",
+            "CommentTags": [],
+            "FunctionName": "fm_trace_line",
+            "Function": "stock fm_trace_line(ignoreent, const Float:start[3], const Float:end[3], Float:ret[3]) {"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_trace_hull(const Float:origin[3], hull, ignoredent = 0, ignoremonsters = 0) {",
+            "FunctionName": "fm_trace_hull"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_trace_normal(ignoreent, const Float:start[3], const Float:end[3], Float:ret[3]) {",
+            "FunctionName": "fm_trace_normal"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_get_grenade_id(id, model[], len, grenadeid = 0) {",
+            "FunctionName": "fm_get_grenade_id"
+        },
+        {
+            "Comment": "stock fm_attach_view(index, entity)\nreturn engfunc(EngFunc_SetView, index, entity)",
+            "CommentTags": [],
+            "FunctionName": "fm_playback_event",
+            "Function": "stock fm_playback_event(flags, invoker, eventindex, Float:delay, const Float:origin[3], const Float:angles[3], Float:fparam1, Float:fparam2, iparam1, iparam2, bparam1, bparam2) {"
+        },
+        {
+            "Comment": "HLSDK functions",
+            "CommentTags": [],
+            "FunctionName": "bool:fm_is_in_viewcone",
+            "Function": "// the dot product is performed in 2d, making the view cone infinitely tall\nstock bool:fm_is_in_viewcone(index, const Float:point[3]) {"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:fm_is_visible(index, const Float:point[3], ignoremonsters = 0) {",
+            "FunctionName": "bool:fm_is_visible"
+        },
+        {
+            "Comment": "Engine_stocks functions",
+            "CommentTags": [],
+            "FunctionName": "fm_fakedamage",
+            "Function": "stock fm_fakedamage(victim, const classname[], Float:takedmgdamage, damagetype) {"
+        },
+        {
+            "Comment": "stock fm_get_grenade(id)\nreturn fm_get_grenade_id(id, \"\", 0)",
+            "CommentTags": [],
+            "FunctionName": "fm_get_brush_entity_origin",
+            "Function": "// optimization idea by Orangutanz\nstock fm_get_brush_entity_origin(index, Float:origin[3]) {"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_remove_entity_name(const classname[]) {",
+            "FunctionName": "fm_remove_entity_name"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_ViewContents(id) {",
+            "FunctionName": "fm_ViewContents"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_get_speed(entity) {",
+            "FunctionName": "fm_get_speed"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_set_rendering(entity, fx = kRenderFxNone, r = 255, g = 255, b = 255, render = kRenderNormal, amount = 16) {",
+            "FunctionName": "fm_set_rendering"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_set_entity_flags(index, flag, onoff) {",
+            "FunctionName": "fm_set_entity_flags"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_set_entity_visibility(index, visible = 1) {",
+            "FunctionName": "fm_set_entity_visibility"
+        },
+        {
+            "Comment": "stock fm_get_entity_visibility(index)\nreturn !(pev(index, pev_effects) & EF_NODRAW)",
+            "CommentTags": [],
+            "FunctionName": "fm_set_user_velocity",
+            "Function": "stock fm_set_user_velocity(entity, const Float:vector[3]) {"
+        },
+        {
+            "Comment": "stock fm_set_client_listen(receiver, sender, listen)\nreturn engfunc(EngFunc_SetClientListening, receiver, sender, listen)",
+            "CommentTags": [],
+            "FunctionName": "fm_get_user_godmode",
+            "Function": "stock fm_get_user_godmode(index) {"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_set_user_godmode(index, godmode = 0) {",
+            "FunctionName": "fm_set_user_godmode"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_set_user_armor(index, armor) {",
+            "FunctionName": "fm_set_user_armor"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_set_user_health(index, health) {",
+            "FunctionName": "fm_set_user_health"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_set_user_origin(index, /* const */ origin[3]) {",
+            "FunctionName": "fm_set_user_origin"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_set_user_rendering(index, fx = kRenderFxNone, r = 255, g = 255, b = 255, render = kRenderNormal, amount = 16) {",
+            "FunctionName": "fm_set_user_rendering"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_give_item(index, const item[]) {",
+            "FunctionName": "fm_give_item"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_set_user_maxspeed(index, Float:speed = -1.0) {",
+            "FunctionName": "fm_set_user_maxspeed"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:fm_get_user_maxspeed(index) {",
+            "FunctionName": "Float:fm_get_user_maxspeed"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_set_user_gravity(index, Float:gravity = 1.0) {",
+            "FunctionName": "fm_set_user_gravity"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:fm_get_user_gravity(index) {",
+            "FunctionName": "Float:fm_get_user_gravity"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_spawn(entity) {",
+            "FunctionName": "fm_spawn"
+        },
+        {
+            "Comment": "interferes with FM_Spawn enum, just use fm_DispatchSpawn\nstock fm_spawn(entity) {\nreturn dllfunc(DLLFunc_Spawn, entity)\n}",
+            "CommentTags": [],
+            "FunctionName": "fm_set_user_noclip",
+            "Function": "stock fm_set_user_noclip(index, noclip = 0) {"
+        },
+        {
+            "Comment": "stock fm_get_user_noclip(index)\nreturn (pev(index, pev_movetype) == MOVETYPE_NOCLIP)",
+            "CommentTags": [],
+            "FunctionName": "fm_strip_user_weapons",
+            "Function": "// note: get_user_weapon will still return former weapon index\nstock fm_strip_user_weapons(index) {"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_set_user_frags(index, frags) {",
+            "FunctionName": "fm_set_user_frags"
+        },
+        {
+            "Comment": "Cstrike functions",
+            "CommentTags": [],
+            "FunctionName": "fm_cs_user_spawn",
+            "Function": "stock fm_cs_user_spawn(index) {"
+        },
+        {
+            "Comment": "Custom functions",
+            "CommentTags": [],
+            "FunctionName": "fm_set_kvd",
+            "Function": "// based on Basic-Master's set_keyvalue, upgraded version accepts an optional classname (a bit more efficient if it is passed)\nstock fm_set_kvd(entity, const key[], const value[], const classname[] = \"\") {"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_find_ent_by_integer(index, pev_field, value) {",
+            "FunctionName": "fm_find_ent_by_integer"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_find_ent_by_flags(index, pev_field, flags) {",
+            "FunctionName": "fm_find_ent_by_flags"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:fm_distance_to_box(const Float:point[3], const Float:mins[3], const Float:maxs[3]) {",
+            "FunctionName": "Float:fm_distance_to_box"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:fm_boxes_distance(const Float:mins1[3], const Float:maxs1[3], const Float:mins2[3], const Float:maxs2[3]) {",
+            "FunctionName": "Float:fm_boxes_distance"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:fm_distance_to_boxent(entity, boxent) {",
+            "FunctionName": "Float:fm_distance_to_boxent"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:fm_boxents_distance(boxent1, boxent2) {",
+            "FunctionName": "Float:fm_boxents_distance"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:fm_distance_to_floor(index, ignoremonsters = 1) {",
+            "FunctionName": "Float:fm_distance_to_floor"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_kill_entity(index) {",
+            "FunctionName": "fm_kill_entity"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_get_user_weapon_entity(id, wid = 0) {",
+            "FunctionName": "fm_get_user_weapon_entity"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:fm_strip_user_gun(index, wid = 0, const wname[] = \"\") {",
+            "FunctionName": "bool:fm_strip_user_gun"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:fm_transfer_user_gun(index1, index2, wid = 0, const wname[] = \"\") {",
+            "FunctionName": "bool:fm_transfer_user_gun"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:fm_is_ent_visible(index, entity, ignoremonsters = 0) {",
+            "FunctionName": "bool:fm_is_ent_visible"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_get_aim_origin(index, Float:origin[3]) {",
+            "FunctionName": "fm_get_aim_origin"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:fm_get_user_longjump(index) {",
+            "FunctionName": "bool:fm_get_user_longjump"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_set_user_longjump(index, bool:longjump = true, bool:tempicon = true) {",
+            "FunctionName": "fm_set_user_longjump"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:fm_get_user_suit(index) {",
+            "FunctionName": "bool:fm_get_user_suit"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_set_user_suit(index, bool:suit = true, bool:sound = true) {",
+            "FunctionName": "fm_set_user_suit"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_cs_remove_decals(index = 0) {",
+            "FunctionName": "fm_cs_remove_decals"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock bool:fm_is_ent_classname(index, const classname[]) {",
+            "FunctionName": "bool:fm_is_ent_classname"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_user_kill(index, flag = 0) {",
+            "FunctionName": "fm_user_kill"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock Float:fm_get_view_angle_diff(index, const Float:point[3]) {",
+            "FunctionName": "Float:fm_get_view_angle_diff"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "stock fm_get_weaponbox_type(entity) {",
+            "FunctionName": "fm_get_weaponbox_type"
+        }
+    ],
+    "constants": [
+        {
+            "Comment": "Fakemeta Utilities\n\nby VEN\n\nThis file is provided as is (no warranties).",
+            "CommentTags": [],
+            "Constant": "#if !defined _fakemeta_included\n    #include <fakemeta>\n#endif\n\n#if defined _fakemeta_util_included\n    #endinput\n#endif\n#define _fakemeta_util_included\n\n#include <xs>"
+        },
+        {
+            "Comment": "Engine functions",
+            "CommentTags": [],
+            "Constant": "#define fm_precache_generic(%1) engfunc(EngFunc_PrecacheGeneric, %1)"
+        },
+        {
+            "Comment": "stock fm_precache_generic(const file[])\nreturn engfunc(EngFunc_PrecacheGeneric, file)",
+            "CommentTags": [],
+            "Constant": "#define fm_precache_event(%1,%2) engfunc(EngFunc_PrecacheEvent, %1, %2)"
+        },
+        {
+            "Comment": "stock fm_precache_event(type, const name[])\nreturn engfunc(EngFunc_PrecacheEvent, type, name)",
+            "CommentTags": [],
+            "Constant": "// ported by v3x\n#define fm_drop_to_floor(%1) engfunc(EngFunc_DropToFloor, %1)"
+        },
+        {
+            "Comment": "stock fm_drop_to_floor(entity)\nreturn engfunc(EngFunc_DropToFloor, entity)",
+            "CommentTags": [],
+            "Constant": "#define fm_force_use(%1,%2) dllfunc(DLLFunc_Use, %2, %1)"
+        },
+        {
+            "Comment": "stock fm_force_use(user, used)\nreturn dllfunc(DLLFunc_Use, used, user)",
+            "CommentTags": [],
+            "Constant": "#define fm_entity_set_size(%1,%2,%3) engfunc(EngFunc_SetSize, %1, %2, %3)"
+        },
+        {
+            "Comment": "stock fm_entity_set_size(index, const Float:mins[3], const Float:maxs[3])\nreturn engfunc(EngFunc_SetSize, index, mins, maxs)",
+            "CommentTags": [],
+            "Constant": "#define fm_get_decal_index(%1) engfunc(EngFunc_DecalIndex, %1)"
+        },
+        {
+            "Comment": "stock fm_create_entity(const classname[])\nreturn engfunc(EngFunc_CreateNamedEntity, engfunc(EngFunc_AllocString, classname))",
+            "CommentTags": [],
+            "Constant": "#define fm_find_ent_by_class(%1,%2) engfunc(EngFunc_FindEntityByString, %1, \"classname\", %2)"
+        },
+        {
+            "Comment": "stock fm_find_ent_by_target(index, const target[])\nreturn engfunc(EngFunc_FindEntityByString, index, \"target\", target)",
+            "CommentTags": [],
+            "Constant": "#define fm_find_ent_by_tname(%1,%2) engfunc(EngFunc_FindEntityByString, %1, \"targetname\", %2)"
+        },
+        {
+            "Comment": "stock fm_find_ent_in_sphere(index, const Float:origin[3], Float:radius)\nreturn engfunc(EngFunc_FindEntityInSphere, index, origin, radius)",
+            "CommentTags": [],
+            "Constant": "#define fm_call_think(%1) dllfunc(DLLFunc_Think, %1)"
+        },
+        {
+            "Comment": "stock fm_call_think(entity)\nreturn dllfunc(DLLFunc_Think, entity)",
+            "CommentTags": [],
+            "Constant": "#define fm_is_valid_ent(%1) pev_valid(%1)"
+        },
+        {
+            "Comment": "stock fm_entity_set_model(index, const model[])\nreturn engfunc(EngFunc_SetModel, index, model)",
+            "CommentTags": [],
+            "Constant": "// ported by v3x\n#define fm_remove_entity(%1) engfunc(EngFunc_RemoveEntity, %1)"
+        },
+        {
+            "Comment": "stock fm_remove_entity(index)\nreturn engfunc(EngFunc_RemoveEntity, index)",
+            "CommentTags": [],
+            "Constant": "#define fm_entity_count() engfunc(EngFunc_NumberOfEntities)"
+        },
+        {
+            "Comment": "stock fm_entity_count()\nreturn engfunc(EngFunc_NumberOfEntities)",
+            "CommentTags": [],
+            "Constant": "#define fm_fake_touch(%1,%2) dllfunc(DLLFunc_Touch, %1, %2)"
+        },
+        {
+            "Comment": "stock fm_fake_touch(toucher, touched)\nreturn dllfunc(DLLFunc_Touch, toucher, touched)",
+            "CommentTags": [],
+            "Constant": "#define fm_DispatchSpawn(%1) dllfunc(DLLFunc_Spawn, %1)"
+        },
+        {
+            "Comment": "stock fm_DispatchSpawn(entity)\nreturn dllfunc(DLLFunc_Spawn, entity)",
+            "CommentTags": [],
+            "Constant": "// ported by v3x\n#define fm_point_contents(%1) engfunc(EngFunc_PointContents, %1)"
+        },
+        {
+            "Comment": "stock Float:fm_halflife_time()\nreturn get_gametime()",
+            "CommentTags": [],
+            "Constant": "#define fm_attach_view(%1,%2) engfunc(EngFunc_SetView, %1, %2)"
+        },
+        {
+            "Comment": "stock fm_eng_get_string(istring, string[], len)\nreturn engfunc(EngFunc_SzFromIndex, istring, string, len)",
+            "CommentTags": [],
+            "Constant": ""
+        },
+        {
+            "Comment": "stock fm_find_ent(index, const classname[])\nreturn engfunc(EngFunc_FindEntityByString, index, \"classname\", classname)",
+            "CommentTags": [],
+            "Constant": "#define fm_get_user_button(%1) pev(%1, pev_button)"
+        },
+        {
+            "Comment": "stock fm_get_user_button(index)\nreturn pev(index, pev_button)",
+            "CommentTags": [],
+            "Constant": "#define fm_get_user_oldbutton(%1) pev(%1, pev_oldbuttons)"
+        },
+        {
+            "Comment": "stock fm_get_user_oldbutton(index)\nreturn pev(index, pev_oldbuttons)",
+            "CommentTags": [],
+            "Constant": "#define fm_get_entity_flags(%1) pev(%1, pev_flags)"
+        },
+        {
+            "Comment": "stock fm_get_entity_flags(index)\nreturn pev(index, pev_flags)",
+            "CommentTags": [],
+            "Constant": "#define fm_get_entity_distance(%1,%2) floatround(fm_entity_range(%1, %2))"
+        },
+        {
+            "Comment": "stock fm_get_entity_distance(ent1, ent2)\nreturn floatround(fm_entity_range(ent1, ent2))",
+            "CommentTags": [],
+            "Constant": "#define fm_get_grenade(%1) fm_get_grenade_id(%1, \"\", 0)"
+        },
+        {
+            "Comment": "stock fm_get_user_velocity(entity, Float:vector[3])\nreturn pev(entity, pev_velocity, vector)",
+            "CommentTags": [],
+            "Constant": ""
+        },
+        {
+            "Comment": "Fun functions",
+            "CommentTags": [],
+            "Constant": "#define fm_get_client_listen(%1,%2) engfunc(EngFunc_GetClientListening, %1, %2)"
+        },
+        {
+            "Comment": "stock fm_get_client_listen(receiver, sender)\nreturn engfunc(EngFunc_GetClientListening, receiver, sender)",
+            "CommentTags": [],
+            "Constant": "#define fm_set_client_listen(%1,%2,%3) engfunc(EngFunc_SetClientListening, %1, %2, %3)"
+        },
+        {
+            "Comment": "stock fm_remove_weaponbox(entity)\nreturn dllfunc(DLLFunc_Think, entity)",
+            "CommentTags": [],
+            "Constant": ""
+        }
+    ]
+}

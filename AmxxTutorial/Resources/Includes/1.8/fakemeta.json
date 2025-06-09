@@ -1,0 +1,388 @@
+{
+    "functions": [
+        {
+            "Comment": "Returns entvar data from an entity.  Use the pev_* enum (in fakemeta_const.inc) to specify which data you want retrieved.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "This function uses \"read_data\" style data syntax.  It returns integer values,\n          by-references float data, and sets a buffer for string data."
+                },
+                {
+                    "Tag": "note",
+                    "Description": "If retrieving strings, you may optionally get a pointer into the global string table. Depending on\n       your situation, there are two ways to do this.\n       1: This simply gets the pointer.\n          new ptr = pev(entid, pev_classname)\n       2: The pointer will be stored in ptr AND the actual string is retrieved.\n          new ptr, classname[32]\n          pev(entid, pev_classname, ptr, classname, 31)"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "_index",
+                    "Description": "The entity index to lookup."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "_value",
+                    "Description": "The pev field to lookup (look in fakemeta_const.inc)"
+                }
+            ],
+            "FunctionName": "pev",
+            "Function": "native pev(_index,_value,any:...);"
+        },
+        {
+            "Comment": "Sets entvar data for an entity.  Use the pev_* enum from fakemeta_const.inc for reference.",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "Setting string data will automatically allocate a new string (via AllocString)\n      If you have a string already allocated with your own call to AllocString, use\n      set_pev_string_ptr instead."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "_index",
+                    "Description": "The entity index to set the value on."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "_value",
+                    "Description": "The pev field to set, (look in fakemeta_const.inc)"
+                }
+            ],
+            "FunctionName": "set_pev",
+            "Function": "native set_pev(_index,_value,any:...);"
+        },
+        {
+            "Comment": "Use this native to set a pev field to a string that is already allocated (via a function such\nas EngFunc_AllocString).",
+            "CommentTags": [
+                {
+                    "Tag": "note",
+                    "Description": "If you specify _value as anything other than string fields, an error will be thrown."
+                },
+                {
+                    "Tag": "note",
+                    "Description": "Pass 0 as the _string field to set it to an empty string."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "_index",
+                    "Description": "The entity index to set the value on."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "_value",
+                    "Description": "The pev field to set - MUST be a string field."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "_string",
+                    "Description": "The string handle, retrieved from places like AllocString."
+                }
+            ],
+            "FunctionName": "set_pev_string",
+            "Function": "native set_pev_string(_index, _value, _string);"
+        },
+        {
+            "Comment": "Checks the validity of an entity.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "entindex",
+                    "Description": "The entity id to check."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "0 on invalid entity\n                1 on entity is valid\n                2 on entity is valid and it has private data (safe to use pdata natives on)."
+                }
+            ],
+            "FunctionName": "pev_valid",
+            "Function": "native pev_valid(entindex);"
+        },
+        {
+            "Comment": "Returns the serial number for each entity.  The serial number is a unique identity\ngenerated when an entity is created.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "entindex",
+                    "Description": "The entity id."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The serial number for the entity."
+                }
+            ],
+            "FunctionName": "pev_serial",
+            "Function": "native pev_serial(entindex);"
+        },
+        {
+            "Comment": "Returns any global variable inside globalvars_t structure. Use the glb_* enum.\n\nWhen returning data from glb_pStringBase (the global string table), you may give a pointer into that table\nin order to get different strings.\nExample:\nnew model[128]\nnew ptr = pev(id, pev_viewmodel)\nglobal_get(glb_pStringBase, ptr, model, 127)",
+            "CommentTags": [],
+            "FunctionName": "global_get",
+            "Function": "native global_get(_value, any:...);"
+        },
+        {
+            "Comment": "Returns an integer from private data.  _linuxdiff is added into the _Offset if it's used on a linux server.",
+            "CommentTags": [],
+            "FunctionName": "get_pdata_int",
+            "Function": "native get_pdata_int(_index,_Offset,_linuxdiff=5,_macdiff=5);"
+        },
+        {
+            "Comment": "Sets an integer from private data.  _linuxdiff is added into the _Offset if it's used on a linux server.",
+            "CommentTags": [],
+            "FunctionName": "set_pdata_int",
+            "Function": "native set_pdata_int(_index,_Offset,_Value,_linuxdiff=5,_macdiff=5);"
+        },
+        {
+            "Comment": "Returns a float from private data.  _linuxdiff is added into the _Offset if it's used on a linux server.",
+            "CommentTags": [],
+            "FunctionName": "Float:get_pdata_float",
+            "Function": "native Float:get_pdata_float(_index,_Offset,_linuxdiff=5,_macdiff=5);"
+        },
+        {
+            "Comment": "Sets a float from private data.  _linuxdiff is added into the _Offset if it's used on a linux server.",
+            "CommentTags": [],
+            "FunctionName": "set_pdata_float",
+            "Function": "native set_pdata_float(_index,_Offset,Float:_Value,_linuxdiff=5,_macdiff=5);"
+        },
+        {
+            "Comment": "Tries to retrieve an edict (entity encapsulation) pointer from an entity's private data.\n\nThis function is byte-addressable.  Unlike get_pdata_int() which searches in byte increments of 4,\nget_pdata_end searches in increments of 1.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "_index",
+                    "Description": "Entity index."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "_offset",
+                    "Description": "Offset to search."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "_linuxdiff",
+                    "Description": "Linux difference."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "_macdiff",
+                    "Description": "Mac OS X difference."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "-2 if an invalid entity was found.\n                -1 if an empty entity was found.\n                 Otherwise, an entity index is returned."
+                }
+            ],
+            "FunctionName": "get_pdata_ent",
+            "Function": "native get_pdata_ent(_index, _offset, _linuxdiff=20, _macdiff=20);"
+        },
+        {
+            "Comment": "Registers a forward.\nReturns an id you can pass to unregister_forward",
+            "CommentTags": [],
+            "FunctionName": "register_forward",
+            "Function": "native register_forward(_forwardType,const _function[],_post=0);"
+        },
+        {
+            "Comment": "Unregisters a forward.\nThe registerId must be from register_forward, and\npost/forwardtype must match what you registered the forward as.",
+            "CommentTags": [],
+            "FunctionName": "unregister_forward",
+            "Function": "native unregister_forward(_forwardType, registerId, post=0);"
+        },
+        {
+            "Comment": "Returns data for metamod",
+            "CommentTags": [],
+            "FunctionName": "forward_return",
+            "Function": "native forward_return(type,any:...);"
+        },
+        {
+            "Comment": "Returns the original return value of an engine function.\nThis is only valid in forwards that were registered as post.\n\nget_orig_retval() - no params, retrieves integer return value\nget_orig_retval(&Float:value) - retrieves float return value by reference\nget_orig_retval(value[], len) - retrives string return value",
+            "CommentTags": [],
+            "FunctionName": "get_orig_retval",
+            "Function": "native get_orig_retval({Float,_}:...);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native engfunc(type,any:...);",
+            "FunctionName": "engfunc"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native dllfunc(type,any:...);",
+            "FunctionName": "dllfunc"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_tr(TraceResult:tr_member, {Float,_}:...);",
+            "FunctionName": "get_tr"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_tr(TraceResult:tr_member, {Float,_}:...);",
+            "FunctionName": "set_tr"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_tr2(tr_handle, {TraceResult,_}:tr_member, {Float,_}:...);",
+            "FunctionName": "get_tr2"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_tr2(tr_handle, {TraceResult,_}:tr_member, {Float,_}:...);",
+            "FunctionName": "set_tr2"
+        },
+        {
+            "Comment": "Creates a traceresult handle.  This value should never be altered.\nThe handle can be used in get/set_tr2 and various traceresult engine functions.\n\nNOTE: You must call free_tr2() on every handle made with create_tr2().",
+            "CommentTags": [
+                {
+                    "Tag": "return",
+                    "Description": "A new TraceResult handle."
+                }
+            ],
+            "FunctionName": "create_tr2",
+            "Function": "native create_tr2();"
+        },
+        {
+            "Comment": "Frees a traceresult handle created with free_tr2().  Do not call\nthis more than once per handle, or on handles not created through\ncreate_tr2().",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "tr_handle",
+                    "Description": "TraceResult handle created via create_tr2()."
+                },
+                {
+                    "Tag": "noreturn"
+                }
+            ],
+            "FunctionName": "free_tr2",
+            "Function": "native free_tr2(tr_handle);"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_kvd(kvd_handle, KeyValueData:member, {Float,_}:...);",
+            "FunctionName": "get_kvd"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_kvd(kvd_handle, KeyValueData:member, {Float,_}:...);",
+            "FunctionName": "set_kvd"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_cd(cd_handle, ClientData:member, {Float,_}:...);",
+            "FunctionName": "get_cd"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_cd(cd_handle, ClientData:member, {Float,_}:...);",
+            "FunctionName": "set_cd"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_es(es_handle, EntityState:member, {Float,_}:...);",
+            "FunctionName": "get_es"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_es(es_handle, EntityState:member, {Float,_}:...);",
+            "FunctionName": "set_es"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_uc(uc_handle, UserCmd:member, {Float,_}:...);",
+            "FunctionName": "get_uc"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_uc(uc_handle, UserCmd:member, {Float,_}:...);",
+            "FunctionName": "set_uc"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native get_pdata_string(entity, offset, dest[], maxlength, byref=1, linux, mac=cellmin);",
+            "FunctionName": "get_pdata_string"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native set_pdata_string(entity, offset, const source[], realloc=2, linux, mac=cellmin);",
+            "FunctionName": "set_pdata_string"
+        },
+        {
+            "Comment": "This function has no description.",
+            "CommentTags": [],
+            "Function": "native copy_infokey_buffer(infoBuffer, out[], maxlen);",
+            "FunctionName": "copy_infokey_buffer"
+        },
+        {
+            "Comment": "Looks up the sequence for the entity.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "entity",
+                    "Description": "The entity id to lookup."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "name",
+                    "Description": "The sequence name to lookup, case insensitive. (\"JUMP\" would match \"jump\")"
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "framerate",
+                    "Description": "The framerate of the sequence, if found."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "loops",
+                    "Description": "Whether or not the sequence loops."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "groundspeed",
+                    "Description": "The groundspeed setting of the sequence."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "-1 on failed lookup, the sequence number on successful lookup."
+                }
+            ],
+            "FunctionName": "lookup_sequence",
+            "Function": "native lookup_sequence(entity, const name[], &Float:framerate = 0.0, &bool:loops = false, &Float:groundspeed = 0.0);"
+        },
+        {
+            "Comment": "Sets a bone controller with the specified value.",
+            "CommentTags": [
+                {
+                    "Tag": "param",
+                    "Variable": "entity",
+                    "Description": "The entity id to set the value on."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "controller",
+                    "Description": "Which controller to set (0 through 3)."
+                },
+                {
+                    "Tag": "param",
+                    "Variable": "value",
+                    "Description": "The value to set it to."
+                },
+                {
+                    "Tag": "return",
+                    "Description": "The percentage that the controller is extended (0.0 through 1.0)"
+                }
+            ],
+            "FunctionName": "Float:set_controller",
+            "Function": "native Float:set_controller(entity, controller, Float:value);"
+        }
+    ],
+    "constants": []
+}

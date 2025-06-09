@@ -15,22 +15,11 @@ public partial class MainView : UserControl
     public MainView()
     {
         InitializeComponent();
-        this.DataContext = new MainViewModel();
+        DataContext = new MainViewModel();
     }
 
-    protected override async void OnApplyTemplate(TemplateAppliedEventArgs e)
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-    }
-
-    private void OnClicked_NavigationTabItem(object sender, RoutedEventArgs e)
-    {
-        if (sender is not Button { DataContext: IconItem s }) return;
-
-        var tabControl = this.GetControl<TabControl>("PageSwitchControl");
-        if (tabControl == null)
-            return;
-
-        
     }
 }
