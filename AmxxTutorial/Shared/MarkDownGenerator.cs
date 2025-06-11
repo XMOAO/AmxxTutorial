@@ -183,7 +183,10 @@ namespace AmxxTutorial.Shared
         public event EventHandler CanExecuteChanged;
         public Action<string>? NavigateAction { get; set; }
 
-        public bool CanExecute(object parameter) => true;
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
 
         // parameter is only string.
         // The url described in markdown is passed to parameter as it is.

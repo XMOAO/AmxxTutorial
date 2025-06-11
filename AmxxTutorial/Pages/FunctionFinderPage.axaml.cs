@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Threading;
 
 using System;
 using System.Linq;
@@ -10,31 +11,35 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 using AmxxTutorial.Shared;
 using AmxxTutorial.ViewModels;
-using CommunityToolkit.Mvvm.Input;
-using AmxxTutorial.Views;
-using Ursa.Controls;
-using Avalonia.Threading;
 
 namespace AmxxTutorial.Pages
 {
     public partial class FunctionFinderPage : UserControl
     {
         FunctionFinderViewModel ViewModel;
+        bool bInitiated = false;
 
-        public async Task InitializeAsync()
+        public FunctionFinderPage()
         {
- 
-            ViewModel = new FunctionFinderViewModel();
-            await ViewModel.InitializeIncFilesAsync();
+            InitializeComponent();
 
+            ViewModel = new FunctionFinderViewModel();
             DataContext = ViewModel;
 
-            FuncSearchBar.FilterMode = AutoCompleteFilterMode.None;
-            FuncSearchBar.AsyncPopulator = ViewModel.PopulateAsync;
+            this.Loaded += async (_, _) => await InitializeExtraAsync();
+        }
+
+        public async Task InitializeExtraAsync()
+        {
+            if (bInitiated)
+                return;
+
+            LoadingArea.IsLoading = true;
 
             ViewModel.NavigateCommandRequested += (sender, args) =>
             {
@@ -45,22 +50,18 @@ namespace AmxxTutorial.Pages
                 else if (args == "UpdateFocus")
                 {
                     IncListNavMenu.BringIntoView();
-                    IncListNavMenu.ScrollIntoView(ViewModel.SelectedFuncItem);
                 }
             };
 
+            await ViewModel.InitializeIncFilesAsync();
+            await Task.Delay(new Random().Next(1000, 2001));
+
+            FuncSearchBar.FilterMode = AutoCompleteFilterMode.None;
+            FuncSearchBar.AsyncPopulator = ViewModel.PopulateAsync;
+
             LoadingArea.IsLoading = false;
-            MainViewArea.IsVisible = true;
 
-        }
-
-        public FunctionFinderPage()
-        {
-            InitializeComponent();
-
-            LoadingArea.IsLoading = true;
-            MainViewArea.IsVisible = false;
-            this.Loaded += async (_, _) => await InitializeAsync();
+            bInitiated = true;
         }
     }
 }
@@ -83,19 +84,18 @@ namespace AmxxTutorial.ViewModels
         [ObservableProperty]
         private IncTreeItem? _SelectedFuncItem;
         [ObservableProperty]
-        private string? _SearchCurText;
+        private string _SearchCurText = string.Empty;
         [ObservableProperty]
         private IncFuncEntry? _SelectedSearchEntry;
 
         [ObservableProperty]
-        private string? _MarkDownText;
+        private string _MarkDownText = string.Empty;
+        public ICommand MarkDownRedirectHyperlink { get; }
 
         [GeneratedRegex(@"[\W_]+", RegexOptions.Compiled)]
         private static partial Regex SplitOnNonWord();
 
         public event EventHandler<string>? NavigateCommandRequested;
-
-        public ICommand MarkDownRedirectHyperlink { get; }
 
         public FunctionFinderViewModel()
         {
@@ -114,18 +114,17 @@ namespace AmxxTutorial.ViewModels
 
         public Task InitializeIncFilesAsync()
         {
-            var versions = IncReader.GetVersions().OrderBy(x => x).ToList();
-            var entriesCache = new List<IncFuncEntry>();
-            var incFiles = new List<IncTreeItem>();
+            var TempVersions = IncReader.GetVersions().OrderBy(x => x).ToList();
+            var TempEntriesCache = new List<IncFuncEntry>();
+            var TempIncFiles = new List<IncTreeItem>();
 
-           return Task.Run(() =>
+            return Task.Run(() =>
             {
-                var defaultVersion = versions.FirstOrDefault();
+                var DefaultVersion = TempVersions.FirstOrDefault();
 
-                // 此处省略一万个for
-                if (!string.IsNullOrEmpty(defaultVersion))
+                if (!string.IsNullOrEmpty(DefaultVersion))
                 {
-                    var Rawfiles = IncReader.GetIncFilesByVersion(defaultVersion);
+                    var Rawfiles = IncReader.GetIncFilesByVersion(DefaultVersion);
 
                     // 遍历所有的*.inc文件
                     foreach (var File in Rawfiles)
@@ -158,7 +157,7 @@ namespace AmxxTutorial.ViewModels
                                     FontSize = 12
                                 });
 
-                                entriesCache.Add(Entry);
+                                TempEntriesCache.Add(Entry);
                             }
                             NoFunction = false;
                             Item.Children.Add(SubItem);
@@ -169,6 +168,7 @@ namespace AmxxTutorial.ViewModels
                             var SubItem = new IncTreeItem()
                             {
                                 Header = " No Functions In This Include.",
+                                FontSize = 12,
                                 IsSeparator = true,
                             };
                             Item.Children.Add(SubItem);
@@ -186,13 +186,15 @@ namespace AmxxTutorial.ViewModels
                                 });
                             }
                         }
-                        incFiles.Add(Item);
+                        TempIncFiles.Add(Item);
                     }
                 }
-
-                IncVersions = new ObservableCollection<string>(versions);
-                EntriesCaches= entriesCache;
-                IncFiles = new ObservableCollection<IncTreeItem>(incFiles);
+                Dispatcher.UIThread.Post(() =>
+                {
+                    IncVersions = new ObservableCollection<string>(TempVersions);
+                    EntriesCaches = TempEntriesCache;
+                    IncFiles = new ObservableCollection<IncTreeItem>(TempIncFiles);
+                });
             });
         }
 
@@ -256,14 +258,20 @@ namespace AmxxTutorial.ViewModels
         {
         }
 
+        public void JumpToNavColumn(IncTreeItem value)
+        {
+            OnSelectedFuncItemChanged(value);
+        }
+
         private void ClearNavColumns() => NavColumns.Clear();
 
         private void PushNavColumns(IncTreeItem item)
         {
-            NavColumns.Add(new NavBreadCrumbItem()
+            NavColumns.Add(new NavBreadCrumbItem(this)
             {
                 Section = item.Header,
-                IsReadOnly = (item.Children == null) ? true : false,
+                ItemInstance = item,
+                IsReadOnly = ((item.Children == null) || item.Children.Count == 0) ? true : false,
             });
         }
 
@@ -381,12 +389,16 @@ namespace AmxxTutorial.ViewModels
         [ObservableProperty] 
         private bool _IsReadOnly;
         public ICommand Command { get; set; }
-
-        public NavBreadCrumbItem()
+        public IncTreeItem? ItemInstance { get; set; }
+        
+        public NavBreadCrumbItem(FunctionFinderViewModel parent)
         {
             Command = new RelayCommand(() =>
             {
-                
+                /*if (ItemInstance != null)
+                {
+                    parent.JumpToNavColumn(ItemInstance);
+                }*/
             });
         }
     };

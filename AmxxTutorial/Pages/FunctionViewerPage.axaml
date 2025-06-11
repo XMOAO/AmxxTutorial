@@ -23,6 +23,11 @@
     <vm:FunctionViewerViewModel />
   </Design.DataContext>
 
+  <ursa:LoadingContainer x:Name ="LoadingArea"
+                           VerticalContentAlignment="Stretch"
+                           HorizontalContentAlignment="Stretch"
+                           IsLoading="True"
+                           LoadingMessage="Loading...">
   <DockPanel LastChildFill="True">
     <!-- 顶部工具栏 -->
     <Border Background="{DynamicResource ToolbarBackground}" DockPanel.Dock="Top" Padding="10">
@@ -135,6 +140,7 @@
             FontWeight="{Binding TextFontWeight}"
             FontSize="{Binding TextFontSize}"
             ShowLineNumbers="{Binding ShowLineNum}"
+            
             IsVisible="{Binding SearchedResultValidity}">
             
             <avaloniaEdit:TextEditor.ContextFlyout>
@@ -160,8 +166,11 @@
               </Style>
             </avaloniaEdit:TextEditor.Styles>
             <interact:Interaction.Behaviors>
-              <shared:DocumentTextBindingBehavior
-                Text="{Binding SelectedIncFile.Content, Mode=TwoWay}" />
+              <shared:TextEditorBindingBehavior
+                Text="{Binding SelectedIncFile.Content, Mode=TwoWay}"
+                HighlightCurrentLine="{Binding HighlightCurrentLine, Mode=TwoWay}"
+                ShowTabs="{Binding ShowTabs, Mode=TwoWay}"
+                ShowEndOfLine="{Binding ShowEndOfLine, Mode=TwoWay}"/>
             </interact:Interaction.Behaviors>
           </avaloniaEdit:TextEditor>
 
@@ -171,4 +180,5 @@
       
     </DockPanel>
   </DockPanel>
+  </ursa:LoadingContainer>
 </UserControl>

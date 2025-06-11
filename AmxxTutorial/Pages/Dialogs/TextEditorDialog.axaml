@@ -17,10 +17,25 @@
                 EnumType="vm:FontWeightFields"
                 Value="{Binding TextFontWeight, Mode=TwoWay}"
                 Loaded="FontWeightSelector_Loaded"/>
-
+      <Separator />
+      <ToggleSwitch
+          u:FormItem.Label="{StaticResource TextEditorSetting_Label6}"
+          IsChecked="{Binding HighlightCurrentLine}"
+          OffContent="{StaticResource TextEditorSetting_Label2_2}"
+          OnContent="{StaticResource TextEditorSetting_Label2_1}" />
       <ToggleSwitch
           u:FormItem.Label="{StaticResource TextEditorSetting_Label2}"
           IsChecked="{Binding ShowLineNum}"
+          OffContent="{StaticResource TextEditorSetting_Label2_2}"
+          OnContent="{StaticResource TextEditorSetting_Label2_1}" />
+      <ToggleSwitch
+          u:FormItem.Label="{StaticResource TextEditorSetting_Label4}"
+          IsChecked="{Binding ShowTabs}"
+          OffContent="{StaticResource TextEditorSetting_Label2_2}"
+          OnContent="{StaticResource TextEditorSetting_Label2_1}" />
+      <ToggleSwitch
+          u:FormItem.Label="{StaticResource TextEditorSetting_Label5}"
+          IsChecked="{Binding ShowEndOfLine}"
           OffContent="{StaticResource TextEditorSetting_Label2_2}"
           OnContent="{StaticResource TextEditorSetting_Label2_1}" />
     </u:Form>

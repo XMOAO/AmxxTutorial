@@ -174,18 +174,18 @@ namespace AmxxTutorial.Shared
         public class CommentTag
         {
             public string Tag { get; set; } = string.Empty;
-            public string? Variable { get; set; }
+            public string Variable { get; set; } = string.Empty;
             public string Description { get; set; } = string.Empty;
         }
 
-        public string Comment { get; set; } = "";
+        public string Comment { get; set; } = string.Empty;
         public List<CommentTag> CommentTags { get; set; } = new List<CommentTag>();
-        public string FunctionName { get; set; } = "";
-        public string Function { get; set; } = "";
+        public string FunctionName { get; set; } = string.Empty;
+        public string Function { get; set; } = string.Empty;
 
         public List<string> Parameters { get; set; } = new List<string>();
         public List<string> ParametersDesc { get; set; } = new List<string>();
-        public string Return { get; set; } = "";
+        public string Return { get; set; } = string.Empty;
     }
 
     public class IncConstantEntry
@@ -197,8 +197,8 @@ namespace AmxxTutorial.Shared
 
     public class IncFile
     {
-        public string? FileName { get; set; }
-        public string? Content { get; set; }
+        public string FileName { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
 
         public List<IncFuncEntry> NativeEntries { get; } = new List<IncFuncEntry>();
         public List<IncFuncEntry> ForwardEntries { get; } = new List<IncFuncEntry>();

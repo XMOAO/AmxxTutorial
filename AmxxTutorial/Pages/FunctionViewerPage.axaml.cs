@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Markup.Xaml;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using Avalonia.Media;
 using AvaloniaEdit;
 using AvaloniaEdit.Editing;
@@ -35,16 +36,34 @@ namespace AmxxTutorial.Pages
 {
     public partial class FunctionViewerPage : UserControl
     {
-        private readonly TextMate.Installation TextMateInstallation;
+        private TextMate.Installation TextMateInstallation;
         private RegistryOptions RegistryOptions;
 
         FunctionViewerViewModel ViewModel;
+        bool bInitiated = false;
 
         public FunctionViewerPage()
         {
             InitializeComponent();
 
             DataContext = ViewModel = new FunctionViewerViewModel();
+
+            RegistryOptions = new RegistryOptions(ThemeName.DarkPlus);
+            TextMateInstallation = ContentTextEditor.InstallTextMate(RegistryOptions);
+            TextMateInstallation.AppliedTheme += TextMateInstallationOnAppliedTheme;
+
+            Language cppLanguageRules = RegistryOptions.GetLanguageByExtension(".cpp");
+            TextMateInstallation.SetGrammar(RegistryOptions.GetScopeByLanguageId(cppLanguageRules.Id));
+
+            this.Loaded += async (_, _) => await InitializeExtraAsync();
+        }
+
+        public async Task InitializeExtraAsync()
+        {
+            if (bInitiated)
+                return;
+
+            LoadingArea.IsLoading = true;
 
             ContentTextEditor.Background = Brushes.Transparent;
             ContentTextEditor.TextArea.Background = this.Background;
@@ -54,24 +73,21 @@ namespace AmxxTutorial.Pages
             ContentTextEditor.Options.ColumnRulerPositions = new List<int>() { 80, 100 };
             ContentTextEditor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(ContentTextEditor.Options);
             ContentTextEditor.TextArea.RightClickMovesCaret = true;
-            ContentTextEditor.Options.HighlightCurrentLine = true;
+            //ContentTextEditor.Options.HighlightCurrentLine = true;
 
-            RegistryOptions = new RegistryOptions(ThemeName.DarkPlus);
-
-            TextMateInstallation = ContentTextEditor.InstallTextMate(RegistryOptions);
-            TextMateInstallation.AppliedTheme += TextMateInstallationOnAppliedTheme;
-
-            Language cppLanguageRules = RegistryOptions.GetLanguageByExtension(".cpp");
-            TextMateInstallation.SetGrammar(RegistryOptions.GetScopeByLanguageId(cppLanguageRules.Id));
+            await ViewModel.InitializeIncFilesAsync();
+            await Task.Delay(new Random().Next(500, 1001));
 
             ViewModel.TextAreaCommandRequested += (sender, args) =>
             {
                 if (ContentTextEditor.Text != null)
                 {
-                    if (args == "ResetToDefault")
+                    if (args.StartsWith("ResetToDefault"))
                     {
                         ContentTextEditor.ScrollToHome();
-                        //ViewModel.ShowNotification();
+
+                        if(args.Substring("ResetToDefault".Length) == "2")
+                            ViewModel.ShowNotification();
 
                         ContentTextEditor.SelectionStart = 0;
                         ContentTextEditor.SelectionLength = 0;
@@ -83,7 +99,12 @@ namespace AmxxTutorial.Pages
                     }
                 }
             };
+
+            LoadingArea.IsLoading = false;
+
+            bInitiated = true;
         }
+
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
         {
             base.OnAttachedToVisualTree(e);
@@ -93,6 +114,11 @@ namespace AmxxTutorial.Pages
             MainViewModel? GetMainViewModel = (MainViewModel)((GetTopLevel as MainWindow)?.Content as MainView)?.DataContext;
             if(GetMainViewModel is not null)
             {
+                if (!GetMainViewModel.GetCurTheme())
+                    TextMateInstallation.SetTheme(RegistryOptions.LoadTheme(ThemeName.LightPlus));
+                else
+                    TextMateInstallation.SetTheme(RegistryOptions.LoadTheme(ThemeName.DarkPlus));
+
                 GetMainViewModel.OnThemeChanged += (sender, isLightTheme) =>
                 {
                     if (isLightTheme)
@@ -177,28 +203,38 @@ namespace AmxxTutorial.ViewModels
         [ObservableProperty] private bool _ShowLineNum;
         [ObservableProperty] private int _TextFontSize;
         [ObservableProperty] private int _TextFontWeight;
+        [ObservableProperty] private bool _ShowTabs;
+        [ObservableProperty] private bool _ShowEndOfLine;
+        [ObservableProperty] private bool _HighlightCurrentLine;
 
         public TextEditorDialogProxy(FunctionViewerViewModel parentViewModel)
         {
             ParentViewModel = parentViewModel;
+
             ShowLineNum = ParentViewModel.ShowLineNum;
             TextFontWeight = ParentViewModel.TextFontWeight;
             TextFontSize = ParentViewModel.TextFontSize;
+            ShowTabs = ParentViewModel.ShowTabs;
+            ShowEndOfLine = ParentViewModel.ShowEndOfLine;
+            HighlightCurrentLine = ParentViewModel.HighlightCurrentLine;
         }
 
         partial void OnShowLineNumChanged(bool value) => ParentViewModel.ShowLineNum = value;
         partial void OnTextFontWeightChanged(int value) => ParentViewModel.TextFontWeight = value;
         partial void OnTextFontSizeChanged(int value) => ParentViewModel.TextFontSize = value;
+        partial void OnShowTabsChanged(bool value) => ParentViewModel.ShowTabs = value;
+        partial void OnShowEndOfLineChanged(bool value) => ParentViewModel.ShowEndOfLine = value;
+        partial void OnHighlightCurrentLineChanged(bool value) => ParentViewModel.HighlightCurrentLine = value;
     }
 
     public partial class FunctionViewerViewModel : ViewModelBase
     {
         [ObservableProperty]
-        private ObservableCollection<string> _IncVersions;
+        private ObservableCollection<string> _IncVersions = [];
         public ObservableCollection<IncFile> IncFiles { get; set; } = [];
 
         [ObservableProperty]
-        private ObservableCollection<IncFile> _FilteredIncFiles;
+        private ObservableCollection<IncFile> _FilteredIncFiles = [];
 
         [ObservableProperty]
         private string? _SelectedVersion;
@@ -207,15 +243,18 @@ namespace AmxxTutorial.ViewModels
         private IncFile? _SelectedIncFile;
 
         [ObservableProperty] 
-        private string? _SearchCurText;
+        private string _SearchCurText = string.Empty;
 
         [ObservableProperty]
-        private bool? _SearchedResultValidity;
+        private bool _SearchedResultValidity = false;
 
         // TextEditor Setting Dialog
         [ObservableProperty] private int _TextFontSize = 12;
         [ObservableProperty] private bool _ShowLineNum = true;
         [ObservableProperty] private int _TextFontWeight = (int)FontWeightFields.Normal;
+        [ObservableProperty] private bool _ShowTabs = true;
+        [ObservableProperty] private bool _ShowEndOfLine = false;
+        [ObservableProperty] private bool _HighlightCurrentLine = true;
 
         public ICommand ShowDialogCommand { get; set; }
         public event EventHandler<string>? TextAreaCommandRequested;
@@ -224,13 +263,35 @@ namespace AmxxTutorial.ViewModels
 
         public FunctionViewerViewModel()
         {
-            InitializeIncFiles();
-
             ShowDialogCommand = new AsyncRelayCommand(ShowDefaultDialog);
         }
 
+        public Task InitializeIncFilesAsync()
+        {
+            var TempVersions = IncReader.GetVersions().OrderBy(x => x).ToList();
+            var DefaultVersion = TempVersions.FirstOrDefault();
+
+            return Task.Run(() =>
+            {
+                if (!string.IsNullOrEmpty(DefaultVersion))
+                {
+                    var TempIncFiles = IncReader.GetIncFilesByVersion(DefaultVersion);
+
+                    IncVersions = new ObservableCollection<string>(TempVersions);
+                    IncFiles = new ObservableCollection<IncFile>(TempIncFiles);
+                }
+
+                Dispatcher.UIThread.Post(() =>
+                {
+                    OnSearchCurTextChanged(string.Empty);
+                    SelectedVersion = DefaultVersion;
+                    SelectedIncFile = IncFiles.FirstOrDefault();
+                });
+            });
+        }
+
         [RelayCommand]
-        private void ResetArea() => TextAreaCommandRequested?.Invoke(this, "ResetToDefault");
+        private void ResetArea() => TextAreaCommandRequested?.Invoke(this, "ResetToDefault2");
         [RelayCommand]
         private void MouseSelectAll() => TextAreaCommandRequested?.Invoke(this, "SelectAll");
         [RelayCommand]
@@ -264,28 +325,6 @@ namespace AmxxTutorial.ViewModels
                 showClose: true,
                 type: NotificationType.Success);
         }
-
-        public void InitializeIncFiles()
-        {
-            IncVersions = new ObservableCollection<string>();
-            FilteredIncFiles = new ObservableCollection<IncFile>();
-
-            foreach (var v in IncReader.GetVersions().OrderBy(x => x))
-                IncVersions.Add(v);
-
-            var defaultVersion = IncVersions.FirstOrDefault();
-            if (!string.IsNullOrEmpty(defaultVersion))
-            {
-                var files = IncReader.GetIncFilesByVersion(defaultVersion);
-                foreach (var file in files)
-                    IncFiles.Add(file);
-
-                OnSearchCurTextChanged(string.Empty);
-                SelectedVersion = defaultVersion;
-                SelectedIncFile = IncFiles.FirstOrDefault();
-            }
-        }
-
         partial void OnSearchCurTextChanged(string? value)
         {
             var search = value?.ToLowerInvariant() ?? string.Empty;
@@ -296,7 +335,7 @@ namespace AmxxTutorial.ViewModels
                 FilteredIncFiles.Add(pair);
             }
 
-            SearchedResultValidity = FilteredIncFiles.Any(); ;
+            SearchedResultValidity = FilteredIncFiles.Any();
         }
 
         partial void OnSelectedVersionChanged(string? value)

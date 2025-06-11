@@ -18,14 +18,13 @@
     <vm:FunctionFinderViewModel />
   </Design.DataContext>
 
-  <Grid>
-    <ursa:LoadingContainer
-      VerticalContentAlignment="Stretch"
-      HorizontalContentAlignment="Stretch"
-        x:Name ="LoadingArea"
-                IsLoading="True"
-                LoadingMessage="Loading...">
-      <Grid RowDefinitions="Auto,*" Margin="10" x:Name="MainViewArea">
+
+    <ursa:LoadingContainer x:Name ="LoadingArea"
+                           VerticalContentAlignment="Stretch"
+                           HorizontalContentAlignment="Stretch"
+                           IsLoading="True"
+                           LoadingMessage="Loading...">
+      <Grid RowDefinitions="Auto,*" Margin="10">
 
         <StackPanel Grid.Row="0"
                     Orientation="Horizontal"
@@ -40,6 +39,7 @@
                 ValueMemberBinding="{ReflectionBinding FunctionName}"
                 Watermark="{StaticResource SearchIncFuncsTooltip}"/>
           <ursa:Breadcrumb
+                Margin="10"
                 DisplayMemberBinding="{Binding Section}"
                 CommandBinding="{Binding Command}"
                 ItemsSource="{Binding NavColumns}">
@@ -53,39 +53,27 @@
 
         <!-- 内容区域 -->
         <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
-          <ursa:NavMenu x:Name="IncListNavMenu"
+          <TreeView Grid.Column="0" x:Name="IncListNavMenu"
                       Margin="-8"
-                      Grid.Column="0"
-                      ExpandWidth="250"
+                      Width="250"
                       ItemsSource="{Binding IncFiles}"
                       SelectedItem="{Binding SelectedFuncItem, Mode=TwoWay}"
-                      HeaderBinding="{Binding Header}"
-                      IconBinding="{Binding Icon}"
-                      SubMenuBinding="{Binding Children}"
-                      SubMenuIndent="15"
                       Foreground="Gray">
-            <ursa:NavMenu.Styles>
-              <Style x:DataType="vm:IncTreeItem" Selector="ursa|NavMenuItem">
-                <Setter Property="IsVerticalCollapsed" Value="{Binding !IsExpanded, Mode=TwoWay}" />
-                <Setter Property="IsSeparator" Value="{Binding IsSeparator}" />
-                <Setter Property="ToolTip.Tip" Value="{Binding FuncEntry?.Comment, TargetNullValue={x:Null}}" />
+            <TreeView.ItemTemplate>
+              <TreeDataTemplate ItemsSource="{Binding Children}">
+                <TextBlock Text="{Binding Header}"/>
+              </TreeDataTemplate>
+            </TreeView.ItemTemplate>
+
+            <TreeView.Styles>
+              <Style x:DataType="vm:IncTreeItem" Selector="TreeViewItem">
+                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                 <Setter Property="FontSize" Value="{Binding FontSize}" />
+                <Setter Property="ToolTip.Tip" Value="{Binding FuncEntry?.Comment, TargetNullValue={x:Null}}" />
               </Style>
-            </ursa:NavMenu.Styles>
-            <ursa:NavMenu.IconTemplate>
-              <DataTemplate DataType="{x:Type x:String}">
-                <ursa:TwoTonePathIcon
-                    Width="16"
-                    Height="16"
-                    ActiveForeground="{DynamicResource SemiBlue5}"
-                    ActiveStrokeBrush="{DynamicResource SemiBlue5}"
-                    Data="{Binding Converter={x:Static conv:IconConverter.Instance}}"
-                    Foreground="{DynamicResource SemiGrey5}"
-                    StrokeBrush="{DynamicResource SemiGrey5}"
-                    IsActive="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ursa:NavMenuItem}, Path=IsHighlighted, Mode=TwoWay}"/>
-              </DataTemplate>
-            </ursa:NavMenu.IconTemplate>
-          </ursa:NavMenu>
+            </TreeView.Styles>
+            
+          </TreeView>
 
           <!-- 右侧内容区 -->
           <Border
@@ -123,6 +111,6 @@
         </Grid>
       </Grid>
     </ursa:LoadingContainer>
-  </Grid>
+
   
 </UserControl>

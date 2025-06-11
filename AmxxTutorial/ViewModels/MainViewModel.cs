@@ -36,6 +36,7 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private bool _CheckToggleScheme;
     public event EventHandler<bool>? OnThemeChanged;
+    public bool GetCurTheme() => !CheckToggleScheme;
     partial void OnCheckToggleSchemeChanged(bool value) => OnThemeChanged?.Invoke(this, value);
 
     public IReadOnlyList<RightMenuItem> RightMenuItems { get; }

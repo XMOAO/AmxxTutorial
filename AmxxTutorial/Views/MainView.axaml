@@ -134,7 +134,7 @@
           <ItemsControl.Styles>
             <Style Selector="ItemsControl > ContentPresenter"
                    x:DataType="vm:NavigationTabItem"
-                   x:CompileBindings="True">
+                   >
               <Setter Property="IsVisible" Value="{Binding IsSelected}" />
             </Style>
           </ItemsControl.Styles>
