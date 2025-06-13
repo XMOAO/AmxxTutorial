@@ -31,6 +31,8 @@ using AmxxTutorial.Shared;
 using Avalonia.Controls.Notifications;
 using Notification = Ursa.Controls.Notification;
 using WindowNotificationManager = Ursa.Controls.WindowNotificationManager;
+using Avalonia.Input;
+using AvaloniaEdit.Document;
 
 namespace AmxxTutorial.Pages
 {
@@ -56,7 +58,35 @@ namespace AmxxTutorial.Pages
             TextMateInstallation.SetGrammar(RegistryOptions.GetScopeByLanguageId(cppLanguageRules.Id));
 
             this.Loaded += async (_, _) => await InitializeExtraAsync();
+
+            _toolTip = new ToolTip();
         }
+
+        private ToolTip _toolTip;
+        private void textEditor_TextArea_TextEntered(object sender, PointerEventArgs e)
+        {
+            var pos = ContentTextEditor.GetPositionFromPoint(e.GetPosition(ContentTextEditor));
+            if (pos == null) return;
+
+            var doc = ContentTextEditor.Document;
+            string word = GetWordAt(doc, pos.Value.Line, pos.Value.Column);
+            if (string.IsNullOrEmpty(word)) return;
+
+        }
+        private string GetWordAt(TextDocument doc, int line, int col)
+        {
+            var offset = doc.GetOffset(line, col);
+            var text = doc.Text;
+            if (offset < 0 || offset >= text.Length) return null;
+
+            int start = offset, end = offset;
+            while (start > 0 && IsIdentifierChar(text[start - 1])) start--;
+            while (end < text.Length && IsIdentifierChar(text[end])) end++;
+            return doc.GetText(start, end - start);
+        }
+
+        private bool IsIdentifierChar(char c) =>
+            char.IsLetterOrDigit(c) || c == '_' || c == '@';
 
         public async Task InitializeExtraAsync()
         {
@@ -67,16 +97,16 @@ namespace AmxxTutorial.Pages
 
             ContentTextEditor.Background = Brushes.Transparent;
             ContentTextEditor.TextArea.Background = this.Background;
+            ContentTextEditor.TextArea.TextView.PointerHover += textEditor_TextArea_TextEntered;
+            //ContentTextEditor.TextArea.TextView
+
             ContentTextEditor.Options.AllowToggleOverstrikeMode = true;
             ContentTextEditor.Options.EnableTextDragDrop = true;
-            ContentTextEditor.Options.ShowBoxForControlCharacters = true;
-            ContentTextEditor.Options.ColumnRulerPositions = new List<int>() { 80, 100 };
             ContentTextEditor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(ContentTextEditor.Options);
             ContentTextEditor.TextArea.RightClickMovesCaret = true;
-            //ContentTextEditor.Options.HighlightCurrentLine = true;
 
             await ViewModel.InitializeIncFilesAsync();
-            await Task.Delay(new Random().Next(500, 1001));
+            await Task.Delay(new Random().Next(200, 300));
 
             ViewModel.TextAreaCommandRequested += (sender, args) =>
             {
@@ -206,6 +236,7 @@ namespace AmxxTutorial.ViewModels
         [ObservableProperty] private bool _ShowTabs;
         [ObservableProperty] private bool _ShowEndOfLine;
         [ObservableProperty] private bool _HighlightCurrentLine;
+        [ObservableProperty] private bool _ShowSpaces;
 
         public TextEditorDialogProxy(FunctionViewerViewModel parentViewModel)
         {
@@ -215,6 +246,7 @@ namespace AmxxTutorial.ViewModels
             TextFontWeight = ParentViewModel.TextFontWeight;
             TextFontSize = ParentViewModel.TextFontSize;
             ShowTabs = ParentViewModel.ShowTabs;
+            ShowSpaces = ParentViewModel.ShowSpaces;
             ShowEndOfLine = ParentViewModel.ShowEndOfLine;
             HighlightCurrentLine = ParentViewModel.HighlightCurrentLine;
         }
@@ -255,6 +287,7 @@ namespace AmxxTutorial.ViewModels
         [ObservableProperty] private bool _ShowTabs = true;
         [ObservableProperty] private bool _ShowEndOfLine = false;
         [ObservableProperty] private bool _HighlightCurrentLine = true;
+        [ObservableProperty] private bool _ShowSpaces = true;
 
         public ICommand ShowDialogCommand { get; set; }
         public event EventHandler<string>? TextAreaCommandRequested;
@@ -268,7 +301,7 @@ namespace AmxxTutorial.ViewModels
 
         public Task InitializeIncFilesAsync()
         {
-            var TempVersions = IncReader.GetVersions().OrderBy(x => x).ToList();
+            var TempVersions = IncReader.GetVersions();
             var DefaultVersion = TempVersions.FirstOrDefault();
 
             return Task.Run(() =>

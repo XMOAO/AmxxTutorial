@@ -25,6 +25,7 @@
   <x:String x:Key="TextEditorSetting_Label4">缩进显示</x:String>
   <x:String x:Key="TextEditorSetting_Label5">换行显示</x:String>
   <x:String x:Key="TextEditorSetting_Label6">高亮显示当前行</x:String>
+  <x:String x:Key="TextEditorSetting_Label7">空格显示</x:String>
   <x:String x:Key="TextEditorFlyout_SelectAll">全选</x:String>
   <x:String x:Key="TextEditorFlyout_Cut">剪切</x:String>
   <x:String x:Key="TextEditorFlyout_Copy">复制</x:String>

@@ -29,6 +29,11 @@
           OffContent="{StaticResource TextEditorSetting_Label2_2}"
           OnContent="{StaticResource TextEditorSetting_Label2_1}" />
       <ToggleSwitch
+          u:FormItem.Label="{StaticResource TextEditorSetting_Label7}"
+          IsChecked="{Binding ShowSpaces}"
+          OffContent="{StaticResource TextEditorSetting_Label2_2}"
+          OnContent="{StaticResource TextEditorSetting_Label2_1}" />
+      <ToggleSwitch
           u:FormItem.Label="{StaticResource TextEditorSetting_Label4}"
           IsChecked="{Binding ShowTabs}"
           OffContent="{StaticResource TextEditorSetting_Label2_2}"

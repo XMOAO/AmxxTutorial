@@ -54,7 +54,7 @@ namespace AmxxTutorial.Pages
             };
 
             await ViewModel.InitializeIncFilesAsync();
-            await Task.Delay(new Random().Next(1000, 2001));
+            await Task.Delay(new Random().Next(300, 500));
 
             FuncSearchBar.FilterMode = AutoCompleteFilterMode.None;
             FuncSearchBar.AsyncPopulator = ViewModel.PopulateAsync;
@@ -114,81 +114,12 @@ namespace AmxxTutorial.ViewModels
 
         public Task InitializeIncFilesAsync()
         {
-            var TempVersions = IncReader.GetVersions().OrderBy(x => x).ToList();
-            var TempEntriesCache = new List<IncFuncEntry>();
-            var TempIncFiles = new List<IncTreeItem>();
+            var TempVersions = IncReader.GetVersions();
+            var TempEntriesCache = IncReader.GetFuncEntriesCaches();
+            var TempIncFiles = IncReader.GetFuncTreeItemCaches();
 
             return Task.Run(() =>
             {
-                var DefaultVersion = TempVersions.FirstOrDefault();
-
-                if (!string.IsNullOrEmpty(DefaultVersion))
-                {
-                    var Rawfiles = IncReader.GetIncFilesByVersion(DefaultVersion);
-
-                    // 遍历所有的*.inc文件
-                    foreach (var File in Rawfiles)
-                    {
-                        var Item = new IncTreeItem();
-                        Item.Header = File.FileName;
-                        Item.Icon = "SemiIconFile";
-
-                        bool NoFunction = true;
-                        // 遍历每个inc文件的所有类别（Forward、Enum、Native...）
-                        foreach (var Category in File.FuncEntryCategories)
-                        {
-                            if (Category.Entries.Count() == 0)
-                                continue;
-
-                            var SubItem = new IncTreeItem();
-                            SubItem.Header = Category.Name;
-                            SubItem.Parent = Item;
-                            SubItem.Icon = Category.Name == "Natives" ? "SemiIconPuzzle" : "SemiIconInherit";
-                            SubItem.FontSize = 13;
-
-                            // 遍历每个类别中存在的函数
-                            foreach (var Entry in Category.Entries)
-                            {
-                                SubItem.Children.Add(new IncTreeItem()
-                                {
-                                    FuncEntry = Entry,
-                                    Header = Entry.FunctionName,
-                                    Parent = SubItem,
-                                    FontSize = 12
-                                });
-
-                                TempEntriesCache.Add(Entry);
-                            }
-                            NoFunction = false;
-                            Item.Children.Add(SubItem);
-                        }
-
-                        if (NoFunction)
-                        {
-                            var SubItem = new IncTreeItem()
-                            {
-                                Header = " No Functions In This Include.",
-                                FontSize = 12,
-                                IsSeparator = true,
-                            };
-                            Item.Children.Add(SubItem);
-                        }
-                        else
-                        {
-                            if (Item.Children.Count() > 0)
-                            {
-                                Item.Children.Insert(0, new IncTreeItem()
-                                {
-                                    Header = Localization.GetString("IncNavMenu_Overview"),
-                                    Parent = Item,
-                                    FontSize = 13,
-                                    IsOverview = true
-                                });
-                            }
-                        }
-                        TempIncFiles.Add(Item);
-                    }
-                }
                 Dispatcher.UIThread.Post(() =>
                 {
                     IncVersions = new ObservableCollection<string>(TempVersions);
@@ -260,7 +191,7 @@ namespace AmxxTutorial.ViewModels
 
         public void JumpToNavColumn(IncTreeItem value)
         {
-            OnSelectedFuncItemChanged(value);
+
         }
 
         private void ClearNavColumns() => NavColumns.Clear();
@@ -325,62 +256,6 @@ namespace AmxxTutorial.ViewModels
             return Fallback.OrderBy(t => t.FirstPos).Select(t => t.Entry).Cast<object>(); ;
         }
     }
-
-    public partial class IncTreeItem : ObservableObject
-    {
-        [ObservableProperty]
-        private string? _Header;
-        [ObservableProperty]
-        private string? _Icon;
-        [ObservableProperty]
-        private bool _IsSeparator = false;
-        [ObservableProperty]
-        private bool _IsExpanded = false;
-
-        [ObservableProperty]
-        private int _FontSize = 14;
-
-        [ObservableProperty]
-        private IncFuncEntry? _FuncEntry;
-        [ObservableProperty]
-        private IncConstantEntry? _ConstEntry;
-
-        public bool IsOverview { get; set; } = false;
-        public IncTreeItem? Parent { get; set; }
-
-        [ObservableProperty]
-        private ObservableCollection<IncTreeItem>? _Children = [];
-
-        public IEnumerable<IncTreeItem> GetLeaves(bool root = false)
-        {
-            if (this.Children == null || this.Children.Count == 0)
-            {
-                yield return this;
-                yield break;
-            }
-
-            if(!root)
-            {
-                foreach (var child in Children)
-                {
-                    var items = child.GetLeaves();
-                    foreach (var item in items)
-                    {
-                        yield return item;
-                    }
-                }
-            }
-        }
-        public IEnumerable<IncTreeItem> GetAncestors()
-        {
-            var current = this.Parent;
-            while (current != null)
-            {
-                yield return current;
-                current = current.Parent;
-            }
-        }
-    };
 
     public partial class NavBreadCrumbItem : ObservableObject
     {

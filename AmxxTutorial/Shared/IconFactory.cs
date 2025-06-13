@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Threading;
@@ -10,30 +10,16 @@ namespace AmxxTutorial.Shared;
 
 public static class IconFactory
 {
-    private static readonly IResourceDictionary _resources = new Icons();
+    private static readonly IResourceDictionary Resources = new Icons();
+    private static readonly Dictionary<string, IconItem> Icons = new();
 
-    /*private static readonly HashSet<string> _requiredFilledIcons = new() 
-    { "SemiIconHome", "SemiIconArticle", "SemiIconFile", "SemiIconSearch", "SemiIconSetting", "SemiIconList", 
-      ""};
-
-    private static readonly HashSet<string> _requiredStrokedIcons = new() 
-    { "SemiIconBookOpenStroked", "SemiIconBookmarkAddStroked", "SemiIconBookmarkDeleteStroked" };
-
-    private static readonly Dictionary<string, IconItem> _filledIcons = new();
-    private static readonly Dictionary<string, IconItem> _strokedIcons = new();
-    */
-
-    private static readonly Dictionary<string, IconItem> _Icons = new();
-
-    public static bool IsInitialized { get; private set; }
-
-    public static void InitializeResources()
+    public static async Task InitializeResourcesAsync()
     {
-        if (_resources is null) return;
-
-        Dispatcher.UIThread.Invoke(() =>
+        await Dispatcher.UIThread.InvokeAsync(() =>
         {
-            foreach (var provider in _resources.MergedDictionaries)
+            if (Resources is null) return;
+
+            foreach (var provider in Resources.MergedDictionaries)
             {
                 if (provider is not ResourceDictionary dic) continue;
 
@@ -42,24 +28,7 @@ public static class IconFactory
                     string keyStr = key.ToString();
                     if (dic[key] is not Geometry geometry) continue;
 
-                    /*if (_requiredFilledIcons.Contains(keyStr))
-                    {
-                        _filledIcons[keyStr.ToLowerInvariant()] = new IconItem
-                        {
-                            ResourceKey = keyStr,
-                            Geometry = geometry
-                        };
-                    }
-                    else if (_requiredStrokedIcons.Contains(keyStr))
-                    {
-                        _strokedIcons[keyStr.ToLowerInvariant()] = new IconItem
-                        {
-                            ResourceKey = keyStr,
-                            Geometry = geometry
-                        };
-                    }*/
-
-                    _Icons[keyStr.ToLowerInvariant()] = new IconItem
+                    Icons[keyStr.ToLowerInvariant()] = new IconItem
                     {
                         ResourceKey = keyStr,
                         Geometry = geometry
@@ -71,12 +40,8 @@ public static class IconFactory
     public static Geometry? GetIcon(string key)
     {
         var lower = key.ToLowerInvariant();
-        /*if (_filledIcons.TryGetValue(lower, out var filled))
-            return filled.Geometry;
-        if (_strokedIcons.TryGetValue(lower, out var stroked))
-            return stroked.Geometry;*/
 
-        if (_Icons.TryGetValue(lower, out var icon))
+        if (Icons.TryGetValue(lower, out var icon))
             return icon.Geometry;
 
         return null;
@@ -90,16 +55,7 @@ public static class IconFactory
         {
             var lower = key.ToLowerInvariant();
 
-            /*if (_filledIcons.TryGetValue(lower, out var filled))
-            {
-                result.Add(filled);
-            }
-            else if (_strokedIcons.TryGetValue(lower, out var stroked))
-            {
-                result.Add(stroked);
-            }*/
-
-            if (_Icons.TryGetValue(lower, out var icon))
+            if (Icons.TryGetValue(lower, out var icon))
                 result.Add(icon);
         }
 

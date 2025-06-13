@@ -11,6 +11,7 @@
              xmlns:mds="https://github.com/whistyun/Markdown.Avalonia.SyntaxHigh"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:vm="clr-namespace:AmxxTutorial.ViewModels"
+             xmlns:shared="clr-namespace:AmxxTutorial.Shared"
              xmlns:conv="clr-namespace:AmxxTutorial.Converters"
              x:DataType="vm:FunctionFinderViewModel">
 
@@ -66,7 +67,7 @@
             </TreeView.ItemTemplate>
 
             <TreeView.Styles>
-              <Style x:DataType="vm:IncTreeItem" Selector="TreeViewItem">
+              <Style x:DataType="shared:IncTreeItem" Selector="TreeViewItem">
                 <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                 <Setter Property="FontSize" Value="{Binding FontSize}" />
                 <Setter Property="ToolTip.Tip" Value="{Binding FuncEntry?.Comment, TargetNullValue={x:Null}}" />

@@ -16,7 +16,7 @@
       <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
       <semi:SemiTheme Locale="zh-CN" />
       <u-semi:SemiTheme Locale="zh-CN"/>
-      <semi:SemiPopupAnimations />    
+      <semi:SemiPopupAnimations />
     </Application.Styles>
   
     <Application.Resources>

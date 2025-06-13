@@ -22,6 +22,9 @@ namespace AmxxTutorial.Shared
         public static readonly StyledProperty<bool> ShowEndOfLineProperty =
             AvaloniaProperty.Register<TextEditorBindingBehavior, bool>(nameof(ShowEndOfLine));
 
+        public static readonly StyledProperty<bool> ShowSpacesProperty =
+            AvaloniaProperty.Register<TextEditorBindingBehavior, bool>(nameof(ShowSpaces));
+
         public bool HighlightCurrentLine
         {
             get => GetValue(HighlightCurrentLineProperty);
@@ -38,6 +41,12 @@ namespace AmxxTutorial.Shared
         {
             get => GetValue(ShowEndOfLineProperty);
             set => SetValue(ShowEndOfLineProperty, value);
+        }
+
+        public bool ShowSpaces
+        {
+            get => GetValue(ShowSpacesProperty);
+            set => SetValue(ShowSpacesProperty, value);
         }
 
         public string Text
@@ -67,6 +76,10 @@ namespace AmxxTutorial.Shared
                 this.GetObservable(ShowEndOfLineProperty).Subscribe(endofline =>
                 {
                     _textEditor.Options.ShowEndOfLine = endofline;
+                });
+                this.GetObservable(ShowSpacesProperty).Subscribe(spaces =>
+                {
+                    _textEditor.Options.ShowSpaces = spaces;
                 });
             }
         }

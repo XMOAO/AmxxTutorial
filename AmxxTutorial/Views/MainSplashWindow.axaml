@@ -4,7 +4,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ursa="https://irihi.tech/ursa"           
-        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
-        Title="MainSplashWindow">
+        xmlns:ursa="https://irihi.tech/ursa"      
+        xmlns:vm="clr-namespace:AmxxTutorial.ViewModels"
+        x:DataType="vm:MainSplashViewModel"
+        Title="MainSplashWindow"
+        CountDown="{x:Null}"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400">
+
+  <Grid>
+  <ProgressBar
+            Margin="0,16,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Value="{Binding LoadingProgress}" >
+    <ProgressBar.Transitions>
+      <Transitions>
+        <DoubleTransition Property="Value" Duration="0:0:0.15" Easing="CubicEaseOut"/>
+      </Transitions>
+    </ProgressBar.Transitions>
+  </ProgressBar>
+
+  <TextBlock Text="正在加载..." Margin="100 100 0 0"/>
+  </Grid>
 </ursa:SplashWindow>
