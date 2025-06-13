@@ -16,8 +16,11 @@ namespace AmxxTutorial.ViewModels
 
         private readonly TaskCompletionSource ReadyTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
+        public MainViewModel ViewModel;
+
         public MainSplashViewModel()
         {
+            ViewModel = new MainViewModel();
             _ = Init();
         }
 
@@ -31,10 +34,10 @@ namespace AmxxTutorial.ViewModels
             {
                 (IncReader.InitializeIncFilesAsync, 30),
                 (null, 15),
-                (null, 5),
                 (null, 20),
                 (null, 10),
-                (IconFactory.InitializeResourcesAsync, 20),
+                (IconFactory.InitializeResourcesAsync, 10),
+                (ViewModel.InitializePageAndMenu, 35),
             };
 
             int totalWeight = progressSteps.Sum(s => s.Weight);

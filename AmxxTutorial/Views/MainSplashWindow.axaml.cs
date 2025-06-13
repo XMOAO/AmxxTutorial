@@ -27,9 +27,10 @@ public partial class MainSplashWindow : SplashWindow
     {
         if (this.DialogResult is true)
         {
+            
             return new MainWindow()
             {
-                DataContext = new MainViewModel()
+                DataContext = (this.DataContext as MainSplashViewModel)!.ViewModel
             };
         }
         return null;

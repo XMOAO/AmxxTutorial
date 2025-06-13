@@ -20,6 +20,8 @@ using System.ComponentModel;
 using AmxxTutorial.Controls;
 using System.Security.AccessControl;
 using System.Linq;
+using Avalonia.Threading;
+using Markdown.Avalonia.Html.Core;
 
 namespace AmxxTutorial.ViewModels;
 
@@ -39,7 +41,8 @@ public partial class MainViewModel : ViewModelBase
     public bool GetCurTheme() => !CheckToggleScheme;
     partial void OnCheckToggleSchemeChanged(bool value) => OnThemeChanged?.Invoke(this, value);
 
-    public IReadOnlyList<RightMenuItem> RightMenuItems { get; }
+    [ObservableProperty]
+    private List<RightMenuItem> _RightMenuItems;
 
     // Left Navigation Menu
     // Tab Icons' key and path
@@ -66,92 +69,117 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
+    public async Task InitializePageAndMenu()
+    {
+        FunctionViewerPage FunctionViewerPage = null;
+        FunctionFinderPage FunctionFinderPage = null;
+
+        await Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            FunctionViewerPage = new FunctionViewerPage();
+            FunctionFinderPage = new FunctionFinderPage();
+        });
+
+        await Task.Run(() =>
+        {
+            var TempNavigationTabItemIcons = IconFactory.GetIconsByKeys(NavigationTabItemIconsKey);
+
+            var TempNavigationTab = new ObservableCollection<NavigationTabItem>
+            {
+                new NavigationTabItem { Header="Home", Detail="Home_Desc",
+                                        Icon = TempNavigationTabItemIcons[0], Page = null  },
+                new NavigationTabItem { Header="Article", Detail="Article_Desc",
+                                        Icon = TempNavigationTabItemIcons[1], Page = null },
+                new NavigationTabItem { Header="Reader",  Detail="Reader_Desc",
+                                        Icon = TempNavigationTabItemIcons[2], Page = FunctionViewerPage  },
+                new NavigationTabItem { Header="Search",  Detail="Search_Desc",
+                                        Icon = TempNavigationTabItemIcons[3], Page = FunctionFinderPage  },
+                new NavigationTabItem { Header="Setting", Detail="Setting_Desc",
+                                        Icon = TempNavigationTabItemIcons[4], Page = null }
+            };
+
+            var TempRightMenuItems = new List<RightMenuItem>
+            {
+                new RightMenuItem
+                {
+                    Header = "主题",
+                    Items =
+                    [
+                        new RightMenuItem
+                        {
+                            Header = "跟随系统",
+                            Command = FollowSystemThemeCommand
+                        },
+                        new RightMenuItem
+                        {
+                            Header = "水生",
+                            Command = SelectThemeCommand,
+                            CommandParameter = SemiTheme.Aquatic
+                        },
+                        new RightMenuItem
+                        {
+                            Header = "沙漠",
+                            Command = SelectThemeCommand,
+                            CommandParameter = SemiTheme.Desert
+                        },
+                        new RightMenuItem
+                        {
+                            Header = "黄昏",
+                            Command = SelectThemeCommand,
+                            CommandParameter = SemiTheme.Dusk
+                        },
+                        new RightMenuItem
+                        {
+                            Header = "夜空",
+                            Command = SelectThemeCommand,
+                            CommandParameter = SemiTheme.NightSky
+                        },
+                    ]
+                },
+                new RightMenuItem
+                {
+                    Header = "语言",
+                    Items =
+                    [
+                        new RightMenuItem
+                        {
+                            Header = "简体中文",
+                            Command = SelectLocaleCommand,
+                            CommandParameter = new CultureInfo("zh-cn")
+                        },
+                        new RightMenuItem
+                        {
+                            Header = "繁體中文",
+                            Command = SelectLocaleCommand,
+                            CommandParameter = new CultureInfo("zh-tw")
+                        },
+                        new RightMenuItem
+                        {
+                            Header = "English",
+                            Command = SelectLocaleCommand,
+                            CommandParameter = new CultureInfo("en-us")
+                        },
+                    ]
+                }
+            };
+
+            NavigationTabItemIcons = TempNavigationTabItemIcons;
+            NavigationTabItemInfo = new ObservableCollection<NavigationTabItem>(TempNavigationTab);
+            RightMenuItems = new List<RightMenuItem>(TempRightMenuItems);
+
+            Dispatcher.UIThread.Post(() =>
+            {
+                
+                SelectedNavigationTab = NavigationTabItemInfo.FirstOrDefault();
+
+                
+            });
+        });
+    }
+
     public MainViewModel()
     {
-        if (NavigationTabItemIcons!= null)
-            NavigationTabItemIcons.Clear();
 
-        NavigationTabItemIcons = IconFactory.GetIconsByKeys(NavigationTabItemIconsKey);
-
-        NavigationTabItemInfo = new ObservableCollection<NavigationTabItem>
-        {
-            new NavigationTabItem { Header="Home", Detail="Home_Desc",
-                                    Icon = _NavigationTabItemIcons[0], Page = null  },
-            new NavigationTabItem { Header="Article", Detail="Article_Desc",
-                                    Icon = _NavigationTabItemIcons[1], Page = null },
-            new NavigationTabItem { Header="Reader",  Detail="Reader_Desc",
-                                    Icon = _NavigationTabItemIcons[2], Page = new FunctionViewerPage()  },
-            new NavigationTabItem { Header="Search",  Detail="Search_Desc",
-                                    Icon = _NavigationTabItemIcons[3], Page = new FunctionFinderPage()  },
-            new NavigationTabItem { Header="Setting", Detail="Setting_Desc",
-                                    Icon = _NavigationTabItemIcons[4], Page = null }
-        };
-        SelectedNavigationTab = NavigationTabItemInfo.FirstOrDefault();
-
-        RightMenuItems =
-        [
-            new RightMenuItem
-            {
-                Header = "主题",
-                Items =
-                [
-                    new RightMenuItem
-                    {
-                        Header = "跟随系统",
-                        Command = FollowSystemThemeCommand
-                    },
-                    new RightMenuItem
-                    {
-                        Header = "水生",
-                        Command = SelectThemeCommand,
-                        CommandParameter = SemiTheme.Aquatic
-                    },
-                    new RightMenuItem
-                    {
-                        Header = "沙漠",
-                        Command = SelectThemeCommand,
-                        CommandParameter = SemiTheme.Desert
-                    },
-                    new RightMenuItem
-                    {
-                        Header = "黄昏",
-                        Command = SelectThemeCommand,
-                        CommandParameter = SemiTheme.Dusk
-                    },
-                    new RightMenuItem
-                    {
-                        Header = "夜空",
-                        Command = SelectThemeCommand,
-                        CommandParameter = SemiTheme.NightSky
-                    },
-                ]
-            },
-            new RightMenuItem
-            {
-                Header = "语言",
-                Items =
-                [
-                    new RightMenuItem
-                    {
-                        Header = "简体中文",
-                        Command = SelectLocaleCommand,
-                        CommandParameter = new CultureInfo("zh-cn")
-                    },
-                    new RightMenuItem
-                    {
-                        Header = "繁體中文",
-                        Command = SelectLocaleCommand,
-                        CommandParameter = new CultureInfo("zh-tw")
-                    },
-                    new RightMenuItem
-                    {
-                        Header = "English",
-                        Command = SelectLocaleCommand,
-                        CommandParameter = new CultureInfo("en-us")
-                    },
-                ]
-            }
-        ];
     }
 
     [RelayCommand]

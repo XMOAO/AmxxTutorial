@@ -58,11 +58,8 @@ namespace AmxxTutorial.Pages
             TextMateInstallation.SetGrammar(RegistryOptions.GetScopeByLanguageId(cppLanguageRules.Id));
 
             this.Loaded += async (_, _) => await InitializeExtraAsync();
-
-            _toolTip = new ToolTip();
         }
 
-        private ToolTip _toolTip;
         private void textEditor_TextArea_TextEntered(object sender, PointerEventArgs e)
         {
             var pos = ContentTextEditor.GetPositionFromPoint(e.GetPosition(ContentTextEditor));
