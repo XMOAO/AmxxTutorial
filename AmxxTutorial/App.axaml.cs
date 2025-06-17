@@ -32,9 +32,12 @@ public partial class App : Application
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
+            MainViewModel vm = new MainViewModel();
+            _ = vm.InitializePageAndMenu();
+
             singleViewPlatform.MainView = new SingleView()
             {
-                DataContext = new MainViewModel(),
+                DataContext = vm,
             };
         }
 

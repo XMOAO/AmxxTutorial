@@ -121,9 +121,10 @@
         <Grid ClipToBounds="True">
           <ursa:Banner
                 Margin="10"
-                Height="100"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Stretch"
+                VerticalContentAlignment="Center"
+                HorizontalContentAlignment="Center"
                 Classes.Bordered="True"
                 Header="这里什么都没有"
                 Content="是不是忘记选中文件了呢..."

@@ -13,6 +13,7 @@ namespace AmxxTutorial.ViewModels
     public partial class MainSplashViewModel : ViewModelBase, IDialogContext
     {
         [ObservableProperty] private double _LoadingProgress;
+        [ObservableProperty] private string _LoadingTip;
 
         private readonly TaskCompletionSource ReadyTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -30,14 +31,16 @@ namespace AmxxTutorial.ViewModels
         {
             await ReadyTcs.Task;
 
-            var progressSteps = new List<(Func<Task>? Task, int Weight)>
+            var progressSteps = new List<(Func<Task>? Task, int Weight, string Str)>
             {
-                (IncReader.InitializeIncFilesAsync, 30),
-                (null, 15),
-                (null, 20),
-                (null, 10),
-                (IconFactory.InitializeResourcesAsync, 10),
-                (ViewModel.InitializePageAndMenu, 35),
+                (IncReader.InitializeIncFilesAsync, 30, Localization.GetString("LoadingInc")),
+                (null, 15, ""),
+                (null, 15, ""),
+                (null, 5, ""),
+                (IconFactory.InitializeResourcesAsync, 10, Localization.GetString("LoadingIcon")),
+                (null, 5, ""),
+                (ViewModel.InitializePageAndMenu, 30, Localization.GetString("LoadingInterface")),
+                (null, 10, ""),
             };
 
             int totalWeight = progressSteps.Sum(s => s.Weight);
@@ -52,6 +55,9 @@ namespace AmxxTutorial.ViewModels
 
                 currentProgress += step.Weight;
                 LoadingProgress = (int)((double)currentProgress / totalWeight * 100);
+
+                if (!string.IsNullOrEmpty(step.Str))
+                    LoadingTip = step.Str;
             }
 
             await Task.Delay(100);

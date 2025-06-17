@@ -163,16 +163,13 @@ public partial class MainViewModel : ViewModelBase
                 }
             };
 
-            NavigationTabItemIcons = TempNavigationTabItemIcons;
-            NavigationTabItemInfo = new ObservableCollection<NavigationTabItem>(TempNavigationTab);
-            RightMenuItems = new List<RightMenuItem>(TempRightMenuItems);
-
             Dispatcher.UIThread.Post(() =>
             {
-                
-                SelectedNavigationTab = NavigationTabItemInfo.FirstOrDefault();
+                NavigationTabItemIcons = TempNavigationTabItemIcons;
+                NavigationTabItemInfo = new ObservableCollection<NavigationTabItem>(TempNavigationTab);
+                RightMenuItems = new List<RightMenuItem>(TempRightMenuItems);
 
-                
+                SelectedNavigationTab = NavigationTabItemInfo.FirstOrDefault();
             });
         });
     }
