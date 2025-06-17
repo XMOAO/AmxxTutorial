@@ -4,6 +4,7 @@
 
   <x:String x:Key="LoadingInc">正在解析Inc文件...</x:String>
   <x:String x:Key="LoadingIcon">正在获取图标资源...</x:String>
+  <x:String x:Key="LoadingEditor">正在初始化编译器...</x:String>
   <x:String x:Key="LoadingInterface">正在加载用户界面...</x:String>
   
   <x:String x:Key="Home">主 页</x:String>

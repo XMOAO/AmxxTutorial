@@ -33,13 +33,15 @@ namespace AmxxTutorial.ViewModels
 
             var progressSteps = new List<(Func<Task>? Task, int Weight, string Str)>
             {
-                (IncReader.InitializeIncFilesAsync, 30, Localization.GetString("LoadingInc")),
-                (null, 15, ""),
-                (null, 15, ""),
+                (IncReader.InitializeIncFilesAsync, 25, Localization.GetString("LoadingInc")),
+                (null, 10, ""),
+                (null, 10, ""),
                 (null, 5, ""),
                 (IconFactory.InitializeResourcesAsync, 10, Localization.GetString("LoadingIcon")),
                 (null, 5, ""),
-                (ViewModel.InitializePageAndMenu, 30, Localization.GetString("LoadingInterface")),
+                (TextEditorInitializer.InitializeRegistryAsync, 5, Localization.GetString("LoadingEditor")),
+                (null, 5, ""),
+                (ViewModel.InitializePageAndMenuAsync, 20, Localization.GetString("LoadingInterface")),
                 (null, 10, ""),
             };
 

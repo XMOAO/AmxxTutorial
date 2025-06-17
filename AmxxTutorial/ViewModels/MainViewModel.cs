@@ -69,7 +69,7 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
-    public async Task InitializePageAndMenu()
+    public async Task InitializePageAndMenuAsync()
     {
         FunctionViewerPage FunctionViewerPage = null;
         FunctionFinderPage FunctionFinderPage = null;

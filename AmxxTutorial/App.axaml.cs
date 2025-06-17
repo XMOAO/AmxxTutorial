@@ -33,7 +33,7 @@ public partial class App : Application
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
             MainViewModel vm = new MainViewModel();
-            _ = vm.InitializePageAndMenu();
+            _ = vm.InitializePageAndMenuAsync();
 
             singleViewPlatform.MainView = new SingleView()
             {

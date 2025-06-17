@@ -1,13 +1,13 @@
 using Avalonia;
-using Avalonia.Markup.Xaml;
+using Avalonia.Input;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Avalonia.Threading;
 using Avalonia.Media;
+
 using AvaloniaEdit;
 using AvaloniaEdit.Editing;
-using AvaloniaEdit.TextMate;
-using TextMateSharp.Grammars;
-using AvaloniaEdit.Indentation.CSharp;
+using AvaloniaEdit.Document;
 
 using Ursa.Common;
 using Ursa.Controls.Options;
@@ -17,30 +17,22 @@ using System;
 using System.Linq;
 using System.Windows.Input;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-using AmxxTutorial.Views;
 using AmxxTutorial.Pages.Dialogs;
 using AmxxTutorial.ViewModels;
 using AmxxTutorial.Shared;
 
-using Avalonia.Controls.Notifications;
 using Notification = Ursa.Controls.Notification;
 using WindowNotificationManager = Ursa.Controls.WindowNotificationManager;
-using Avalonia.Input;
-using AvaloniaEdit.Document;
 
 namespace AmxxTutorial.Pages
 {
     public partial class FunctionViewerPage : UserControl
     {
-        private TextMate.Installation TextMateInstallation;
-        private RegistryOptions RegistryOptions;
-
         FunctionViewerViewModel ViewModel;
         bool bInitiated = false;
 
@@ -49,13 +41,6 @@ namespace AmxxTutorial.Pages
             InitializeComponent();
 
             DataContext = ViewModel = new FunctionViewerViewModel();
-
-            RegistryOptions = new RegistryOptions(ThemeName.DarkPlus);
-            TextMateInstallation = ContentTextEditor.InstallTextMate(RegistryOptions);
-            TextMateInstallation.AppliedTheme += TextMateInstallationOnAppliedTheme;
-
-            Language cppLanguageRules = RegistryOptions.GetLanguageByExtension(".cpp");
-            TextMateInstallation.SetGrammar(RegistryOptions.GetScopeByLanguageId(cppLanguageRules.Id));
 
             this.Loaded += async (_, _) => await InitializeExtraAsync();
         }
@@ -92,43 +77,14 @@ namespace AmxxTutorial.Pages
 
             LoadingArea.IsLoading = true;
 
-            ContentTextEditor.Background = Brushes.Transparent;
-            ContentTextEditor.TextArea.Background = this.Background;
-            ContentTextEditor.TextArea.TextView.PointerHover += textEditor_TextArea_TextEntered;
-            //ContentTextEditor.TextArea.TextView
-
-            ContentTextEditor.Options.AllowToggleOverstrikeMode = true;
-            ContentTextEditor.Options.EnableTextDragDrop = true;
-            ContentTextEditor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(ContentTextEditor.Options);
-            ContentTextEditor.TextArea.RightClickMovesCaret = true;
+            TextEditorInitializer.InitializeTextEditor(ContentTextEditor, this.Background);
+            TextEditorInitializer.TextEditorRegulateTheme(ContentTextEditor);
+            ViewModel.TextAreaCommandRequested += (_, e) => TextEditorInitializer.TextEditorTextAreaCommand(ContentTextEditor, e);
 
             await ViewModel.InitializeIncFilesAsync();
             await Task.Delay(new Random().Next(200, 300));
 
-            ViewModel.TextAreaCommandRequested += (sender, args) =>
-            {
-                if (ContentTextEditor.Text != null)
-                {
-                    if (args.StartsWith("ResetToDefault"))
-                    {
-                        ContentTextEditor.ScrollToHome();
-
-                        if(args.Substring("ResetToDefault".Length) == "2")
-                            ViewModel.ShowNotification();
-
-                        ContentTextEditor.SelectionStart = 0;
-                        ContentTextEditor.SelectionLength = 0;
-                    }
-                    else if (args == "SelectAll")
-                    {
-                        ContentTextEditor.SelectionStart = 0;
-                        ContentTextEditor.SelectionLength = ContentTextEditor.Document.TextLength;
-                    }
-                }
-            };
-
             LoadingArea.IsLoading = false;
-
             bInitiated = true;
         }
 
@@ -137,74 +93,10 @@ namespace AmxxTutorial.Pages
             base.OnAttachedToVisualTree(e);
 
             var GetTopLevel = TopLevel.GetTopLevel(this);
-
-            MainViewModel? GetMainViewModel = (MainViewModel)((GetTopLevel as MainWindow)?.Content as MainView)?.DataContext;
-            if(GetMainViewModel is not null)
-            {
-                if (!GetMainViewModel.GetCurTheme())
-                    TextMateInstallation.SetTheme(RegistryOptions.LoadTheme(ThemeName.LightPlus));
-                else
-                    TextMateInstallation.SetTheme(RegistryOptions.LoadTheme(ThemeName.DarkPlus));
-
-                GetMainViewModel.OnThemeChanged += (sender, isLightTheme) =>
-                {
-                    if (isLightTheme)
-                        TextMateInstallation.SetTheme(RegistryOptions.LoadTheme(ThemeName.LightPlus));
-                    else
-                        TextMateInstallation.SetTheme(RegistryOptions.LoadTheme(ThemeName.DarkPlus));
-                };
-            }
-
             WindowNotificationManager.TryGetNotificationManager(GetTopLevel, out var manager);
 
             if (manager is not null)
                 ViewModel.NotificationManager = manager;
-        }
-        private void TextMateInstallationOnAppliedTheme(object sender, TextMate.Installation e)
-        {
-            ApplyBrushAction(e, "editor.background", brush => ContentTextEditor.Background = brush);
-            ApplyBrushAction(e, "editor.foreground", brush => ContentTextEditor.Foreground = brush);
-
-            if (!ApplyBrushAction(e, "editor.selectionBackground",
-                    brush => ContentTextEditor.TextArea.SelectionBrush = brush))
-            {
-                if (Application.Current!.TryGetResource("TextAreaSelectionBrush", out var resourceObject))
-                {
-                    if (resourceObject is IBrush brush)
-                    {
-                        ContentTextEditor.TextArea.SelectionBrush = brush;
-                    }
-                }
-            }
-
-            if (!ApplyBrushAction(e, "editor.lineHighlightBackground",
-                    brush =>
-                    {
-                        ContentTextEditor.TextArea.TextView.CurrentLineBackground = brush;
-                        ContentTextEditor.TextArea.TextView.CurrentLineBorder = new Pen(brush); // Todo: VS Code didn't seem to have a border but it might be nice to have that option. For now just make it the same..
-                    }))
-            {
-                ContentTextEditor.TextArea.TextView.SetDefaultHighlightLineColors();
-            }
-
-            //Todo: looks like the margin doesn't have a active line highlight, would be a nice addition
-            if (!ApplyBrushAction(e, "editorLineNumber.foreground",
-                    brush => ContentTextEditor.LineNumbersForeground = brush))
-            {
-                ContentTextEditor.LineNumbersForeground = ContentTextEditor.Foreground;
-            }
-        }
-        bool ApplyBrushAction(TextMate.Installation e, string colorKeyNameFromJson, Action<IBrush> applyColorAction)
-        {
-            if (!e.TryGetThemeColor(colorKeyNameFromJson, out var colorString))
-                return false;
-
-            if (!Color.TryParse(colorString, out Color color))
-                return false;
-
-            var colorBrush = new SolidColorBrush(color);
-            applyColorAction(colorBrush);
-            return true;
         }
     }
 }

@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Threading;
 
@@ -114,17 +113,19 @@ namespace AmxxTutorial.ViewModels
 
         public Task InitializeIncFilesAsync()
         {
-            var TempVersions = IncReader.GetVersions();
-            var TempEntriesCache = IncReader.GetFuncEntriesCaches();
-            var TempIncFiles = IncReader.GetFuncTreeItemCaches();
-
             return Task.Run(() =>
             {
+                var TempVersions = IncReader.GetVersions();
+                var TempEntriesCache = IncReader.GetFuncEntriesCaches();
+                var TempIncFiles = IncReader.GetFuncTreeItemCaches();
+
+                IncVersions = new ObservableCollection<string>(TempVersions);
+                EntriesCaches = TempEntriesCache;
+                IncFiles = new ObservableCollection<IncTreeItem>(TempIncFiles);
+
                 Dispatcher.UIThread.Post(() =>
                 {
-                    IncVersions = new ObservableCollection<string>(TempVersions);
-                    EntriesCaches = TempEntriesCache;
-                    IncFiles = new ObservableCollection<IncTreeItem>(TempIncFiles);
+                   
                 });
             });
         }
@@ -187,11 +188,6 @@ namespace AmxxTutorial.ViewModels
 
         partial void OnSearchCurTextChanged(string? value)
         {
-        }
-
-        public void JumpToNavColumn(IncTreeItem value)
-        {
-
         }
 
         private void ClearNavColumns() => NavColumns.Clear();
