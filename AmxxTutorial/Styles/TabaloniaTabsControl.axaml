@@ -1,0 +1,108 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:tabalonia="clr-namespace:Tabalonia.Controls;assembly=Tabalonia"
+        xmlns:tabaloniaPanels="clr-namespace:Tabalonia.Panels;assembly=Tabalonia">
+
+  <Styles.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+          <!-- 浅色主题 -->
+          <Color x:Key="TabBarBackground">#EEEEEE</Color>
+          <Color x:Key="ActiveTabBackground">#FFFFFF</Color>
+          <Color x:Key="InactiveTabBackground">#EEEEEE</Color>
+          <Color x:Key="InactiveTabForeground">#4D4D4D</Color>
+          <Color x:Key="ActiveTabForeground">#000000</Color>
+          <Color x:Key="HighlightColor">#007ACC</Color>
+          <Color x:Key="TabCloseButtonColor">#666666</Color>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+          <!-- 暗色主题 -->
+          <Color x:Key="TabBarBackground">#2A2A2A</Color>
+          <Color x:Key="ActiveTabBackground">#1F1F1F</Color>
+          <Color x:Key="InactiveTabBackground">#2A2A2A</Color>
+          <Color x:Key="InactiveTabForeground">#BBBBBB</Color>
+          <Color x:Key="ActiveTabForeground">#FFFFFF</Color>
+          <Color x:Key="HighlightColor">#007ACC</Color>
+          <Color x:Key="TabCloseButtonColor">#EEEEEE</Color>
+        </ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
+      <!-- Brushes -->
+      <SolidColorBrush x:Key="TabBarBackgroundBrush" Color="{DynamicResource TabBarBackground}"/>
+      <SolidColorBrush x:Key="ActiveTabBackgroundBrush" Color="{DynamicResource ActiveTabBackground}"/>
+      <SolidColorBrush x:Key="InactiveTabBackgroundBrush" Color="{DynamicResource InactiveTabBackground}"/>
+      <SolidColorBrush x:Key="InactiveTabForegroundBrush" Color="{DynamicResource InactiveTabForeground}"/>
+      <SolidColorBrush x:Key="ActiveTabForegroundBrush" Color="{DynamicResource ActiveTabForeground}"/>
+      <SolidColorBrush x:Key="HighlightColorBrush" Color="{DynamicResource HighlightColor}"/>
+
+      <SolidColorBrush x:Key="TabItemBackgroundBrushWindowInactive" Color="{DynamicResource InactiveTabBackground}" />
+      <SolidColorBrush x:Key="AddItemCommandButtonForegroundPointerOverBrush" Color="{DynamicResource HighlightColor}" />
+      <SolidColorBrush x:Key="CloseItemButtonInactiveWindowBrush" Color="{DynamicResource TabCloseButtonColor}" />
+      <SolidColorBrush x:Key="CloseItemButtonPointerOverBrush" Color="{DynamicResource TabCloseButtonColor}" />
+      <SolidColorBrush x:Key="CloseItemButtonForeground" Color="{DynamicResource TabCloseButtonColor}" />
+
+    </ResourceDictionary>
+  </Styles.Resources>
+
+  <!-- 整个 Tab 区 -->
+  <Style Selector="tabalonia|TabsControl">
+    <Setter Property="Background" Value="{DynamicResource TabBarBackgroundBrush}" />
+    <Setter Property="BorderThickness" Value="0"/>
+  </Style>
+
+  <!-- 顶部容器背景 -->
+  <Style Selector="tabalonia|TabsControl /template/ tabaloniaPanels|TopPanel#PART_TopPanel">
+    <Setter Property="Background" Value="{DynamicResource TabBarBackgroundBrush}" />
+  </Style>
+
+  <Style Selector="tabalonia|TabsControl /template/ Border">
+    <Setter Property="Background" Value="{DynamicResource TabBarBackgroundBrush}" />
+  </Style>
+
+  <!-- 标签项默认状态 -->
+  <Style Selector="tabalonia|DragTabItem">
+    <Setter Property="FontWeight" Value="Normal"/>
+    <Setter Property="Foreground" Value="{DynamicResource InactiveTabForegroundBrush}" />
+    <Setter Property="Background" Value="{DynamicResource InactiveTabBackgroundBrush}"/>
+    <Setter Property="CornerRadius" Value="0"/>
+  </Style>
+
+  <!-- 标签项选中状态 -->
+  <Style Selector="tabalonia|DragTabItem:selected">
+    <Setter Property="FontWeight" Value="Bold"/>
+    <Setter Property="Foreground" Value="{DynamicResource ActiveTabForegroundBrush}" />
+    <Setter Property="Background" Value="{DynamicResource ActiveTabBackgroundBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource HighlightColorBrush}"/>
+    <Setter Property="BorderThickness" Value="0 0 0 2"/>
+    <Setter Property="CornerRadius" Value="0"/>
+  </Style>
+
+  <!-- 标签项悬停 -->
+  <Style Selector="tabalonia|DragTabItem:pointerover">
+    <Setter Property="Foreground" Value="{DynamicResource InactiveTabForegroundBrush}" />
+    <Setter Property="Background" Value="{DynamicResource InactiveTabBackgroundBrush}"/>
+    <Setter Property="CornerRadius" Value="0"/>
+  </Style>
+
+  <!-- 选中且悬停 -->
+  <Style Selector="tabalonia|DragTabItem:selected:pointerover">
+    <Setter Property="FontWeight" Value="Bold"/>
+    <Setter Property="Foreground" Value="{DynamicResource ActiveTabForegroundBrush}" />
+    <Setter Property="Background" Value="{DynamicResource ActiveTabBackgroundBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource HighlightColorBrush}"/>
+    <Setter Property="BorderThickness" Value="0 0 0 2"/>
+    <Setter Property="CornerRadius" Value="0"/>
+  </Style>
+
+  <!-- 关闭按钮 -->
+  <Style Selector="tabalonia|DragTabItem Button">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="Margin" Value="0,0,0,2"/>
+  </Style>
+  
+  <Style Selector="tabalonia|DragTabItem Button:pointerover">
+    <Setter Property="ToolTip.Tip" Value="关闭"/>
+    <Setter Property="CornerRadius" Value="2"/>
+  </Style>
+</Styles>

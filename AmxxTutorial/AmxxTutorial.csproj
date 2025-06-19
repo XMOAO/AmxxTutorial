@@ -30,6 +30,7 @@
     <PackageReference Include="Markdown.Avalonia.SyntaxHigh" />
     <PackageReference Include="Semi.Avalonia" />
     <PackageReference Include="Semi.Avalonia.AvaloniaEdit" />
+    <PackageReference Include="Tabalonia" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,6 +60,5 @@
   <ItemGroup>
     <Folder Include="Resources\Includes\" />
     <Folder Include="Resources\Others\" />
-    <Folder Include="Styles\" />
   </ItemGroup>
 </Project>

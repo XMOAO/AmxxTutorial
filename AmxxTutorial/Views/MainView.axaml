@@ -148,11 +148,14 @@
             <DataTemplate x:DataType="vm:NavigationTabItem">
               <Border HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
+                      Background="{DynamicResource ContentBackgroundBrush}" 
                       Theme="{DynamicResource CardBorder}"
                       Classes="Shadow"
-                      CornerRadius="6"
+                      CornerRadius="0"
+                      Padding="2"
                       Margin="0">
-                <ContentControl Content="{Binding Page}"
+                <ContentControl
+                  Content="{Binding Page}"
                                 IsVisible="{Binding IsSelected}"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"/>

@@ -28,6 +28,7 @@
     <PackageVersion Include="Semi.Avalonia.AvaloniaEdit" Version="11.2.0" />
     <PackageVersion Include="Semi.Avalonia.ColorPicker" Version="11.2.1.6" />
     <PackageVersion Include="Semi.Avalonia.DataGrid" Version="11.2.1.6" />
+    <PackageVersion Include="Tabalonia" Version="0.10.6" />
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.1" />
   </ItemGroup>
 </Project>

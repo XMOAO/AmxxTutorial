@@ -51,6 +51,11 @@
   <x:String x:Key="FuncHelper_Return_Null">This function has no return value.</x:String>
   <x:String x:Key="FuncHelper_Overview">List of functions in </x:String>
 
+  <x:String x:Key="CodeEditor_File">文件(F)</x:String>
+  <x:String x:Key="CodeEditor_Edit">编辑(E)</x:String>
+  <x:String x:Key="CodeEditor_Select">选择(S)</x:String>
+  <x:String x:Key="CodeEditor_TopTip">按下Alt+快捷键快速访问选项</x:String>
+
   <x:String x:Key="ThemeToggleTooltip">开启/关闭 深色主题</x:String>
   <x:String x:Key="OtherSettingsToolTip">设置</x:String>
 

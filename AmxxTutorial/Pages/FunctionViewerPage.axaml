@@ -112,7 +112,7 @@
                  IsVisible="{Binding !SearchedResultValidity}"/>
 
       <!-- 右侧代码编辑器 -->
-      <Border Margin="20,0,0,0" Padding="0 5" DockPanel.Dock="Right"
+      <Border Margin="20,5,20,5" Padding="0 5" DockPanel.Dock="Right"
               BorderBrush="{DynamicResource SemiGrey1}"
               Background="{DynamicResource SemiColorBackground1}"
               BorderThickness="1"

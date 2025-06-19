@@ -2,6 +2,5 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceInclude Source="TabMenu.axaml" />
         <ResourceInclude Source="ToggleSwitch.axaml" />
-        
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -8,6 +10,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Styling;
+using Avalonia.Threading;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -15,16 +18,8 @@ using CommunityToolkit.Mvvm.Input;
 using Semi.Avalonia;
 using AmxxTutorial.Shared;
 using AmxxTutorial.Pages;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using AmxxTutorial.Controls;
-using System.Security.AccessControl;
-using System.Linq;
-using Avalonia.Threading;
-using Markdown.Avalonia.Html.Core;
 
 namespace AmxxTutorial.ViewModels;
-
 
 public partial class MainViewModel : ViewModelBase
 {
@@ -73,11 +68,13 @@ public partial class MainViewModel : ViewModelBase
     {
         FunctionViewerPage FunctionViewerPage = null;
         FunctionFinderPage FunctionFinderPage = null;
+        CodeEditorPage CodeEditorPage = null;
 
         await Dispatcher.UIThread.InvokeAsync(() =>
         {
             FunctionViewerPage = new FunctionViewerPage();
             FunctionFinderPage = new FunctionFinderPage();
+            CodeEditorPage = new CodeEditorPage();
         });
 
         await Task.Run(() =>
@@ -94,6 +91,8 @@ public partial class MainViewModel : ViewModelBase
                                         Icon = TempNavigationTabItemIcons[2], Page = FunctionViewerPage  },
                 new NavigationTabItem { Header="Search",  Detail="Search_Desc",
                                         Icon = TempNavigationTabItemIcons[3], Page = FunctionFinderPage  },
+                new NavigationTabItem { Header="Search",  Detail="Search_Desc",
+                                        Icon = TempNavigationTabItemIcons[3], Page = CodeEditorPage  },
                 new NavigationTabItem { Header="Setting", Detail="Setting_Desc",
                                         Icon = TempNavigationTabItemIcons[4], Page = null }
             };
