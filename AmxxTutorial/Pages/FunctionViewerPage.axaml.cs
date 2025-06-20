@@ -78,7 +78,6 @@ namespace AmxxTutorial.Pages
             LoadingArea.IsLoading = true;
 
             TextEditorInitializer.InitializeTextEditor(ContentTextEditor, this.Background);
-            TextEditorInitializer.TextEditorRegulateTheme(ContentTextEditor);
             ViewModel.TextAreaCommandRequested += (_, e) => TextEditorInitializer.TextEditorTextAreaCommand(ContentTextEditor, e);
 
             await ViewModel.InitializeIncFilesAsync();

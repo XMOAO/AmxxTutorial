@@ -1,4 +1,5 @@
-﻿using Avalonia.Media;
+﻿using Avalonia.Controls;
+using Avalonia.Media;
 using AvaloniaEdit;
 using AvaloniaEdit.Document;
 using AvaloniaEdit.Folding;
@@ -11,17 +12,12 @@ using System.Threading.Tasks;
 
 using TextMateSharp.Grammars;
 using TextMateSharp.Themes;
-using static AvaloniaEdit.Rendering.TextViewWeakEventManager;
 
 
 namespace AmxxTutorial.Shared
 {
     public static class TextEditorInitializer
     {
-        private static readonly Dictionary<string, TextEditor> ContentTextEditor = new();
-        private static readonly Dictionary<string, TextMate.Installation> TextMateInstallation = new();
-        private static readonly Dictionary<string, FoldingManager> FoldingManagerInstallation = new();
-
         private static RegistryOptions? RegistryOptions;
         private static string LanguageScopeName = string.Empty;
         
@@ -29,6 +25,15 @@ namespace AmxxTutorial.Shared
         private static IRawTheme? LightTheme;
 
         private static BraceFoldingStrategy? BraceFoldingStrategy;
+
+        private static Avalonia.Input.KeyBinding FormatThenEnter;
+
+        static TextEditorInitializer()
+        {
+            if(Design.IsDesignMode)
+            {
+            }
+        }
 
         public static Task InitializeRegistryAsync()
         {
@@ -50,66 +55,46 @@ namespace AmxxTutorial.Shared
             if (editor == null || string.IsNullOrEmpty(editor.Name))
                 return;
 
-            TextEditor _ContentTextEditor;
-            if (ContentTextEditor.TryGetValue(editor.Name, out var value1))
-            {
-                _ContentTextEditor = value1;
-            }
+            // Copy Editor Ref.
+            TextEditor _ContentTextEditor = editor;
+
+            // Setup TextMate.
+            TextMate.Installation _TextMateInstallation = _ContentTextEditor.InstallTextMate(RegistryOptions);
+            _TextMateInstallation.AppliedTheme += (_, e) => TextMateInstallationOnAppliedTheme(_ContentTextEditor, e);
+            _TextMateInstallation.SetGrammar(LanguageScopeName);
+
+            // Setup TextMate: Setup Theme.
+            if (!Globals.GetCurTheme())
+                _TextMateInstallation.SetTheme(LightTheme);
             else
+                _TextMateInstallation.SetTheme(DarkTheme);
+
+            Globals.OnThemeChanged += (sender, isLightTheme) =>
             {
-                _ContentTextEditor = editor;
-                ContentTextEditor[_ContentTextEditor.Name] = _ContentTextEditor;
-            }
+                if (isLightTheme)
+                    _TextMateInstallation.SetTheme(LightTheme);
+                else
+                    _TextMateInstallation.SetTheme(DarkTheme);
+            };
 
-            TextMate.Installation _TextMateInstallation;
-            if (TextMateInstallation.TryGetValue(_ContentTextEditor.Name, out var value2))
-            {
-                _TextMateInstallation = value2;
-            }
-            else
-            {
-                _TextMateInstallation = _ContentTextEditor.InstallTextMate(RegistryOptions);
-                _TextMateInstallation.AppliedTheme += (_, e) => TextMateInstallationOnAppliedTheme(_ContentTextEditor, e);
-                _TextMateInstallation.SetGrammar(LanguageScopeName);
+            // Setup Folding.
+            FoldingManager _FoldingManager = FoldingManager.Install(_ContentTextEditor.TextArea);
 
-                TextMateInstallation[_ContentTextEditor.Name] = _TextMateInstallation;
-            }
-
-            FoldingManager _FoldingManager;
-            if (FoldingManagerInstallation.TryGetValue(_ContentTextEditor.Name, out var value3))
-            {
-                _FoldingManager = value3;
-            }
-            else
-            {
-                _FoldingManager = FoldingManager.Install(_ContentTextEditor.TextArea);
-                FoldingManagerInstallation[_ContentTextEditor.Name] = _FoldingManager;
-            }
-
-            _ContentTextEditor.Background = Brushes.Transparent;
-            _ContentTextEditor.TextArea.Background = background;
-
-            _ContentTextEditor.Options.AllowToggleOverstrikeMode = true;
-            _ContentTextEditor.Options.EnableTextDragDrop = true;
-            _ContentTextEditor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(_ContentTextEditor.Options);
-            _ContentTextEditor.TextArea.RightClickMovesCaret = true;
-
-            // Open a new file?
+            // Setup Folding: When Open a new file?
             _ContentTextEditor.DocumentChanged += (_, _) =>
             {
                 if (_FoldingManager != null)
                 {
-                    _FoldingManager.Clear();
-                    FoldingManager.Uninstall(_FoldingManager);
-
                     _ContentTextEditor.TextArea.Document.Changed -= (_, _) =>
                     {
                         BraceFoldingStrategy.UpdateFoldings(_FoldingManager, _ContentTextEditor.Document);
                     };
+
+                    _FoldingManager.Clear();
+                    FoldingManager.Uninstall(_FoldingManager);
                 }
 
                 _FoldingManager = FoldingManager.Install(_ContentTextEditor.TextArea);
-                FoldingManagerInstallation[_ContentTextEditor.Name] = _FoldingManager;
                 BraceFoldingStrategy.UpdateFoldings(_FoldingManager, _ContentTextEditor.Document);
 
                 _ContentTextEditor.TextArea.Document.Changed += (_, _) =>
@@ -118,11 +103,20 @@ namespace AmxxTutorial.Shared
                 };
             };
 
-            // Modify a file.
+            // Setup Folding: Modify a file.
             _ContentTextEditor.TextArea.Document.Changed += (_, _) =>
             {
                 BraceFoldingStrategy.UpdateFoldings(_FoldingManager, _ContentTextEditor.Document);
             };
+
+            // Do Other Init.
+            _ContentTextEditor.Background = Brushes.Transparent;
+            _ContentTextEditor.TextArea.Background = background;
+
+            _ContentTextEditor.Options.AllowToggleOverstrikeMode = true;
+            _ContentTextEditor.Options.EnableTextDragDrop = true;
+            _ContentTextEditor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(_ContentTextEditor.Options);
+            _ContentTextEditor.TextArea.RightClickMovesCaret = true;
         }
 
         public static void TextEditorTextAreaCommand(TextEditor? Editor, string e)
@@ -147,28 +141,6 @@ namespace AmxxTutorial.Shared
                     Editor.SelectionStart = 0;
                     Editor.SelectionLength = Editor.Document.TextLength;
                 }
-            }
-        }
-
-        public static void TextEditorRegulateTheme(TextEditor? Editor)
-        {
-            if (Editor == null)
-                return;
-
-            if (TextMateInstallation.TryGetValue(Editor.Name, out var value))
-            {
-                if (!Globals.GetCurTheme())
-                    value.SetTheme(LightTheme);
-                else
-                    value.SetTheme(DarkTheme);
-
-                Globals.OnThemeChanged += (sender, isLightTheme) =>
-                {
-                    if (isLightTheme)
-                        value.SetTheme(LightTheme);
-                    else
-                        value.SetTheme(DarkTheme);
-                };
             }
         }
 

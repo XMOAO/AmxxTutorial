@@ -35,9 +35,7 @@ namespace AmxxTutorial.Pages
                 return;
 
             TextEditorInitializer.InitializeTextEditor(MainEditor, this.Background);
-            TextEditorInitializer.TextEditorRegulateTheme(MainEditor);
             TextEditorInitializer.InitializeTextEditor(PreviewEditor, this.Background);
-            TextEditorInitializer.TextEditorRegulateTheme(PreviewEditor);
 
             bInitiated = true;
         }
