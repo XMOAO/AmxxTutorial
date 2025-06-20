@@ -1,5 +1,7 @@
 ﻿using Avalonia.Media;
 using AvaloniaEdit;
+using AvaloniaEdit.Document;
+using AvaloniaEdit.Folding;
 using AvaloniaEdit.Indentation.CSharp;
 using AvaloniaEdit.TextMate;
 
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 
 using TextMateSharp.Grammars;
 using TextMateSharp.Themes;
+using static AvaloniaEdit.Rendering.TextViewWeakEventManager;
 
 
 namespace AmxxTutorial.Shared
@@ -17,12 +20,15 @@ namespace AmxxTutorial.Shared
     {
         private static readonly Dictionary<string, TextEditor> ContentTextEditor = new();
         private static readonly Dictionary<string, TextMate.Installation> TextMateInstallation = new();
+        private static readonly Dictionary<string, FoldingManager> FoldingManagerInstallation = new();
 
         private static RegistryOptions? RegistryOptions;
         private static string LanguageScopeName = string.Empty;
-
+        
         private static IRawTheme? DarkTheme;
         private static IRawTheme? LightTheme;
+
+        private static BraceFoldingStrategy? BraceFoldingStrategy;
 
         public static Task InitializeRegistryAsync()
         {
@@ -34,6 +40,8 @@ namespace AmxxTutorial.Shared
 
                 Language cppLanguageRules = RegistryOptions.GetLanguageByExtension(".cpp");
                 LanguageScopeName = RegistryOptions.GetScopeByLanguageId(cppLanguageRules.Id);
+
+                BraceFoldingStrategy = new BraceFoldingStrategy();
             });
         }
 
@@ -43,7 +51,6 @@ namespace AmxxTutorial.Shared
                 return;
 
             TextEditor _ContentTextEditor;
-
             if (ContentTextEditor.TryGetValue(editor.Name, out var value1))
             {
                 _ContentTextEditor = value1;
@@ -55,7 +62,6 @@ namespace AmxxTutorial.Shared
             }
 
             TextMate.Installation _TextMateInstallation;
-
             if (TextMateInstallation.TryGetValue(_ContentTextEditor.Name, out var value2))
             {
                 _TextMateInstallation = value2;
@@ -69,6 +75,17 @@ namespace AmxxTutorial.Shared
                 TextMateInstallation[_ContentTextEditor.Name] = _TextMateInstallation;
             }
 
+            FoldingManager _FoldingManager;
+            if (FoldingManagerInstallation.TryGetValue(_ContentTextEditor.Name, out var value3))
+            {
+                _FoldingManager = value3;
+            }
+            else
+            {
+                _FoldingManager = FoldingManager.Install(_ContentTextEditor.TextArea);
+                FoldingManagerInstallation[_ContentTextEditor.Name] = _FoldingManager;
+            }
+
             _ContentTextEditor.Background = Brushes.Transparent;
             _ContentTextEditor.TextArea.Background = background;
 
@@ -76,6 +93,36 @@ namespace AmxxTutorial.Shared
             _ContentTextEditor.Options.EnableTextDragDrop = true;
             _ContentTextEditor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(_ContentTextEditor.Options);
             _ContentTextEditor.TextArea.RightClickMovesCaret = true;
+
+            // Open a new file?
+            _ContentTextEditor.DocumentChanged += (_, _) =>
+            {
+                if (_FoldingManager != null)
+                {
+                    _FoldingManager.Clear();
+                    FoldingManager.Uninstall(_FoldingManager);
+
+                    _ContentTextEditor.TextArea.Document.Changed -= (_, _) =>
+                    {
+                        BraceFoldingStrategy.UpdateFoldings(_FoldingManager, _ContentTextEditor.Document);
+                    };
+                }
+
+                _FoldingManager = FoldingManager.Install(_ContentTextEditor.TextArea);
+                FoldingManagerInstallation[_ContentTextEditor.Name] = _FoldingManager;
+                BraceFoldingStrategy.UpdateFoldings(_FoldingManager, _ContentTextEditor.Document);
+
+                _ContentTextEditor.TextArea.Document.Changed += (_, _) =>
+                {
+                    BraceFoldingStrategy.UpdateFoldings(_FoldingManager, _ContentTextEditor.Document);
+                };
+            };
+
+            // Modify a file.
+            _ContentTextEditor.TextArea.Document.Changed += (_, _) =>
+            {
+                BraceFoldingStrategy.UpdateFoldings(_FoldingManager, _ContentTextEditor.Document);
+            };
         }
 
         public static void TextEditorTextAreaCommand(TextEditor? Editor, string e)
@@ -173,6 +220,80 @@ namespace AmxxTutorial.Shared
             var colorBrush = new SolidColorBrush(color);
             applyColorAction(colorBrush);
             return true;
+        }
+    }
+
+    public class BraceFoldingStrategy
+    {
+        /// <summary>
+        /// Gets/Sets the opening brace. The default value is '{'.
+        /// </summary>
+        public char OpeningBrace { get; set; }
+
+        /// <summary>
+        /// Gets/Sets the closing brace. The default value is '}'.
+        /// </summary>
+        public char ClosingBrace { get; set; }
+
+        /// <summary>
+        /// Creates a new BraceFoldingStrategy.
+        /// </summary>
+        public BraceFoldingStrategy()
+        {
+            this.OpeningBrace = '{';
+            this.ClosingBrace = '}';
+        }
+
+        public void UpdateFoldings(FoldingManager manager, TextDocument document)
+        {
+            int firstErrorOffset;
+            IEnumerable<NewFolding> newFoldings = CreateNewFoldings(document, out firstErrorOffset);
+            manager.UpdateFoldings(newFoldings, firstErrorOffset);
+        }
+
+        /// <summary>
+        /// Create <see cref="NewFolding"/>s for the specified document.
+        /// </summary>
+        public IEnumerable<NewFolding> CreateNewFoldings(TextDocument document, out int firstErrorOffset)
+        {
+            firstErrorOffset = -1;
+            return CreateNewFoldings(document);
+        }
+
+        /// <summary>
+        /// Create <see cref="NewFolding"/>s for the specified document.
+        /// </summary>
+        public IEnumerable<NewFolding> CreateNewFoldings(ITextSource document)
+        {
+            List<NewFolding> newFoldings = new List<NewFolding>();
+
+            Stack<int> startOffsets = new Stack<int>();
+            int lastNewLineOffset = 0;
+            char openingBrace = this.OpeningBrace;
+            char closingBrace = this.ClosingBrace;
+            for (int i = 0; i < document.TextLength; i++)
+            {
+                char c = document.GetCharAt(i);
+                if (c == openingBrace)
+                {
+                    startOffsets.Push(i);
+                }
+                else if (c == closingBrace && startOffsets.Count > 0)
+                {
+                    int startOffset = startOffsets.Pop();
+                    // don't fold if opening and closing brace are on the same line
+                    if (startOffset < lastNewLineOffset)
+                    {
+                        newFoldings.Add(new NewFolding(startOffset, i + 1));
+                    }
+                }
+                else if (c == '\n' || c == '\r')
+                {
+                    lastNewLineOffset = i + 1;
+                }
+            }
+            newFoldings.Sort((a, b) => a.StartOffset.CompareTo(b.StartOffset));
+            return newFoldings;
         }
     }
 }

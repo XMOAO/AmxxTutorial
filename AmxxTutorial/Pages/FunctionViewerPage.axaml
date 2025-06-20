@@ -163,7 +163,8 @@
             </avaloniaEdit:TextEditor.ContextFlyout>
             <avaloniaEdit:TextEditor.Styles>
               <Style Selector="editing|LineNumberMargin">
-                <Setter Property="MinWidthInDigits" Value="3" />
+                <Setter Property="MinWidthInDigits" Value="30" />
+                <Setter Property="Margin" Value="10" />
               </Style>
             </avaloniaEdit:TextEditor.Styles>
             <interact:Interaction.Behaviors>
