@@ -1,7 +1,10 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using AvaloniaEdit;
 using AvaloniaEdit.Document;
+using AvaloniaEdit.Editing;
 using AvaloniaEdit.Folding;
 using AvaloniaEdit.Indentation.CSharp;
 using AvaloniaEdit.TextMate;
@@ -30,9 +33,6 @@ namespace AmxxTutorial.Shared
 
         static TextEditorInitializer()
         {
-            if(Design.IsDesignMode)
-            {
-            }
         }
 
         public static Task InitializeRegistryAsync()
@@ -50,13 +50,22 @@ namespace AmxxTutorial.Shared
             });
         }
 
-        public static void InitializeTextEditor(TextEditor editor, IBrush background)
+        public static void InitializeTextEditor(TextEditor Editor, IBrush Background, bool Autofill = true)
         {
-            if (editor == null || string.IsNullOrEmpty(editor.Name))
+            if (Editor == null || string.IsNullOrEmpty(Editor.Name))
                 return;
 
             // Copy Editor Ref.
-            TextEditor _ContentTextEditor = editor;
+            TextEditor _ContentTextEditor = Editor;
+
+            _ContentTextEditor.Background = Brushes.Transparent;
+            _ContentTextEditor.TextArea.Background = Background;
+
+            _ContentTextEditor.Options.AllowToggleOverstrikeMode = true;
+            _ContentTextEditor.Options.EnableTextDragDrop = true;
+            _ContentTextEditor.Options.ShowBoxForControlCharacters = true;
+            _ContentTextEditor.TextArea.RightClickMovesCaret = true;
+            _ContentTextEditor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(_ContentTextEditor.Options);
 
             // Setup TextMate.
             TextMate.Installation _TextMateInstallation = _ContentTextEditor.InstallTextMate(RegistryOptions);
@@ -109,14 +118,42 @@ namespace AmxxTutorial.Shared
                 BraceFoldingStrategy.UpdateFoldings(_FoldingManager, _ContentTextEditor.Document);
             };
 
-            // Do Other Init.
-            _ContentTextEditor.Background = Brushes.Transparent;
-            _ContentTextEditor.TextArea.Background = background;
+            // Setup SyntaxSystem.
+            if (Autofill)
+            {
+                _ContentTextEditor.TextArea.AddHandler(
+                InputElement.KeyDownEvent,
+                (_, e) =>
+                {
+                    if (e.Key == Key.Enter)
+                    {
+                        e.Handled = TextEditorSyntaxSystem.AutoFillEquivalentIndentation(_ContentTextEditor);
+                    }
+                },
+                RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+                
+                _ContentTextEditor.TextArea.TextEntered += (_, TextInput) =>
+                {
+                    if (string.IsNullOrEmpty(TextInput.Text))
+                        return;
 
-            _ContentTextEditor.Options.AllowToggleOverstrikeMode = true;
-            _ContentTextEditor.Options.EnableTextDragDrop = true;
-            _ContentTextEditor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(_ContentTextEditor.Options);
-            _ContentTextEditor.TextArea.RightClickMovesCaret = true;
+                    var Couple = TextEditorSyntaxSystem.AutoFillEquivalentRules(TextInput.Text);
+                    if(Couple != string.Empty)
+                    {
+                        TextEditorSyntaxSystem.AutoFillEquivalent(_ContentTextEditor, Couple);
+                    }
+
+                    if (TextInput.Text == "{")
+                    {
+                        TextEditorSyntaxSystem.OverrideIndentation(_ContentTextEditor);
+                    }
+
+                    if(TextInput.Text==";")
+                    {
+                        _ = TextEditorSyntaxSystem.RegulateFormat(_ContentTextEditor);
+                    }
+                };
+            }
         }
 
         public static void TextEditorTextAreaCommand(TextEditor? Editor, string e)

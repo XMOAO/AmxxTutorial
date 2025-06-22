@@ -32,6 +32,8 @@ public partial class App : Application
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
+            _ = new MainSplashViewModel();
+
             MainViewModel vm = new MainViewModel();
             _ = vm.InitializePageAndMenuAsync();
 

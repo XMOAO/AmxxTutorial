@@ -136,10 +136,11 @@
           Grid.Column="0"
           ShowLineNumbers="True"
           SyntaxHighlighting="C#"
+          HorizontalScrollBarVisibility="Auto"
+          VerticalScrollBarVisibility="Visible"
           FontFamily="{DynamicResource CodeFontFamily}"
           FontSize="12"
           Padding="10"
-          ScrollViewer.ScrollChanged="CodeEditorOnScrollChanged"
           TextChanged="CodeEditorOnTextChanged"/>
         <!-- 预览缩略图编辑器 -->
         <avaloniaEdit:TextEditor
