@@ -2,13 +2,14 @@
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.Media.Immutable;
 using AvaloniaEdit;
 using AvaloniaEdit.Document;
 using AvaloniaEdit.Editing;
 using AvaloniaEdit.Folding;
 using AvaloniaEdit.Indentation.CSharp;
 using AvaloniaEdit.TextMate;
-
+using SyntaxSystem.Validation;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace AmxxTutorial.Shared
         private static IRawTheme? DarkTheme;
         private static IRawTheme? LightTheme;
 
-        private static BraceFoldingStrategy? BraceFoldingStrategy;
+        private static BraceFoldingStrategy BraceFoldingStrategy;
 
         private static Avalonia.Input.KeyBinding FormatThenEnter;
 
@@ -78,7 +79,7 @@ namespace AmxxTutorial.Shared
             else
                 _TextMateInstallation.SetTheme(DarkTheme);
 
-            Globals.OnThemeChanged += (sender, isLightTheme) =>
+            Globals.OnThemeChanged += (_, isLightTheme) =>
             {
                 if (isLightTheme)
                     _TextMateInstallation.SetTheme(LightTheme);
@@ -119,41 +120,50 @@ namespace AmxxTutorial.Shared
             };
 
             // Setup SyntaxSystem.
-            if (Autofill)
+            _ContentTextEditor.TextArea.AddHandler(InputElement.KeyDownEvent, (_, KeyDownEvent) =>
             {
-                _ContentTextEditor.TextArea.AddHandler(
-                InputElement.KeyDownEvent,
-                (_, e) =>
+                if (Autofill && KeyDownEvent.Key == Key.Enter)
                 {
-                    if (e.Key == Key.Enter)
-                    {
-                        e.Handled = TextEditorSyntaxSystem.AutoFillEquivalentIndentation(_ContentTextEditor);
-                    }
-                },
-                RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
-                
-                _ContentTextEditor.TextArea.TextEntered += (_, TextInput) =>
-                {
-                    if (string.IsNullOrEmpty(TextInput.Text))
-                        return;
+                    KeyDownEvent.Handled = TextEditorSyntaxSystem.AutoFillEquivalentIndentation2(_ContentTextEditor);
+                }
+            }, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
 
+            _ContentTextEditor.TextArea.TextEntered += (_, TextInput) =>
+            {
+                if (string.IsNullOrEmpty(TextInput.Text))
+                    return;
+
+                if (Autofill)
+                {
                     var Couple = TextEditorSyntaxSystem.AutoFillEquivalentRules(TextInput.Text);
-                    if(Couple != string.Empty)
+                    if (Couple != string.Empty)
                     {
                         TextEditorSyntaxSystem.AutoFillEquivalent(_ContentTextEditor, Couple);
                     }
+                }
 
-                    if (TextInput.Text == "{")
+                if(true)
+                {
+                    MarkerRenderer markerRenderer = new();
+                    _ContentTextEditor.TextArea.TextView.BackgroundRenderers.Add(markerRenderer);
+                    markerRenderer.Markers.Add(new ZigzagMarker
                     {
-                        TextEditorSyntaxSystem.OverrideIndentation(_ContentTextEditor);
-                    }
+                        StartOffset = 10,
+                        Length = 10
+                    });
+                    _ContentTextEditor.TextArea.TextView.InvalidateLayer(markerRenderer.Layer);
 
-                    if(TextInput.Text==";")
-                    {
-                        _ = TextEditorSyntaxSystem.RegulateFormat(_ContentTextEditor);
-                    }
-                };
-            }
+                }
+
+                if (TextInput.Text == "{")
+                {
+                    TextEditorSyntaxSystem.OverrideIndentation(_ContentTextEditor);
+                }
+                else if (TextInput.Text == ";")
+                {
+                    _ = TextEditorSyntaxSystem.RegulateFormat(_ContentTextEditor);
+                }
+            };
         }
 
         public static void TextEditorTextAreaCommand(TextEditor? Editor, string e)
