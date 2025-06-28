@@ -4,12 +4,16 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using AvaloniaEdit;
+using AvaloniaWebView;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Semi.Avalonia.Tokens.Palette;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
 
 namespace AmxxTutorial.Pages
 {
@@ -17,7 +21,6 @@ namespace AmxxTutorial.Pages
     {
         CodeEditorViewModel ViewModel;
         bool bInitiated = false;
-        private bool IsSyncingScroll;
         
         public CodeEditorPage()
         {
@@ -34,44 +37,35 @@ namespace AmxxTutorial.Pages
             if (bInitiated)
                 return;
 
-            TextEditorInitializer.InitializeTextEditor(MainEditor, this.Background);
-            TextEditorInitializer.InitializeTextEditor(PreviewEditor, this.Background);
+            var Html = Path.Combine(AppContext.BaseDirectory, "Assets/Monaco", "monaco-editor.html");
+            WebView.Url = new Uri($"file:///{Html.Replace('\\', '/')}");
+
+            WebView.NavigationCompleted += WebView_NavigationCompleted;
+            WebView.WebMessageReceived += WebView_WebMessageReceived;
 
             bInitiated = true;
         }
 
-        private void CodeEditorOnTextChanged(object? sender, EventArgs e)
+        private void WebView_NavigationCompleted(object? sender, WebViewCore.Events.WebViewUrlLoadedEventArg e)
         {
-            if (sender is not TextEditor)
-                return;
-
-            PreviewEditor.Text = MainEditor.Text;
-        }
-
-        private void CodeEditorOnScrollChanged(object? sender, ScrollChangedEventArgs e)
-        {
-            if (IsSyncingScroll || sender is not TextEditor source)
-                return;
-
             try
             {
-                IsSyncingScroll = true;
-                var target = source == MainEditor ? PreviewEditor : MainEditor;
+                var Theme = Globals.GetCurTheme();
+                WebView.PlatformWebView?.ExecuteScriptAsync($"window.setMonacoTheme('{(!Theme ? "vs-light-plus" : "vs-dark-plus")}')");
 
-                // 获取源编辑器的垂直偏移
-                var offset = source.TextArea.TextView.VerticalOffset;
-                // 获取每行高度
-                var lineHeight = source.TextArea.TextView.DefaultLineHeight;
-                // 计算要滚动到的行号
-                var targetLine = (int)(offset / lineHeight);
-
-                // 调用 AvaloniaEdit.ScrollTo 方法同步滚动
-                target.ScrollTo(targetLine, 0);
+                Globals.OnThemeChanged += (sender, isLightTheme) =>
+                {
+                    WebView.PlatformWebView?.ExecuteScriptAsync($"window.setMonacoTheme('{(isLightTheme ? "vs-light-plus" : "vs-dark-plus")}')");
+                };
             }
-            finally
+            catch (Exception exception)
             {
-                IsSyncingScroll = false;
+                Console.WriteLine(exception);
             }
+        }
+
+        private void WebView_WebMessageReceived(object? sender, WebViewCore.Events.WebViewMessageReceivedEventArgs e)
+        {
         }
     }
 }

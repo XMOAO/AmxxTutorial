@@ -8,89 +8,20 @@
              x:Class="AmxxTutorial.Pages.CodeEditorPage"
              xmlns:vm="clr-namespace:AmxxTutorial.ViewModels"
              xmlns:tabs="clr-namespace:Tabalonia.Controls;assembly=Tabalonia"
-             xmlns:avaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
-             xmlns:editing="using:AvaloniaEdit.Editing"
              xmlns:interact="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              x:DataType="vm:CodeEditorViewModel">
-  
-  <UserControl.Styles>
-    <semi:AvaloniaEditSemiTheme />
-  </UserControl.Styles>
 
-  <Design.DataContext>
-
-  </Design.DataContext>
-
+<Design.DataContext>
+</Design.DataContext>
 
   <Border
-      Background="{DynamicResource SemiColorBackground1}"
       BorderThickness="0"
       CornerRadius="0"
       Padding="0"
       Margin="0">
-    <Grid RowDefinitions="Auto,Auto,*">
-
-      <!-- 第一行：带阴影的 Header 区块 -->
-      <Grid Grid.Row="0">
-        <!-- 1) 实色背景层 -->
-        <Border
-          Background="{DynamicResource SemiGrey1}"
-          Classes="Shadow"
-          Height="32"/>
-
-        <!-- 2) 阴影层（透明，仅出阴影） -->
-        <Border
-          Background="Transparent"
-          Height="32"
-          ZIndex="1"
-          BoxShadow="{DynamicResource SemiColorShadow}"/>
-
-        <!-- 3) 内容层（图标、按钮、搜索框） -->
-        <Grid ZIndex="2" Height="32">
-          <StackPanel
-            Orientation="Horizontal"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Left"
-            Margin="8,0">
-            <ursa:IconButton
-              Theme="{DynamicResource BorderlessIconButton}"
-              Icon="{StaticResource SemiIconHelpCircle}"
-              ToolTip.Tip="{StaticResource CodeEditor_TopTip}" />
-            <Button
-              Theme="{DynamicResource BorderlessButton}"
-              Classes="Small"
-              FontSize="12"
-              FontWeight="Medium"
-              Foreground="{DynamicResource SemiColorText0}"
-              Content="{StaticResource CodeEditor_File}" />
-            <Button
-              Theme="{DynamicResource BorderlessButton}"
-              Classes="Small"
-              FontSize="12"
-              FontWeight="Medium"
-              Foreground="{DynamicResource SemiColorText0}"
-              Content="{StaticResource CodeEditor_Edit}" />
-            <Button
-              Theme="{DynamicResource BorderlessButton}"
-              Classes="Small"
-              FontSize="12"
-              FontWeight="Medium"
-              Foreground="{DynamicResource SemiColorText0}"
-              Content="{StaticResource CodeEditor_Select}" />
-          </StackPanel>
-
-          <!-- 中间搜索框（按需填充） -->
-          <Grid
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            <!-- 搜索框内容 -->
-          </Grid>
-        </Grid>
-      </Grid>
-
-      <!-- 第二行：Tabs 导航 -->
+    <Grid RowDefinitions="Auto,*">
       <ScrollViewer
-        Grid.Row="1"
+        Grid.Row="0"
         HorizontalScrollBarVisibility="Auto"
         VerticalScrollBarVisibility="Disabled"
         Height="36">
@@ -104,17 +35,15 @@
 
           <tabs:TabsControl.LeftContent>
             <StackPanel Orientation="Horizontal">
-              <!-- 可放额外按钮 -->
+              
             </StackPanel>
           </tabs:TabsControl.LeftContent>
-
           <tabs:TabsControl.Styles>
             <Style Selector="TabControl /template/ #PART_BorderSeparator" x:SetterTargetType="Border">
               <Setter Property="IsVisible" Value="True" />
             </Style>
           </tabs:TabsControl.Styles>
 
-          <!-- 如果需要自定义 Tab 内容和 Header -->
           <TabControl.ItemTemplate>
             <DataTemplate DataType="vm:FileTabItem">
               <TextBlock Text="{Binding FileName}" />
@@ -122,42 +51,12 @@
           </TabControl.ItemTemplate>
           <TabControl.ContentTemplate>
             <DataTemplate>
-              <!-- Tab 对应的内容 -->
             </DataTemplate>
           </TabControl.ContentTemplate>
         </tabs:TabsControl>
       </ScrollViewer>
 
-      <!-- 第三行：主编辑器 + 缩略图 -->
-      <Grid Grid.Row="2" ColumnDefinitions="*,Auto">
-        <!-- 主编辑器 -->
-        <avaloniaEdit:TextEditor
-          x:Name="MainEditor"
-          Grid.Column="0"
-          ShowLineNumbers="True"
-          SyntaxHighlighting="C#"
-          HorizontalScrollBarVisibility="Auto"
-          VerticalScrollBarVisibility="Visible"
-          FontFamily="{DynamicResource CodeFontFamily}"
-          FontSize="12"
-          Padding="10"
-          TextChanged="CodeEditorOnTextChanged"/>
-        <!-- 预览缩略图编辑器 -->
-        <avaloniaEdit:TextEditor
-          x:Name="PreviewEditor"
-          Grid.Column="1"
-          Width="80"
-          IsReadOnly="True"
-          ShowLineNumbers="False"
-          SyntaxHighlighting="C#"
-          FontFamily="{DynamicResource CodeFontFamily}"
-          FontSize="2"
-          Padding="4"
-          HorizontalScrollBarVisibility="Disabled"
-          VerticalScrollBarVisibility="Hidden"
-          ScrollViewer.ScrollChanged="CodeEditorOnScrollChanged"/>
-      </Grid>
+      <WebView  Grid.Row="1" x:Name="WebView"/>
     </Grid>
   </Border>
-
 </UserControl>

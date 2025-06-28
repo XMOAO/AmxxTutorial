@@ -28,7 +28,8 @@
         </ResourceDictionary>
       </ResourceDictionary.ThemeDictionaries>
       <!-- Brushes -->
-      <SolidColorBrush x:Key="TabBarBackgroundBrush" Color="{DynamicResource TabBarBackground}"/>
+      <SolidColorBrush x:Key="TabBarBackgroundBrush" Color="{DynamicResource SemiBackground1Color}"/>
+
       <SolidColorBrush x:Key="ActiveTabBackgroundBrush" Color="{DynamicResource ActiveTabBackground}"/>
       <SolidColorBrush x:Key="InactiveTabBackgroundBrush" Color="{DynamicResource InactiveTabBackground}"/>
       <SolidColorBrush x:Key="InactiveTabForegroundBrush" Color="{DynamicResource InactiveTabForeground}"/>

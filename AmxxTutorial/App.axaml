@@ -24,7 +24,6 @@
     </Application.Styles>
   
     <Application.Resources>
-      
       <ResourceDictionary>
         <ResourceDictionary.MergedDictionaries>
           <ResourceInclude Source="Themes/ThemesIndex.axaml" />

@@ -49,6 +49,7 @@
   <x:String x:Key="FuncHelper_Note">Note</x:String>
   <x:String x:Key="FuncHelper_Return">Return</x:String>
   <x:String x:Key="FuncHelper_Return_Null">This function has no return value.</x:String>
+  <x:String x:Key="FuncHelper_Error">Error</x:String>
   <x:String x:Key="FuncHelper_Overview">List of functions in </x:String>
 
   <x:String x:Key="CodeEditor_File">文件(F)</x:String>

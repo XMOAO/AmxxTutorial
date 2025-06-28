@@ -70,7 +70,7 @@
               <Style x:DataType="shared:IncTreeItem" Selector="TreeViewItem">
                 <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                 <Setter Property="FontSize" Value="{Binding FontSize}" />
-                <Setter Property="ToolTip.Tip" Value="{Binding FuncEntry?.Comment, TargetNullValue={x:Null}}" />
+                <Setter Property="ToolTip.Tip" Value="{Binding FuncEntry?.Description, TargetNullValue={x:Null}}" />
               </Style>
             </TreeView.Styles>
             

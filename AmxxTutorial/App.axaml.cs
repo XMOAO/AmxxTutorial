@@ -8,6 +8,7 @@ using AmxxTutorial.Views;
 using Semi.Avalonia;
 
 using System.Linq;
+using AvaloniaWebView;
 
 namespace AmxxTutorial;
 
@@ -16,6 +17,14 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);  
+    }
+
+    public override void RegisterServices()
+    {
+        base.RegisterServices();
+
+        // if you use only WebView  
+        AvaloniaWebViewBuilder.Initialize(default);
     }
 
     public override void OnFrameworkInitializationCompleted()

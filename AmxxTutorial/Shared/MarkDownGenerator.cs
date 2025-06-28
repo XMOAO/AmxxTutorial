@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 using AmxxTutorial.ViewModels;
+using CoreVideo;
 
 namespace AmxxTutorial.Shared
 {
@@ -25,10 +26,10 @@ namespace AmxxTutorial.Shared
                 foreach(var Item in Category.Children)
                 {
                     var Name = Item.FuncEntry?.FunctionName;
-                    var Comment = Item.FuncEntry?.Comment;
-                    string FormattedComment = Comment.ToString().Replace("\n", "\\n");
+                    var Description = Item.FuncEntry?.Description;
+                    string FormattedDescription = Description.ToString().Replace("\n", "\\n");
 
-                    Builder.AppendLine($"| [{Name}](action://JumpToSub->{Name}) | {FormattedComment} |");
+                    Builder.AppendLine($"| [{Name}](action://JumpToSub->{Name}) | {FormattedDescription} |");
                 }
             }
             return Builder.ToString();
@@ -56,35 +57,20 @@ namespace AmxxTutorial.Shared
 
                 // Check CommentTags for params.
                 var bHasParams = false;
-                if (data.FuncEntry.CommentTags.Count() != 0)
+                if (data.FuncEntry.ParameterTags.Count() != 0)
                 {
-                    foreach (var Tag in data.FuncEntry.CommentTags)
+                    foreach (var Tag in data.FuncEntry.ParameterTags)
                     {
-                        if (Tag.Tag == "param")
-                        {
-                            var ParamVar = Tag.Variable;
-                            var ParamDesc = Tag.Description;
+                        if (Tag.Tag != "param")
+                            continue;
 
-                            if (string.IsNullOrEmpty(ParamVar))
-                                continue;
+                        var ParamVar = Tag.Variable;
+                        var ParamDesc = Tag.Description;
 
-                            if (!bHasParams)
-                            {
-                                bHasParams = true;
+                        if (string.IsNullOrEmpty(ParamVar))
+                            continue;
 
-                                Builder.AppendLine($"| {Localization.GetString("FuncHelper_Usage_Table_Param")} | {Localization.GetString("FuncHelper_Usage_Table_Desc")} |");
-                                Builder.AppendLine("| --- | --- |");
-                            }
-
-                            Builder.AppendLine($"| {ParamVar} | {(string.IsNullOrEmpty(ParamDesc) ? Localization.GetString("FuncHelper_Usage_Table_NullDesc") : ParamDesc)} |");
-                        }
-                    }
-                }
-                else if (data.FuncEntry.Parameters.Count() != 0)
-                {
-                    if (data.FuncEntry.Parameters[0] != null)
-                    {
-                        if(!bHasParams)
+                        if (!bHasParams)
                         {
                             bHasParams = true;
 
@@ -92,14 +78,7 @@ namespace AmxxTutorial.Shared
                             Builder.AppendLine("| --- | --- |");
                         }
 
-                        foreach (var (Param, ParamDesc) in 
-                            data.FuncEntry.Parameters.Zip(data.FuncEntry.ParametersDesc, (p, d) => (p, d)))
-                        {
-                            if (string.IsNullOrEmpty(Param)) 
-                                continue;
-
-                            Builder.AppendLine($"| {Param} | {(string.IsNullOrEmpty(ParamDesc) ? Localization.GetString("FuncHelper_Usage_Table_NullDesc") : ParamDesc)} |");
-                        }
+                        Builder.AppendLine($"| {ParamVar} | {(string.IsNullOrEmpty(ParamDesc) ? Localization.GetString("FuncHelper_Usage_Table_NullDesc") : ParamDesc)} |");
                     }
                 }
                 else
@@ -111,11 +90,11 @@ namespace AmxxTutorial.Shared
                 // Check Description.
                 Builder.AppendLine($"###{Localization.GetString("FuncHelper_Desc/Comment")}");
                 Builder.AppendLine();
-                Builder.AppendLine($"{(string.IsNullOrEmpty(data.FuncEntry.Comment) ? Localization.GetString("FuncHelper_Usage_Table_NullDesc") : data.FuncEntry.Comment)}");
+                Builder.AppendLine($"{(string.IsNullOrEmpty(data.FuncEntry.Description) ? Localization.GetString("FuncHelper_Usage_Table_NullDesc") : data.FuncEntry.Description)}");
                 Builder.AppendLine();
 
                 // Check CommentTags for notes.
-                if (data.FuncEntry.CommentTags.Count() != 0)
+                /*if (data.FuncEntry.CommentTags.Count() != 0)
                 {
                     foreach(var Tag in data.FuncEntry.CommentTags)
                     {
@@ -133,14 +112,14 @@ namespace AmxxTutorial.Shared
                         Builder.AppendLine("```");
                         Builder.AppendLine();
                     }
-                }
+                }*/
 
                 // Check CommentTags for return.
                 Builder.AppendLine($"###{Localization.GetString("FuncHelper_Return")}");
                 Builder.AppendLine();
 
                 var bHasReturn = false;
-                if (data.FuncEntry.CommentTags.Count() != 0)
+                /*if (data.FuncEntry.CommentTags.Count() != 0)
                 {
                     foreach (var Tag in data.FuncEntry.CommentTags)
                     {
@@ -158,18 +137,37 @@ namespace AmxxTutorial.Shared
                         Builder.AppendLine($"{ReturnDesc}");
                     }
                 }
+                else
+                {
+                    var Return = data.FuncEntry.Return;
+                    if (!string.IsNullOrEmpty(Return))
+                    {
+                        if (!bHasReturn)
+                            bHasReturn = true;
+
+                        Builder.AppendLine($"{Return}");
+                    }
+                }*/
 
                 if(!bHasReturn)
                     Builder.AppendLine($"{(string.IsNullOrEmpty(data.FuncEntry.Return) ? Localization.GetString("FuncHelper_Return_Null") : data.FuncEntry.Return)}");
+
+                var Error = data.FuncEntry.Error;
+                if (!string.IsNullOrEmpty(Error))
+                {
+                    Builder.AppendLine($"###{Localization.GetString("FuncHelper_Error")}");
+                    Builder.AppendLine();
+                    Builder.AppendLine($"{Error}");
+                }
             }
 
             string FormattedStr = CodeBlockSupport().Replace(Builder.ToString(), match =>
-                {
-                    if (match.Value.StartsWith("```"))
-                        return match.Value;
-                    else
-                        return "  \n";
-                });
+            {
+                if (match.Value.StartsWith("```"))
+                    return match.Value;
+                else
+                    return "  \n";
+            });
 
             return FormattedStr;
         }

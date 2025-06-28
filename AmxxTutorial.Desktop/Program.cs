@@ -1,5 +1,7 @@
 ﻿using System;
 using Avalonia;
+using Avalonia.ReactiveUI;
+using Avalonia.WebView.Desktop;
 
 namespace AmxxTutorial.Desktop;
 
@@ -15,7 +17,8 @@ sealed class Program
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
-            .UsePlatformDetect()
-            .WithInterFont()
-            .LogToTrace();
+           .UsePlatformDetect()
+           .LogToTrace()
+           .UseReactiveUI()
+           .UseDesktopWebView();
 }
