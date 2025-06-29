@@ -78,7 +78,8 @@ namespace AmxxTutorial.Shared
                             Builder.AppendLine("| --- | --- |");
                         }
 
-                        Builder.AppendLine($"| {ParamVar} | {(string.IsNullOrEmpty(ParamDesc) ? Localization.GetString("FuncHelper_Usage_Table_NullDesc") : ParamDesc)} |");
+                        Builder.AppendLine($"| {ParamVar.ToString().Replace("\n", "\\n")} | {(string.IsNullOrEmpty(ParamDesc) ? 
+                            Localization.GetString("FuncHelper_Usage_Table_NullDesc") : ParamDesc.ToString().Replace("\n", "\\n"))} |");
                     }
                 }
                 else
@@ -93,71 +94,35 @@ namespace AmxxTutorial.Shared
                 Builder.AppendLine($"{(string.IsNullOrEmpty(data.FuncEntry.Description) ? Localization.GetString("FuncHelper_Usage_Table_NullDesc") : data.FuncEntry.Description)}");
                 Builder.AppendLine();
 
-                // Check CommentTags for notes.
-                /*if (data.FuncEntry.CommentTags.Count() != 0)
+                // Check Note.
+                if (data.FuncEntry.Notes.Count() != 0)
                 {
-                    foreach(var Tag in data.FuncEntry.CommentTags)
+                    if(!string.IsNullOrEmpty(data.FuncEntry.Notes.FirstOrDefault()))
                     {
-                        if (Tag.Tag != "note") continue;
-
-                        var NoteDesc = Tag.Description;
-
-                        if (string.IsNullOrEmpty(NoteDesc))
-                            continue;
-
-                        Builder.AppendLine($"###{Localization.GetString("FuncHelper_Note")}");
-                        Builder.AppendLine();
-                        Builder.AppendLine("```Pawn");
-                        Builder.AppendLine($"{NoteDesc}");
-                        Builder.AppendLine("```");
-                        Builder.AppendLine();
-                    }
-                }*/
-
-                // Check CommentTags for return.
-                Builder.AppendLine($"###{Localization.GetString("FuncHelper_Return")}");
-                Builder.AppendLine();
-
-                var bHasReturn = false;
-                /*if (data.FuncEntry.CommentTags.Count() != 0)
-                {
-                    foreach (var Tag in data.FuncEntry.CommentTags)
-                    {
-                        if (Tag.Tag != "return") 
-                            continue;
-
-                        var ReturnDesc = Tag.Description;
-
-                        if (string.IsNullOrEmpty(ReturnDesc))
-                            continue;
-
-                        if (!bHasReturn)
-                            bHasReturn = true;
-
-                        Builder.AppendLine($"{ReturnDesc}");
+                        foreach(var Note in data.FuncEntry.Notes)
+                        {
+                            Builder.AppendLine($"###{Localization.GetString("FuncHelper_Note")}");
+                            Builder.AppendLine();
+                            Builder.AppendLine($"{Note}");
+                            Builder.AppendLine();
+                        }
                     }
                 }
-                else
-                {
-                    var Return = data.FuncEntry.Return;
-                    if (!string.IsNullOrEmpty(Return))
-                    {
-                        if (!bHasReturn)
-                            bHasReturn = true;
 
-                        Builder.AppendLine($"{Return}");
-                    }
-                }*/
+                // Check Return.
+                Builder.AppendLine($"###{Localization.GetString("FuncHelper_Return")}");
+                Builder.AppendLine();
+                Builder.AppendLine($"{(string.IsNullOrEmpty(data.FuncEntry.Return) ? Localization.GetString("FuncHelper_Return_Null") : data.FuncEntry.Return)}");
+                Builder.AppendLine();
 
-                if(!bHasReturn)
-                    Builder.AppendLine($"{(string.IsNullOrEmpty(data.FuncEntry.Return) ? Localization.GetString("FuncHelper_Return_Null") : data.FuncEntry.Return)}");
-
+                // Check Error
                 var Error = data.FuncEntry.Error;
                 if (!string.IsNullOrEmpty(Error))
                 {
                     Builder.AppendLine($"###{Localization.GetString("FuncHelper_Error")}");
                     Builder.AppendLine();
                     Builder.AppendLine($"{Error}");
+                    Builder.AppendLine();
                 }
             }
 

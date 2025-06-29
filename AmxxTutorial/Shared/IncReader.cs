@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 using HtmlAgilityPack;
 using CommunityToolkit.Mvvm.ComponentModel;
+using ExCSS;
 
 namespace AmxxTutorial.Shared
 {
@@ -21,25 +22,65 @@ namespace AmxxTutorial.Shared
         private static readonly List<IncTreeItem> FuncTreeItemCaches = new List<IncTreeItem>();
 
         public static List<string> ExportedFuncName = new();
+        public static List<string> FetchLog = new();
 
         public static Task InitializeIncFilesAsync()
         {
-            return Task.Run(() =>
+            return Task.Run(async () =>
             {
-                string IncludesPath = Path.Combine(AppContext.BaseDirectory, "Assets/Configs", "Includes"); ;
+                // For collecting all funcs from .json(extracted from .inc).
+                string IncludesPathIn = Path.Combine(AppContext.BaseDirectory, "Assets/Configs", "Includes-Integrated");
+                // For saving all parsed funcs in the form of .json separately.
+                string IncludesPathOut = Path.Combine(AppContext.BaseDirectory, "Assets/Configs", "Includes-Separated");
 
-                if (!Directory.Exists(IncludesPath))
-                {
-                    Directory.CreateDirectory(IncludesPath);
+                if (!Directory.Exists(IncludesPathIn))
                     return;
-                }
 
-                foreach (var VersionFolder in Directory.GetDirectories(IncludesPath))
+                foreach (var BaseVersionFolder in Directory.GetDirectories(IncludesPathIn))
                 {
-                    var VersionName = new DirectoryInfo(VersionFolder).Name;
+                    var VersionName = new DirectoryInfo(BaseVersionFolder).Name; 
                     var NewFiles = new List<IncFile>();
 
-                    foreach (var IncPath in Directory.GetFiles(VersionFolder, "*.inc"))
+                    // First, collect the list of api.
+                    ExportedFuncName.Clear();
+                    foreach (var IncPath in Directory.GetFiles(BaseVersionFolder, "*.inc"))
+                    {
+                        var IncName = Path.GetFileNameWithoutExtension(IncPath);
+                        var JsonPath = Path.Combine(BaseVersionFolder, IncName + ".json");
+
+                        if (File.Exists(JsonPath))
+                        {
+                            try
+                            {
+                                var JsonText = File.ReadAllText(JsonPath);
+                                var RootNode = JsonNode.Parse(JsonText);
+
+                                var FunctionsArray = RootNode?["functions"]?.AsArray();
+                                if (FunctionsArray != null)
+                                {
+                                    foreach (var FnNode in FunctionsArray)
+                                    {
+                                        var GetFunctionName = FnNode["FunctionName"]?.GetValue<string>() ?? string.Empty;
+                                        if(!string.IsNullOrEmpty(GetFunctionName))
+                                        {
+                                            AddExportFuncName(IncName, GetFunctionName);
+                                        }
+                                    }
+                                }
+                            }
+                            catch (JsonException ex)
+                            {
+                                throw new InvalidDataException($"解析 JSON 文件失败: {JsonPath}", ex);
+                            }
+                        }
+                    }
+
+                    await ExportFuncNameAsync(VersionName);
+                    //await FetchAndParseAmxAPIAsync(VersionName);
+
+                    // Then, fetch official doc and parse.
+                    var IncludesPathOutWithVer = Path.Combine(IncludesPathOut, VersionName);
+                    foreach (var IncPath in Directory.GetFiles(BaseVersionFolder, "*.inc"))
                     {
                         // Add basic info
                         var IncFile = new IncFile
@@ -50,12 +91,12 @@ namespace AmxxTutorial.Shared
 
                         // Add .Json info by .inc
                         var InlineFileName = Path.GetFileNameWithoutExtension(IncPath);
-                        var InlinePath = Path.Combine(VersionFolder, InlineFileName);
+                        var InlineFilePath = Path.Combine(IncludesPathOutWithVer, InlineFileName);
 
-                        if (!Directory.Exists(InlinePath))
-                            continue;
+                        if (!Directory.Exists(InlineFilePath))
+                            Directory.CreateDirectory(InlineFilePath);
 
-                        foreach (var JsonPath in Directory.GetFiles(InlinePath, "*.json"))
+                        foreach (var JsonPath in Directory.GetFiles(InlineFilePath, "*.json"))
                         {
                             if (File.Exists(JsonPath))
                             {
@@ -85,46 +126,66 @@ namespace AmxxTutorial.Shared
                                     {
                                         foreach (var FnNode in FunctionsArray)
                                         {
-                                            var DescNode = FnNode["Description"];
+                                            JsonArray? DescArray;
 
+                                            var DescNode = FnNode["Description"];
                                             string MainDescription;
-                                            if (DescNode is JsonArray DescArray)
+
+                                            if (DescNode is JsonArray)
                                             {
-                                                MainDescription = string.Join(Environment.NewLine, DescArray
-                                                    .OfType<JsonNode>()
-                                                    .Select(n => n?.GetValue<string>() ?? String.Empty));
+                                                DescArray = DescNode as JsonArray;
+                                                MainDescription = string.Join(Environment.NewLine, DescArray!
+                                                    .OfType<JsonValue>()
+                                                    .Select(n => n?.GetValue<string>() ?? string.Empty));
                                             }
                                             else
                                             {
-                                                MainDescription = DescNode?.GetValue<string>() ?? String.Empty;
+                                                MainDescription = DescNode?.GetValue<string>() ?? string.Empty;
                                             }
 
                                             DescNode = FnNode["Return"];
-
                                             string Return;
-                                            if (DescNode is JsonArray DescArray2)
+
+                                            if (DescNode is JsonArray)
                                             {
-                                                Return = string.Join(Environment.NewLine, DescArray2
-                                                    .OfType<JsonNode>()
-                                                    .Select(n => n?.GetValue<string>() ?? String.Empty));
+                                                DescArray = DescNode as JsonArray;
+                                                Return = string.Join(Environment.NewLine, DescArray!
+                                                    .OfType<JsonValue>()
+                                                    .Select(n => n?.GetValue<string>() ?? string.Empty));
                                             }
                                             else
                                             {
-                                                Return = DescNode?.GetValue<string>() ?? String.Empty;
+                                                Return = DescNode?.GetValue<string>() ?? string.Empty;
                                             }
 
                                             DescNode = FnNode["Error"];
-
                                             string Error;
-                                            if (DescNode is JsonArray DescArray3)
+
+                                            if (DescNode is JsonArray)
                                             {
-                                                Error = string.Join(Environment.NewLine, DescArray3
-                                                    .OfType<JsonNode>()
-                                                    .Select(n => n?.GetValue<string>() ?? String.Empty));
+                                                DescArray = DescNode as JsonArray;
+                                                Error = string.Join(Environment.NewLine, DescArray!
+                                                    .OfType<JsonValue>()
+                                                    .Select(n => n?.GetValue<string>() ?? string.Empty));
                                             }
                                             else
                                             {
-                                                Error = DescNode?.GetValue<string>() ?? String.Empty;
+                                                Error = DescNode?.GetValue<string>() ?? string.Empty;
+                                            }
+
+                                            DescNode = FnNode["Note"];
+                                            var Notes = new List<string>();
+
+                                            if (DescNode is JsonArray)
+                                            {
+                                                DescArray = DescNode as JsonArray;
+                                                Notes = DescArray.OfType<JsonValue>()
+                                                .Select(v => v.GetValue<string>() ?? string.Empty)
+                                                .ToList();
+                                            }
+                                            else
+                                            {
+                                                Notes.Add(DescNode?.GetValue<string>() ?? string.Empty);
                                             }
 
                                             var ParameterTags = new List<IncFuncEntry.ParameterTag>();
@@ -148,10 +209,11 @@ namespace AmxxTutorial.Shared
                                             {
                                                 Function = FnNode["Syntax"]?.GetValue<string>() ?? string.Empty,
                                                 FunctionName = FnNode["FunctionName"]?.GetValue<string>() ?? string.Empty,
-                                                Error = Error,
-                                                Return = Return,
                                                 Description = MainDescription,
-                                                ParameterTags = ParameterTags, 
+                                                ParameterTags = ParameterTags,
+                                                Notes= Notes,
+                                                Error = Error,
+                                                Return = Return,  
                                             };
 
                                             var Trimmed = Entry.Function.TrimStart();
@@ -234,7 +296,6 @@ namespace AmxxTutorial.Shared
                                 });
 
                                 FuncEntriesCaches.Add(Entry);
-                                AddExportFuncName(Item.Header, Entry.FunctionName);
                             }
                             NoFunction = false;
                             Item.Children!.Add(SubItem);
@@ -268,10 +329,16 @@ namespace AmxxTutorial.Shared
                     }
                     IncFilesByVersion[VersionName] = NewFiles;
                 }
-
-                //await ExportFuncNameAsync();
-                //await FetchAndParseAmxAPIAsync();
             });
+        }
+
+        public static async Task FillExportFuncNameAsync()
+        {
+            ExportedFuncName.Clear();
+
+            string ExportPath = Path.Combine(AppContext.BaseDirectory, "Assets/Logs", "ExportedFunctions.log");
+            var Lines = await File.ReadAllLinesAsync(ExportPath);
+            ExportedFuncName = Lines.ToList();
         }
 
         public static void AddExportFuncName(string IncName, string FuncName)
@@ -281,19 +348,31 @@ namespace AmxxTutorial.Shared
 
             ExportedFuncName.Add(Name + "/" + FuncName);
         }
-        public static async Task ExportFuncNameAsync()
-        {
-            string ExportPath = Path.Combine(AppContext.BaseDirectory, "Assets/Configs/", "ExportedFunctions.txt");
-            await File.WriteAllLinesAsync(ExportPath, ExportedFuncName);
 
-            ExportedFuncName.Clear();
-        }
-        public static async Task FetchAndParseAmxAPIAsync()
+        public static async Task ExportFuncNameAsync(string Version)
         {
+            string ExportPath = Path.Combine(AppContext.BaseDirectory, "Assets/Logs", "ExportedFunctions.log");
+            await File.WriteAllLinesAsync(ExportPath, ExportedFuncName);
+        }
+
+        public static async Task FetchAndParseAmxAPIAsync(string Version)
+        {
+            int iProgress = 0;
             foreach (var PathName in ExportedFuncName)
             {
                 string Url = "https://www.amxmodx.org/api/" + PathName;
                 string? JsonResult = null;
+
+                string RelativeDir = Path.GetDirectoryName(PathName) ?? "";
+                string FileName = Path.GetFileName(PathName);
+
+                string OutPath = Path.Combine(AppContext.BaseDirectory, $"Assets/Configs/Includes-Separated/{Version}", $"{RelativeDir}");
+                string FormFilePath = OutPath + $"/{FileName}.json";
+                if (File.Exists(FormFilePath))
+                {
+                    iProgress++;
+                    continue;
+                }
 
                 try
                 {
@@ -301,17 +380,14 @@ namespace AmxxTutorial.Shared
                 }
                 catch (Exception ex)
                 {
+                    iProgress++;
+                    FetchLog.Add($"解析失败: {Url} -> {ex.Message}");
                     Debug.WriteLine($"解析失败: {Url} -> {ex.Message}");
                     continue;
                 }
 
                 if (JsonResult != null)
                 {
-                    string RelativeDir = Path.GetDirectoryName(PathName) ?? "";
-                    string FileName = Path.GetFileName(PathName);
-
-                    string OutPath = Path.Combine(AppContext.BaseDirectory, "Assets/Configs/API/", $"{RelativeDir}");
-
                     if (!Directory.Exists(OutPath))
                         Directory.CreateDirectory(OutPath);
 
@@ -323,12 +399,19 @@ namespace AmxxTutorial.Shared
                     }
                     catch (Exception ex)
                     {
+                        FetchLog.Add($"解析失败: {Url} -> {ex.Message}");
                         Debug.WriteLine($"写入文件失败: {OutPath} -> {ex.Message}");
                     }
 
-                    Debug.WriteLine($"Read API: {PathName} from amxmodx.org");
+
+                    int iTotal = ExportedFuncName.Count();
+                    Debug.WriteLine($"Read API: {PathName} from amxmodx.org({iProgress++}/{iTotal})");
                 }
             }
+
+            FetchLog.Add($"失败总数: {ExportedFuncName.Count() - iProgress}");
+            string ExportPath = Path.Combine(AppContext.BaseDirectory, "Assets/Logs", "FetchLog.log");
+            await File.WriteAllLinesAsync(ExportPath, FetchLog);
         }
 
         static async Task<string> ParseAmxAPIFromHTMLAsync(string url)
@@ -339,22 +422,17 @@ namespace AmxxTutorial.Shared
             HtmlDoc.LoadHtml(HtmlStr);
 
             var Func = new Dictionary<string, object>();
+
+            var HeaderNode = HtmlDoc.DocumentNode.SelectSingleNode("//h1[contains(@class,'page-header')]");
+            string name = HeaderNode?.InnerText.Trim() ?? "";
+            Func["FunctionName"] = name;
+
             var SyntaxPre = HtmlDoc.DocumentNode.SelectSingleNode(
                 "//h4[@class='sub-header2' and normalize-space(text())='Syntax']" +
                 "/following-sibling::*[self::pre and contains(@class,'syntax')][1]"
             );
             string Syntax = SyntaxPre?.InnerText.Trim() ?? "";
             Func["Syntax"] = Syntax;
-
-            if (!string.IsNullOrEmpty(Syntax))
-            {
-                var Parts = Syntax.Split(new[] { ' ', '(' }, StringSplitOptions.RemoveEmptyEntries);
-                Func["FunctionName"] = Parts.Length >= 2 ? Parts[1] : "";
-            }
-            else
-            {
-                Func["FunctionName"] = "";
-            }
 
             // —— Parameters (Usage) ——  
             var Parameters = new List<Dictionary<string, string>>();
@@ -531,7 +609,6 @@ namespace AmxxTutorial.Shared
             public string Variable { get; set; } = string.Empty;
             public string Description { get; set; } = string.Empty;
         }
-
         public string Function { get; set; } = string.Empty;
         public string FunctionName { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
