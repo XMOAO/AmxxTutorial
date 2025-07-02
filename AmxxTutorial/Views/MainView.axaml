@@ -154,7 +154,7 @@
                       CornerRadius="0"
                       Padding="2"
                       Margin="0">
-                <ContentControl
+                <TransitioningContentControl
                   Content="{Binding Page}"
                                 IsVisible="{Binding IsSelected}"
                                 HorizontalAlignment="Stretch"

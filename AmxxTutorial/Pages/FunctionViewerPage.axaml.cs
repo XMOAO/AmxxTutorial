@@ -28,6 +28,7 @@ using AmxxTutorial.Shared;
 
 using Notification = Ursa.Controls.Notification;
 using WindowNotificationManager = Ursa.Controls.WindowNotificationManager;
+using Avalonia.VisualTree;
 
 namespace AmxxTutorial.Pages
 {

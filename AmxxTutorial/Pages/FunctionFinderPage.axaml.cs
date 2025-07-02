@@ -15,6 +15,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 using AmxxTutorial.Shared;
 using AmxxTutorial.ViewModels;
+using Avalonia.VisualTree;
 
 namespace AmxxTutorial.Pages
 {

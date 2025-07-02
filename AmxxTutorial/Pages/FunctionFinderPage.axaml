@@ -25,22 +25,22 @@
                            HorizontalContentAlignment="Stretch"
                            IsLoading="True"
                            LoadingMessage="Loading...">
-      <Grid RowDefinitions="Auto,*" Margin="10">
+      <Grid RowDefinitions="Auto,*">
 
         <StackPanel Grid.Row="0"
                     Orientation="Horizontal"
-                    HorizontalAlignment="Left"
-                    Margin="0 0 0 15">
+                    HorizontalAlignment="Left">
           <ursa:AutoCompleteBox
+            Margin="10"
                 x:Name="FuncSearchBar"
                 Classes="ClearButton"
-                Width="250"
+                Width="240"
                 Text="{Binding SearchCurText, Mode=TwoWay}"
                 SelectedItem="{Binding SelectedSearchEntry, Mode=TwoWay}"
                 ValueMemberBinding="{ReflectionBinding FunctionName}"
                 Watermark="{StaticResource SearchIncFuncsTooltip}"/>
           <ursa:Breadcrumb
-                Margin="10"
+                Margin="20 10 10 10"
                 DisplayMemberBinding="{Binding Section}"
                 CommandBinding="{Binding Command}"
                 ItemsSource="{Binding NavColumns}">
@@ -55,11 +55,9 @@
         <!-- 内容区域 -->
         <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
           <TreeView Grid.Column="0" x:Name="IncListNavMenu"
-                      Margin="-8"
                       Width="250"
                       ItemsSource="{Binding IncFiles}"
-                      SelectedItem="{Binding SelectedFuncItem, Mode=TwoWay}"
-                      Foreground="Gray">
+                      SelectedItem="{Binding SelectedFuncItem, Mode=TwoWay}">
             <TreeView.ItemTemplate>
               <TreeDataTemplate ItemsSource="{Binding Children}">
                 <TextBlock Text="{Binding Header}"/>
@@ -68,6 +66,9 @@
 
             <TreeView.Styles>
               <Style x:DataType="shared:IncTreeItem" Selector="TreeViewItem">
+                <Setter Property="Foreground" Value="{DynamicResource SemiGrey6}" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="MinHeight" Value="35"/>
                 <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                 <Setter Property="FontSize" Value="{Binding FontSize}" />
                 <Setter Property="ToolTip.Tip" Value="{Binding FuncEntry?.Description, TargetNullValue={x:Null}}" />
@@ -79,7 +80,7 @@
           <!-- 右侧内容区 -->
           <Border
               Grid.Column="1"
-              Margin="15 0"
+              Margin="10 0"
               BorderThickness="1"
               CornerRadius="4"
               Padding="15 0">

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ExCSS;
+using System.Net;
 
 namespace AmxxTutorial.Shared
 {
@@ -22,6 +23,7 @@ namespace AmxxTutorial.Shared
         private static readonly List<IncTreeItem> FuncTreeItemCaches = new List<IncTreeItem>();
 
         public static List<string> ExportedFuncName = new();
+        public static List<string> ExportedFuncSyntax = new();
         public static List<string> FetchLog = new();
 
         public static Task InitializeIncFilesAsync()
@@ -65,6 +67,11 @@ namespace AmxxTutorial.Shared
                                         {
                                             AddExportFuncName(IncName, GetFunctionName);
                                         }
+                                        var GetFunctionSyntax = FnNode["Function"]?.GetValue<string>() ?? string.Empty;
+                                        if (!string.IsNullOrEmpty(GetFunctionSyntax))
+                                        {
+                                            AddExportFuncSyntax(GetFunctionSyntax);
+                                        }
                                     }
                                 }
                             }
@@ -76,6 +83,7 @@ namespace AmxxTutorial.Shared
                     }
 
                     await ExportFuncNameAsync(VersionName);
+                    //await FillExportFuncNameAsync();
                     //await FetchAndParseAmxAPIAsync(VersionName);
 
                     // Then, fetch official doc and parse.
@@ -348,6 +356,10 @@ namespace AmxxTutorial.Shared
 
             ExportedFuncName.Add(Name + "/" + FuncName);
         }
+        public static void AddExportFuncSyntax(string Syntax)
+        {
+            //ExportedFuncName.Add(Syntax);
+        }
 
         public static async Task ExportFuncNameAsync(string Version)
         {
@@ -360,6 +372,9 @@ namespace AmxxTutorial.Shared
             int iProgress = 0;
             foreach (var PathName in ExportedFuncName)
             {
+                if (PathName.StartsWith("tfcx") || PathName.StartsWith("tfcstats") || PathName.StartsWith("dodx") || PathName.StartsWith("dodstats"))
+                    continue;
+
                 string Url = "https://www.amxmodx.org/api/" + PathName;
                 string? JsonResult = null;
 
@@ -431,7 +446,8 @@ namespace AmxxTutorial.Shared
                 "//h4[@class='sub-header2' and normalize-space(text())='Syntax']" +
                 "/following-sibling::*[self::pre and contains(@class,'syntax')][1]"
             );
-            string Syntax = SyntaxPre?.InnerText.Trim() ?? "";
+            string RawSyntax = SyntaxPre?.InnerHtml ?? "";
+            string Syntax = WebUtility.HtmlDecode(RawSyntax).Trim();
             Func["Syntax"] = Syntax;
 
             // —— Parameters (Usage) ——  
@@ -450,11 +466,13 @@ namespace AmxxTutorial.Shared
                         var DdNode = DT.SelectSingleNode("following-sibling::dd[1]");
                         if (TagNode != null && DdNode != null)
                         {
+                            string RawDesc = DdNode.InnerHtml;
+                            string Desc = WebUtility.HtmlDecode(RawDesc).Trim();
                             Parameters.Add(new Dictionary<string, string>
                             {
                                 ["Tag"] = TagNode.InnerText.Trim(),
                                 ["Variable"] = VarNode?.InnerText.Trim() ?? "",
-                                ["Description"] = DdNode.InnerText.Trim()
+                                ["Description"] = Desc
                             });
                         }
                     }
@@ -472,7 +490,9 @@ namespace AmxxTutorial.Shared
                             if (Cols == null || Cols.Count < 2) continue;
                             string Name = Cols[0].InnerText.Trim();
                             var PreDesc = Cols[1].SelectSingleNode(".//pre[contains(@class,'description')]");
-                            string Desc = PreDesc?.InnerText.Trim() ?? Cols[1].InnerText.Trim();
+                            string RawDesc = PreDesc != null ? PreDesc.InnerHtml : Cols[1].InnerHtml;
+                            string Desc = WebUtility.HtmlDecode(RawDesc).Trim();
+                            //string Desc = PreDesc?.InnerText.Trim() ?? Cols[1].InnerText.Trim();
                             Parameters.Add(new Dictionary<string, string>
                             {
                                 ["Tag"] = "param",
@@ -500,7 +520,12 @@ namespace AmxxTutorial.Shared
                         Node = Node.NextSibling;
 
                     if (Node != null && Node.Name == "pre")
-                        List.Add(Node.InnerText.Trim());
+                    {
+                        string RawTxt = Node.InnerHtml;
+                        List.Add(WebUtility.HtmlDecode(RawTxt).Trim());
+
+                        //List.Add(Node.InnerText.Trim());
+                    }
                 }
                 return List;
             }
